@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 
@@ -27,8 +27,14 @@ const SignInPage = () => {
         style={[styles.inputBg1, styles.inputLayout]}
         onPress={() => navigation.goBack()}
       />
-      <Text style={[styles.username, styles.usernameTypo]}>Username</Text>
-      <Text style={[styles.password, styles.usernameTypo]}>Password</Text>
+      <TextInput 
+          style={[styles.username, styles.usernameTypo]}
+          placeholder='Username'
+      />
+      <TextInput 
+          style={[styles.password, styles.usernameTypo]}
+          placeholder='Password'
+      />
       <Image
         style={[styles.vectorIcon1, styles.vectorIconLayout]}
         contentFit="cover"

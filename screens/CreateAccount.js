@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text } from "react-native";
+import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
@@ -33,14 +33,20 @@ const CreateAccount = () => {
           contentFit="cover"
           source={require("../assets/vector2.png")}
         />
-        <Text style={[styles.password, styles.signUpTypo]}>Password</Text>
+        <TextInput 
+          style={[styles.password, styles.signUpTypo]} 
+          placeholder='Password'
+        />
       </View>
       <View style={[styles.inputBgGroup, styles.inputLayout]}>
         <Pressable
           style={[styles.inputBg, styles.inputBorder]}
           onPress={() => navigation.goBack()}
         />
-        <Text style={[styles.username, styles.emailTypo]}>Username</Text>
+        <TextInput 
+          style={[styles.username, styles.emailTypo]}
+          placeholder='Username'
+        />
         <Image
           style={[styles.vectorIcon1, styles.vectorIconLayout]}
           contentFit="cover"
@@ -53,12 +59,16 @@ const CreateAccount = () => {
           style={[styles.inputBg2, styles.inputBorder]}
           onPress={() => navigation.goBack()}
         />
-        <Text style={[styles.email, styles.emailTypo]}>Email</Text>
+        <TextInput 
+          style={[styles.email, styles.emailTypo]}
+          placeholder='Email'
+        />
         <Image
           style={[styles.vectorIcon2, styles.vectorIconLayout]}
           contentFit="cover"
           source={require("../assets/vector4.png")}
         />
+        
       </View>
       <Pressable
         style={[styles.button, styles.buttonShadowBox]}
