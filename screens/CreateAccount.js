@@ -23,8 +23,18 @@ const CreateAccount = () => {
         contentFit="cover"
         source={require("../assets/screen-shot-20240208-at-307-1.png")}
       />
-      <View style={[styles.inputBgParent, styles.inputLayout]}>
-        <Pressable
+
+      
+
+    <View style={[styles.inputBgParent1, styles.inputLayout]}>
+    <TextInput 
+      style={[styles.confirmPassword, styles.signUpTypo]} 
+      placeholder='Confirm Password'
+    />
+    </View>
+
+    <View style={[styles.inputBgParent, styles.inputLayout]}>
+        <View
           style={[styles.inputBg, styles.inputBorder]}
           onPress={() => navigation.goBack()}
         />
@@ -33,16 +43,18 @@ const CreateAccount = () => {
           contentFit="cover"
           source={require("../assets/vector2.png")}
         />
-        <TextInput 
+         <TextInput 
           style={[styles.password, styles.signUpTypo]} 
           placeholder='Password'
         />
       </View>
+
+
       <View style={[styles.inputBgGroup, styles.inputLayout]}>
-        <Pressable
+        <View
           style={[styles.inputBg, styles.inputBorder]}
-          onPress={() => navigation.goBack()}
-        />
+          onPress={() => navigation.goBack()}>
+        </View>
         <TextInput 
           style={[styles.username, styles.emailTypo]}
           placeholder='Username'
@@ -54,9 +66,9 @@ const CreateAccount = () => {
         />
       </View>
       <View style={styles.dashiconsemailAltParent}>
-        <View style={styles.dashiconsemailAlt} />
-        <Pressable
-          style={[styles.inputBg2, styles.inputBorder]}
+        <View style={styles.dashiconsemailAlt}></View>
+        <View
+          style={[styles.inputBg, styles.inputBorder]}
           onPress={() => navigation.goBack()}
         />
         <TextInput 
@@ -74,14 +86,13 @@ const CreateAccount = () => {
         style={[styles.button, styles.buttonShadowBox]}
         onPress={() => navigation.navigate("SignInPage")}
       >
-        <Text style={[styles.signUp, styles.signUpTypo]}>Sign Up</Text>
+        <Text style={[styles.signUp, styles.signUpTypo]}>Create Account</Text>
       </Pressable>
       <Image
         style={styles.screenShot20240212At930}
         contentFit="cover"
         source={require("../assets/screen-shot-20240212-at-930-11.png")}
       />
-      <Text style={styles.livinglink}>LivingLink</Text>
     </LinearGradient>
   );
 };
@@ -89,10 +100,10 @@ const CreateAccount = () => {
 const styles = StyleSheet.create({
   buttonShadowBox: {
     overflow: "hidden",
-    shadowOpacity: 1,
+    shadowOpacity: 0,
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 2,
     },
   },
   inputLayout: {
@@ -112,16 +123,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: "solid",
   },
+
+
   vectorIconLayout: {
     maxHeight: "100%",
     maxWidth: "100%",
     right: "88.27%",
+    top: "-60%",
     position: "absolute",
     overflow: "hidden",
   },
   signUpTypo: {
-    textAlign: "left",
-    fontSize: FontSize.size_xl,
+    textAlign: "center",
+    color: Color.white,
+    fontWeight: "600",
+    fontFamily: FontFamily.sFProText,
+    zIndex: 1,
+    position: "absolute",
   },
   emailTypo: {
     width: 98,
@@ -133,6 +151,13 @@ const styles = StyleSheet.create({
     left: 48,
     position: "absolute",
   },
+  inputBgParent1:{
+    top: "75%",
+    borderColor: Color.colorLightgray,
+    backgroundColor: Color.white,
+    borderRadius: Border.br_xs,
+  },
+
   screenShot20240208At307: {
     top: -462,
     left: -563,
@@ -141,7 +166,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   inputBg: {
-    top: 0,
+    top: -70,
     borderColor: Color.colorLightgray,
     backgroundColor: Color.white,
     borderRadius: Border.br_xs,
@@ -157,52 +182,64 @@ const styles = StyleSheet.create({
     height: "35.71%",
   },
   password: {
-    color: Color.colorDarkslategray,
-    left: 48,
-    textAlign: "left",
+    left: "17%",
     fontFamily: FontFamily.sFProText,
     letterSpacing: 0,
     fontSize: FontSize.size_xl,
-    top: 16,
+    top: "-95%",
     position: "absolute",
   },
+
+  confirmPassword: {
+    left: "17%",
+    fontFamily: FontFamily.sFProText,
+    letterSpacing: 0,
+    fontSize: FontSize.size_xl,
+    position: "absolute",
+  },
+
   inputBgParent: {
-    top: 561,
+    top: 500,
   },
   username: {
-    top: 16,
+    top: "-95%",
     width: 98,
+  },
+
+  confirmPassword: {
+    top: "-65%",
+    left: "17%",
+    fontSize: FontSize.size_xl,
+    position: 'absolute',
   },
   vectorIcon1: {
     width: "7.68%",
     left: "4.04%",
-    bottom: "32.14%",
-    top: "32.14%",
+    bottom: "25.14%",
+    top: "25.14%",
     height: "35.71%",
     maxHeight: "100%",
     maxWidth: "100%",
     right: "88.27%",
   },
   inputBgGroup: {
-    top: 475,
+    top: 430,
   },
   dashiconsemailAlt: {
     width: 20,
     height: 20,
     left: 0,
-    top: 0,
+    top: "50%",
     position: "absolute",
     overflow: "hidden",
   },
-  inputBg2: {
-    top: 34,
-  },
+  
   email: {
-    top: 50,
+    top: "-60%",
   },
   vectorIcon2: {
     height: "22.22%",
-    top: "57.78%",
+    top: "60.78%",
     bottom: "20%",
     left: "4.41%",
     width: "7.32%",
@@ -218,17 +255,18 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   signUp: {
-    lineHeight: 20,
-    fontWeight: "600",
+    lineHeight: 15,
+    fontWeight: "400",
     fontFamily: FontFamily.sFPro,
     color: Color.white,
-    textAlign: "left",
+    textAlign: "center",
     fontSize: FontSize.size_xl,
+    zIndex: 1,
   },
   button: {
     height: "7.27%",
     width: "50.13%",
-    top: "81.77%",
+    top: "85.77%",
     right: "25.27%",
     bottom: "10.96%",
     left: "24.6%",
@@ -257,35 +295,21 @@ const styles = StyleSheet.create({
     height: 111,
     position: "absolute",
   },
-  livinglink: {
-    top: "29.06%",
-    left: "5.61%",
-    fontSize: FontSize.size_45xl,
-    lineHeight: 41,
-    fontWeight: "700",
-    color: Color.colorBlack,
-    textAlign: "center",
-    fontFamily: FontFamily.sFProText,
-    letterSpacing: 0,
-    position: "absolute",
-  },
+
   createAccount: {
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 2,
     borderColor: Color.colorBlack,
     flex: 1,
     width: "100%",
-    height: 561,
+    height: 560,
     backgroundColor: "transparent",
     borderWidth: 1,
     borderStyle: "solid",
     overflow: "hidden",
     shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
+    
   },
 });
 

@@ -19,6 +19,14 @@ const Start = () => {
         style={styles.buttonShadowBox}
         onPress={() => navigation.navigate("SignInPage")}
       />
+
+      <Pressable
+        style={styles.signIn}
+        onPress={() => navigation.navigate("SignInPage")}
+      >
+        <Text style={[styles.signIn1, styles.signIn1Typo]}>Sign In</Text>
+      </Pressable>
+
       <Pressable
         style={styles.signUp}
         onPress={() => navigation.navigate("CreateAccount")}
@@ -27,12 +35,7 @@ const Start = () => {
           Create an Account
         </Text>
       </Pressable>
-      <Pressable
-        style={styles.signIn}
-        onPress={() => navigation.navigate("SignInPage")}
-      >
-        <Text style={[styles.signIn1, styles.signIn1Typo]}>Sign In</Text>
-      </Pressable>
+      
       <Text style={styles.livinglink}>LivingLink</Text>
       <Image
         style={styles.screenShot20240212At930}

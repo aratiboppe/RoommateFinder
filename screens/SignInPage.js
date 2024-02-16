@@ -40,13 +40,24 @@ const SignInPage = () => {
         contentFit="cover"
         source={require("../assets/vector1.png")}
       />
-      <View style={styles.oiperson} />
-      <View style={[styles.button, styles.buttonShadowBox]}>
-        <Text style={[styles.signIn, styles.signTypo]}>Sign In</Text>
-      </View>
-      <View style={[styles.button1, styles.buttonShadowBox]}>
+  
+      {/* <View style={[styles.button1, styles.buttonShadowBox]}>
         <Text style={[styles.signIn1, styles.signTypo]}>Sign In</Text>
-      </View>
+      </View> */}
+
+<View style={[styles.button, styles.buttonShadowBox]} />
+      <Pressable
+        style={styles.buttonShadowBox}
+        onPress={() => navigation.navigate("SignInPage")}
+      />
+
+      <Pressable
+        style={styles.signIn}
+        onPress={() => navigation.navigate("CreateAccount")}  //change this to actual page later
+      >
+        <Text style={[styles.signIn1, styles.signIn1Typo]}>Sign In</Text>
+      </Pressable>
+
       <Image
         style={styles.screenShot20240212At930}
         contentFit="cover"
@@ -159,7 +170,12 @@ const styles = StyleSheet.create({
     color: Color.white,
     fontWeight: "400",
     lineHeight: 20,
+    left: "42%", 
+    top: "88%",
+    position: "absolute",
   },
+
+
   button: {
     right: "23.47%",
     left: "26.4%",
@@ -167,13 +183,18 @@ const styles = StyleSheet.create({
   signIn1: {
     fontFamily: FontFamily.sFPro,
     lineHeight: 20,
+    zIndex: 1,
+    position: "relative",
+    fontSize: 20,
   },
 
   signIn1Typo: {
-    textAlign: "left",
+    textAlign: "center",
     color: Color.white,
     fontWeight: "600",
     fontFamily: FontFamily.sFProText,
+    zIndex: 1,
+    position: "relative",
   },
   
   button1: {
