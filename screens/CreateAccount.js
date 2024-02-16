@@ -18,19 +18,21 @@ const CreateAccount = () => {
         "rgba(245, 182, 121, 0.86)",
       ]}
     >
-      <Image
-        style={styles.screenShot20240208At307}
-        contentFit="cover"
-        source={require("../assets/screen-shot-20240208-at-307-1.png")}
-      />
-
-      
-
-    <View style={[styles.inputBgParent1, styles.inputLayout]}>
-    <TextInput 
-      style={[styles.confirmPassword, styles.signUpTypo]} 
-      placeholder='Confirm Password'
+    <Image
+      style={styles.screenShot20240208At307}
+      contentFit="cover"
+      source={require("../assets/screen-shot-20240208-at-307-1.png")}
     />
+    <View style={[styles.inputBgParent1, styles.inputLayout]}>
+      <View
+        style={[styles.inputBg, styles.inputBorder]}
+        onPress={() => navigation.goBack()}
+      />
+      <Image
+          style={[styles.vectorIcon, styles.vectorIconLayout1]}
+          contentFit="cover"
+          source={require("../assets/vector2.png")}
+      />
     </View>
 
     <View style={[styles.inputBgParent, styles.inputLayout]}>
@@ -39,32 +41,48 @@ const CreateAccount = () => {
           onPress={() => navigation.goBack()}
         />
         <Image
-          style={[styles.vectorIcon, styles.vectorIconLayout]}
+          style={[styles.vectorIcon, styles.vectorIconLayout1]}
           contentFit="cover"
           source={require("../assets/vector2.png")}
         />
-         <TextInput 
-          style={[styles.password, styles.signUpTypo]} 
-          placeholder='Password'
-        />
-      </View>
+    </View>
+    
 
-
-      <View style={[styles.inputBgGroup, styles.inputLayout]}>
+    <View style={[styles.inputBgParent2, styles.inputLayout]}>
         <View
-          style={[styles.inputBg, styles.inputBorder]}
-          onPress={() => navigation.goBack()}>
-        </View>
-        <TextInput 
-          style={[styles.username, styles.emailTypo]}
-          placeholder='Username'
+            style={[styles.inputBg, styles.inputBorder]}
+            onPress={() => navigation.goBack()}
         />
         <Image
-          style={[styles.vectorIcon1, styles.vectorIconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector3.png")}
+            style={[styles.vectorIcon1, styles.vectorIconLayout1]}
+            contentFit="cover"
+            source={require("../assets/vector3.png")}
         />
       </View>
+
+      <View style={[styles.inputBgParent2, styles.inputLayout]}>
+        <TextInput 
+            style={[styles.username, styles.emailTypo]}
+            placeholder='Username'
+        />
+      </View>
+      
+      <View style={[styles.inputBgParent, styles.inputLayout]}>
+        <TextInput 
+            style={[styles.password, styles.emailTypo]}
+            placeholder='Password'
+        />
+      </View>
+      
+      <View style={[styles.inputBgParent1, styles.inputLayout]}>
+        <TextInput 
+            style={[styles.confirmPassword, styles.emailTypo]}
+            placeholder='Confirm Password'
+        />
+      </View>
+
+      
+
       <View style={styles.dashiconsemailAltParent}>
         <View style={styles.dashiconsemailAlt}></View>
         <View
@@ -80,8 +98,9 @@ const CreateAccount = () => {
           contentFit="cover"
           source={require("../assets/vector4.png")}
         />
-        
       </View>
+
+
       <Pressable
         style={[styles.button, styles.buttonShadowBox]}
         onPress={() => navigation.navigate("SignInPage")}
@@ -123,13 +142,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: "solid",
   },
-
-
   vectorIconLayout: {
     maxHeight: "100%",
     maxWidth: "100%",
     right: "88.27%",
     top: "-60%",
+    position: "absolute",
+    overflow: "hidden",
+  },
+  vectorIconLayout1: {
+    maxHeight: "100%",
+    maxWidth: "100%",
+    right: "88.27%",
+    top: "-95%",
     position: "absolute",
     overflow: "hidden",
   },
@@ -139,25 +164,24 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontFamily: FontFamily.sFProText,
     zIndex: 1,
+    top: 15,
     position: "absolute",
   },
   emailTypo: {
-    width: 98,
-    textAlign: "left",
+    textAlign: "center",
     color: Color.colorDarkslategray,
+    fontWeight: "600",
     fontFamily: FontFamily.sFProText,
-    letterSpacing: 0,
-    fontSize: FontSize.size_xl,
+    zIndex: 1,
     left: 48,
     position: "absolute",
   },
-  inputBgParent1:{
-    top: "75%",
-    borderColor: Color.colorLightgray,
-    backgroundColor: Color.white,
-    borderRadius: Border.br_xs,
+  inputBgParent2:{
+    top: 430,
   },
-
+  inputBgParent1:{
+    top: 570,
+  },
   screenShot20240208At307: {
     top: -462,
     left: -563,
@@ -189,32 +213,28 @@ const styles = StyleSheet.create({
     top: "-95%",
     position: "absolute",
   },
-
   confirmPassword: {
+    left: "17%",
+    fontFamily: FontFamily.sFProText,
+    letterSpacing: 0,
+    fontSize: FontSize.size_xl,
+    top: "-95%",
+    position: "absolute",
+  },
+  inputBgParent: {
+    top: 500,
+  },
+  username: {
+    top: "-95%",
     left: "17%",
     fontFamily: FontFamily.sFProText,
     letterSpacing: 0,
     fontSize: FontSize.size_xl,
     position: "absolute",
   },
-
-  inputBgParent: {
-    top: 500,
-  },
-  username: {
-    top: "-95%",
-    width: 98,
-  },
-
-  confirmPassword: {
-    top: "-65%",
-    left: "17%",
-    fontSize: FontSize.size_xl,
-    position: 'absolute',
-  },
   vectorIcon1: {
-    width: "7.68%",
-    left: "4.04%",
+    width: "7.32%",
+    left: "4.41%",
     bottom: "25.14%",
     top: "25.14%",
     height: "35.71%",
@@ -233,9 +253,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
-  
   email: {
     top: "-60%",
+    fontFamily: FontFamily.sFProText,
+    letterSpacing: 0,
+    fontSize: FontSize.size_xl,
+    position: "absolute",
   },
   vectorIcon2: {
     height: "22.22%",
@@ -255,7 +278,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   signUp: {
-    lineHeight: 15,
+    lineHeight: 20,
     fontWeight: "400",
     fontFamily: FontFamily.sFPro,
     color: Color.white,
@@ -295,7 +318,6 @@ const styles = StyleSheet.create({
     height: 111,
     position: "absolute",
   },
-
   createAccount: {
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowRadius: 4,
@@ -309,7 +331,6 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     overflow: "hidden",
     shadowOpacity: 1,
-    
   },
 });
 
