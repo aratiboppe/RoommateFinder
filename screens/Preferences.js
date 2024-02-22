@@ -1,8 +1,7 @@
 import * as React from "react";
+import { Text, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
+import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
 const Preferences = () => {
   return (
@@ -15,7 +14,7 @@ const Preferences = () => {
           <Image
             style={[styles.iconsregularplus, styles.iconsregularchevronLayout]}
             contentFit="cover"
-            //source={require("../assets/iconsregularplus.png")}
+            source={require("../assets/iconsregularplus.png")}
           />
           <View style={styles.menuLabel}>
             <Text style={styles.roomType}>Room Type</Text>
@@ -36,7 +35,7 @@ const Preferences = () => {
           <Image
             style={styles.iconsregularchevronLayout}
             contentFit="cover"
-            //source={require("../assets/iconsregularchevrondowns.png")}
+            source={require("../assets/iconsregularchevrondowns.png")}
           />
         </View>
         <View style={styles.itemsFrame}>
@@ -48,7 +47,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={styles.labelLayout2}>
                 <Text style={styles.single}>Single</Text>
@@ -69,7 +68,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover1, styles.itemFlexBox]}>
@@ -79,7 +78,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Single</Text>
@@ -100,7 +99,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover2, styles.itemFlexBox]}>
@@ -110,7 +109,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Single</Text>
@@ -131,7 +130,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
           </View>
@@ -142,7 +141,7 @@ const Preferences = () => {
           <Image
             style={[styles.iconsregularplus, styles.iconsregularchevronLayout]}
             contentFit="cover"
-            //source={require("../assets/iconsregularplus.png")}
+            source={require("../assets/iconsregularplus.png")}
           />
           <View style={styles.menuLabel}>
             <Text style={styles.roomType}>Pets</Text>
@@ -161,7 +160,7 @@ const Preferences = () => {
           <Image
             style={styles.iconsregularchevronLayout}
             contentFit="cover"
-            //source={require("../assets/iconsregularchevrondowns.png")}
+            source={require("../assets/iconsregularchevrondowns.png")}
           />
         </View>
         <View style={styles.itemsFrame}>
@@ -173,7 +172,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={styles.labelLayout2}>
                 <Text style={styles.single}>No</Text>
@@ -192,7 +191,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover2, styles.itemFlexBox]}>
@@ -202,7 +201,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>No</Text>
@@ -221,7 +220,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
           </View>
@@ -232,7 +231,7 @@ const Preferences = () => {
           <Image
             style={[styles.iconsregularplus, styles.iconsregularchevronLayout]}
             contentFit="cover"
-            //source={require("../assets/iconsregularplus2.png")}
+            source={require("../assets/iconsregularplus2.png")}
           />
           <View style={styles.menuLabel}>
             <Text style={styles.roomType}>Lease Duration</Text>
@@ -253,7 +252,7 @@ const Preferences = () => {
           <Image
             style={styles.iconsregularchevronLayout}
             contentFit="cover"
-            //source={require("../assets/iconsregularchevrondowns2.png")}
+            source={require("../assets/iconsregularchevrondowns2.png")}
           />
         </View>
         <View style={styles.itemsFrame}>
@@ -265,7 +264,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus3.png")}
+                source={require("../assets/iconsregularplus3.png")}
               />
               <View style={styles.labelLayout2}>
                 <Text style={styles.single}>Month-to-month</Text>
@@ -286,7 +285,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover1, styles.itemFlexBox]}>
@@ -296,7 +295,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus3.png")}
+                source={require("../assets/iconsregularplus3.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Month-to-month</Text>
@@ -317,7 +316,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover2, styles.itemFlexBox]}>
@@ -327,7 +326,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus3.png")}
+                source={require("../assets/iconsregularplus3.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Month-to-month</Text>
@@ -348,7 +347,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
           </View>
@@ -359,7 +358,7 @@ const Preferences = () => {
           <Image
             style={[styles.iconsregularplus, styles.iconsregularchevronLayout]}
             contentFit="cover"
-            //source={require("../assets/iconsregularplus2.png")}
+            source={require("../assets/iconsregularplus2.png")}
           />
           <View style={styles.menuLabel}>
             <Text style={styles.roomType}>Housing Type</Text>
@@ -380,7 +379,7 @@ const Preferences = () => {
           <Image
             style={styles.iconsregularchevronLayout}
             contentFit="cover"
-            //source={require("../assets/iconsregularchevrondowns2.png")}
+            source={require("../assets/iconsregularchevrondowns2.png")}
           />
         </View>
         <View style={styles.itemsFrame}>
@@ -392,7 +391,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-               // source={require("../assets/iconsregularplus3.png")}
+                source={require("../assets/iconsregularplus3.png")}
               />
               <View style={styles.labelLayout2}>
                 <Text style={styles.single}>Dorm</Text>
@@ -413,7 +412,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-              //  source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover1, styles.itemFlexBox]}>
@@ -423,7 +422,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-              //  source={require("../assets/iconsregularplus3.png")}
+                source={require("../assets/iconsregularplus3.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Dorm</Text>
@@ -444,7 +443,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-              //  source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover2, styles.itemFlexBox]}>
@@ -454,7 +453,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-              //  source={require("../assets/iconsregularplus3.png")}
+                source={require("../assets/iconsregularplus3.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Dorm</Text>
@@ -475,7 +474,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
           </View>
@@ -486,7 +485,7 @@ const Preferences = () => {
           <Image
             style={[styles.iconsregularplus, styles.iconsregularchevronLayout]}
             contentFit="cover"
-            //source={require("../assets/iconsregularplus.png")}
+            source={require("../assets/iconsregularplus.png")}
           />
           <View style={styles.menuLabel}>
             <Text style={styles.roomType}>Smoking/Drinking</Text>
@@ -507,7 +506,7 @@ const Preferences = () => {
           <Image
             style={styles.iconsregularchevronLayout}
             contentFit="cover"
-            //source={require("../assets/iconsregularchevrondowns.png")}
+            source={require("../assets/iconsregularchevrondowns.png")}
           />
         </View>
         <View style={styles.itemsFrame}>
@@ -519,7 +518,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={styles.labelLayout2}>
                 <Text style={styles.single}>Non-smoker/Non-drinker</Text>
@@ -540,7 +539,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-              //  source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover, styles.itemFlexBox]}>
@@ -550,7 +549,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-               // source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Non-smoker/Non-drinker</Text>
@@ -571,7 +570,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover1, styles.itemFlexBox]}>
@@ -581,7 +580,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-               // source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Non-smoker/Non-drinker</Text>
@@ -602,7 +601,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-               // source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover2, styles.itemFlexBox]}>
@@ -612,7 +611,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-               // source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Non-smoker/Non-drinker</Text>
@@ -633,7 +632,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-               // source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
           </View>
@@ -644,7 +643,7 @@ const Preferences = () => {
           <Image
             style={[styles.iconsregularplus, styles.iconsregularchevronLayout]}
             contentFit="cover"
-            //source={require("../assets/iconsregularplus2.png")}
+            source={require("../assets/iconsregularplus2.png")}
           />
           <View style={styles.menuLabel}>
             <Text style={styles.roomType}>Desired Location</Text>
@@ -665,7 +664,7 @@ const Preferences = () => {
           <Image
             style={styles.iconsregularchevronLayout}
             contentFit="cover"
-            //source={require("../assets/iconsregularchevrondowns2.png")}
+            source={require("../assets/iconsregularchevrondowns2.png")}
           />
         </View>
         <View style={styles.itemsFrame}>
@@ -677,7 +676,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus3.png")}
+                source={require("../assets/iconsregularplus3.png")}
               />
               <View style={styles.labelLayout2}>
                 <Text style={styles.single}>On-campus</Text>
@@ -698,7 +697,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover1, styles.itemFlexBox]}>
@@ -708,7 +707,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus3.png")}
+                source={require("../assets/iconsregularplus3.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>On-campus</Text>
@@ -729,7 +728,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover2, styles.itemFlexBox]}>
@@ -739,7 +738,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus3.png")}
+                source={require("../assets/iconsregularplus3.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>On-campus</Text>
@@ -760,7 +759,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
           </View>
@@ -771,7 +770,7 @@ const Preferences = () => {
           <Image
             style={[styles.iconsregularplus, styles.iconsregularchevronLayout]}
             contentFit="cover"
-            //source={require("../assets/iconsregularplus.png")}
+            source={require("../assets/iconsregularplus.png")}
           />
           <View style={styles.menuLabel}>
             <Text style={styles.roomType}>Lease Start Date</Text>
@@ -792,7 +791,7 @@ const Preferences = () => {
           <Image
             style={styles.iconsregularchevronLayout}
             contentFit="cover"
-            //source={require("../assets/iconsregularchevrondowns.png")}
+            source={require("../assets/iconsregularchevrondowns.png")}
           />
         </View>
         <View style={styles.itemsFrame}>
@@ -804,7 +803,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={styles.labelLayout2}>
                 <Text style={styles.single}>Non-smoker/Non-drinker</Text>
@@ -825,7 +824,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover, styles.itemFlexBox]}>
@@ -835,7 +834,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Non-smoker/Non-drinker</Text>
@@ -856,7 +855,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover1, styles.itemFlexBox]}>
@@ -866,7 +865,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Non-smoker/Non-drinker</Text>
@@ -887,7 +886,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
             <View style={[styles.itemHover2, styles.itemFlexBox]}>
@@ -897,7 +896,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularplus1.png")}
+                source={require("../assets/iconsregularplus1.png")}
               />
               <View style={[styles.label1, styles.labelLayout2]}>
                 <Text style={styles.single}>Non-smoker/Non-drinker</Text>
@@ -918,7 +917,7 @@ const Preferences = () => {
                   styles.iconsregularchevronLayout,
                 ]}
                 contentFit="cover"
-                //source={require("../assets/iconsregularchevrondowns1.png")}
+                source={require("../assets/iconsregularchevrondowns1.png")}
               />
             </View>
           </View>
@@ -928,7 +927,7 @@ const Preferences = () => {
         <Image
           style={[styles.iconsregularplus, styles.iconsregularchevronLayout]}
           contentFit="cover"
-          //source={require("../assets/iconsregularplus2.png")}
+          source={require("../assets/iconsregularplus2.png")}
         />
         <View style={styles.menuLabel}>
           <Text style={styles.roomType}>Max Budget</Text>
@@ -949,7 +948,7 @@ const Preferences = () => {
         <Image
           style={styles.iconsregularchevronLayout}
           contentFit="cover"
-          //source={require("../assets/iconsregularchevrondowns2.png")}
+          source={require("../assets/iconsregularchevrondowns2.png")}
         />
       </View>
     </View>

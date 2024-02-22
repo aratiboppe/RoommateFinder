@@ -1,9 +1,8 @@
 import * as React from "react";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
-
+import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -42,12 +41,15 @@ const Profile = () => {
       >
         <Text style={styles.saveProfile}>Save Profile</Text>
       </Pressable>
-      
-      
+      <Image
+        style={styles.avatarIcon}
+        contentFit="cover"
+        source={require("../assets/avatar2.png")}
+      />
       <Image
         style={styles.profileChild}
         contentFit="cover"
-        //source={require("../assets/group-4.png")}
+        source={require("../assets/group-4.png")}
       />
     </View>
   );

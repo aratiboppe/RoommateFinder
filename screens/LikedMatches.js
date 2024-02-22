@@ -1,8 +1,8 @@
 import * as React from "react";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 
 const LikedMatches = () => {
   const navigation = useNavigation();
@@ -19,12 +19,16 @@ const LikedMatches = () => {
           Thank you! That was very helpful!
         </Text>
         <Text style={[styles.janeDoe, styles.janeDoeClr]}>Jane Doe</Text>
-        
+        <Image
+          style={[styles.avatarIcon, styles.avatarIconLayout]}
+          contentFit="cover"
+          source={require("../assets/avatar1.png")}
+        />
       </View>
       <Image
         style={[styles.likedMatchesChild, styles.avatarIconLayout]}
         contentFit="cover"
-        //source={require("../assets/group-101.png")}
+        source={require("../assets/group-101.png")}
       />
       <View style={styles.button} />
       <Pressable
@@ -34,18 +38,18 @@ const LikedMatches = () => {
         <Image
           style={styles.icon}
           contentFit="cover"
-          //source={require("../assets/group-33.png")}
+          source={require("../assets/group-33.png")}
         />
       </Pressable>
       <Image
         style={styles.iconCog}
         contentFit="cover"
-        //source={require("../assets/-icon-cog.png")}
+        source={require("../assets/-icon-cog.png")}
       />
       <Image
         style={styles.vectorIcon}
         contentFit="cover"
-        //source={require("../assets/vector3.png")}
+        source={require("../assets/vector3.png")}
       />
     </View>
   );

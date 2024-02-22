@@ -1,8 +1,7 @@
 import * as React from "react";
+import { Text, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
+import { Color, FontSize, FontFamily, Border } from "../GlobalStyles";
 
 const IndividualMessages = () => {
   return (
@@ -16,17 +15,17 @@ const IndividualMessages = () => {
         <Image
           style={[styles.avatarIcon, styles.groupViewLayout]}
           contentFit="cover"
-          //source={require("../assets/avatar1.png")}
+          source={require("../assets/avatar1.png")}
         />
         <Image
           style={[styles.avatarIcon1, styles.avatarIconPosition]}
           contentFit="cover"
-          //source={require("../assets/avatar1.png")}
+          source={require("../assets/avatar1.png")}
         />
         <Image
           style={[styles.avatarIcon2, styles.avatarIconPosition]}
           contentFit="cover"
-          //source={require("../assets/avatar1.png")}
+          source={require("../assets/avatar1.png")}
         />
       </View>
       <View style={[styles.rectangleGroup, styles.groupLayout]}>
@@ -49,24 +48,24 @@ const IndividualMessages = () => {
         <Image
           style={[styles.avatarIcon, styles.groupViewLayout]}
           contentFit="cover"
-          //source={require("../assets/avatar1.png")}
+          source={require("../assets/avatar1.png")}
         />
       </View>
       <Image
         style={[styles.individualMessagesChild, styles.groupViewLayout]}
         contentFit="cover"
-        //source={require("../assets/group-103.png")}
+        source={require("../assets/group-103.png")}
       />
       <View style={styles.uilthumbsUp} />
       <Image
         style={styles.vectorIcon}
         contentFit="cover"
-        //source={require("../assets/vector3.png")}
+        source={require("../assets/vector3.png")}
       />
       <Image
         style={styles.fluentsettings16RegularIcon}
         contentFit="cover"
-        //source={require("../assets/-icon-cog.png")}
+        source={require("../assets/-icon-cog.png")}
       />
     </View>
   );

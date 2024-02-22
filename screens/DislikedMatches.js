@@ -1,8 +1,8 @@
 import * as React from "react";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 
 const DislikedMatches = () => {
   const navigation = useNavigation();
@@ -16,12 +16,16 @@ const DislikedMatches = () => {
           Thank you! That was very helpful!
         </Text>
         <Text style={[styles.janeDoe, styles.janeDoeClr]}>Jane Doe</Text>
-        
+        <Image
+          style={[styles.avatarIcon, styles.avatarIconLayout]}
+          contentFit="cover"
+          source={require("../assets/avatar1.png")}
+        />
       </View>
       <Image
         style={[styles.dislikedMatchesChild, styles.avatarIconLayout]}
         contentFit="cover"
-        //source={require("../assets/group-102.png")}
+        source={require("../assets/group-102.png")}
       />
       <Pressable
         style={styles.like}
@@ -30,7 +34,7 @@ const DislikedMatches = () => {
         <Image
           style={styles.icon}
           contentFit="cover"
-          //source={require("../assets/like1.png")}
+          source={require("../assets/like1.png")}
         />
       </Pressable>
       <View style={styles.button} />

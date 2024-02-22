@@ -1,8 +1,8 @@
 import * as React from "react";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
+import { FontFamily, FontSize, Border, Color, Padding } from "../GlobalStyles";
 
 const Matches = () => {
   const navigation = useNavigation();
@@ -18,12 +18,14 @@ const Matches = () => {
       <Text style={[styles.messageThemLater, styles.messageThemLaterTypo]}>
         Message them later
       </Text>
-     <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate("IndividualMessages")}  //change this to actual page later
-      >
+      <Image
+        style={styles.avatarIcon}
+        contentFit="cover"
+        source={require("../assets/avatar.png")}
+      />
+      <View style={styles.button}>
         <Text style={[styles.message, styles.textTypo]}>Message</Text>
-      </Pressable>
+      </View>
       <Text style={[styles.yourMatch, styles.textTypo1]}>Your Match!</Text>
       <View style={[styles.buttonWrapper, styles.buttonPosition1]}>
         <View style={[styles.button1, styles.buttonPosition]} />
@@ -34,22 +36,22 @@ const Matches = () => {
       <Image
         style={[styles.likeIcon, styles.likeIconPosition]}
         contentFit="cover"
-        //source={require("../assets/like.png")}
+        source={require("../assets/like.png")}
       />
       <Image
         style={[styles.matchesItem, styles.likeIconPosition]}
         contentFit="cover"
-        //source={require("../assets/group-32.png")}
+        source={require("../assets/group-32.png")}
       />
       <Image
         style={styles.matchesInner}
         contentFit="cover"
-        //source={require("../assets/group-10.png")}
+        source={require("../assets/group-10.png")}
       />
       <Image
         style={styles.iconCog}
         contentFit="cover"
-        //source={require("../assets/-icon-cog.png")}
+        source={require("../assets/-icon-cog.png")}
       />
       <Pressable
         style={styles.vector}
@@ -58,7 +60,7 @@ const Matches = () => {
         <Image
           style={styles.icon}
           contentFit="cover"
-          //source={require("../assets/vector3.png")}
+          source={require("../assets/vector3.png")}
         />
       </Pressable>
     </View>
