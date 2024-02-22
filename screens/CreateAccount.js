@@ -232,23 +232,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_xl,
     position: "absolute",
   },
-<<<<<<< Updated upstream
-=======
 
-  inputBgParent: {
-    top: 500,
-  },
-  username: {
-    top: "-95%",
-    width: 98,
-  },
-
-  confirmPassword: {
-    top: "-65%",
-    left: "17%",
-    fontSize: FontSize.size_xl,
-    position: 'absolute',
-  },
   vectorIcon1: {
     width: "7.32%",
     left: "4.41%",
