@@ -7,17 +7,19 @@ import Start from "./screens/Start";
 import Start1 from "./screens/Start1";
 import Start2 from "./screens/Start2";
 import SignInPage from "./screens/SignInPage";
-import NeedToSign from "./components/NeedToSign";
-import LineVector from "./components/LineVector";
-import ForgotPasswordText from "./components/ForgotPasswordText";
-import LivingLinkText from "./components/LivingLinkText";
-import HaveAnAccount from "./components/HaveAnAccount";
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import Matches from "./screens/Matches";
+import LikedMatches from "./screens/LikedMatches";
+import DislikedMatches from "./screens/DislikedMatches";
+import Profile from "./screens/Profile";
+import Preferences from "./screens/Preferences";
+import IndividualMessages from "./screens/IndividualMessages";
+import LineVector from "./components/LineVector";
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
+
 
   return (
     <>
@@ -48,6 +50,36 @@ const App = () => {
             <Stack.Screen
               name="SignInPage"
               component={SignInPage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Matches"
+              component={Matches}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="LikedMatches"
+              component={LikedMatches}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="DislikedMatches"
+              component={DislikedMatches}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Profile"
+              component={Profile}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Preferences"
+              component={Preferences}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="IndividualMessages"
+              component={IndividualMessages}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

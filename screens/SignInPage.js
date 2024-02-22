@@ -48,12 +48,12 @@ const SignInPage = () => {
 <View style={[styles.button, styles.buttonShadowBox]} />
       <Pressable
         style={styles.buttonShadowBox}
-        onPress={() => navigation.navigate("SignInPage")}
+        onPress={() => navigation.navigate("Matches")}
       />
 
       <Pressable
         style={styles.signIn}
-        onPress={() => navigation.navigate("CreateAccount")}  //change this to actual page later
+        onPress={() => navigation.navigate("Matches")}  //change this to actual page later
       >
         <Text style={[styles.signIn1, styles.signIn1Typo]}>Sign In</Text>
       </Pressable>

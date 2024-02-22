@@ -103,7 +103,7 @@ const CreateAccount = () => {
 
       <Pressable
         style={[styles.button, styles.buttonShadowBox]}
-        onPress={() => navigation.navigate("SignInPage")}
+        onPress={() => navigation.navigate("Matches")}
       >
         <Text style={[styles.signUp, styles.signUpTypo]}>Create Account</Text>
       </Pressable>
