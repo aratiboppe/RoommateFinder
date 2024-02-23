@@ -103,7 +103,7 @@ const CreateAccount = () => {
 
       <Pressable
         style={[styles.button, styles.buttonShadowBox]}
-        onPress={() => navigation.navigate("Matches")}
+        onPress={() => navigation.navigate("Profile")}
       >
         <Text style={[styles.signUp, styles.signUpTypo]}>Create Account</Text>
       </Pressable>
@@ -178,6 +178,11 @@ const styles = StyleSheet.create({
   },
   inputBgParent2:{
     top: 430,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    
+    
   },
   inputBgParent1:{
     top: 570,
