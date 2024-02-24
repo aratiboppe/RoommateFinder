@@ -51,11 +51,14 @@ const Matches = () => {
         style={styles.matchesInner}
         contentFit="cover"
         source={require("../assets/group-10.png")}
+
+        
       />
       <Image
         style={styles.iconCog}
         contentFit="cover"
         source={require("../assets/-icon-cog.png")}
+
       />
       <Pressable
         style={styles.vector}

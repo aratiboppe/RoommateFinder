@@ -181,7 +181,6 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.sFProText,
     zIndex: 1,
     left: 48,
-    position: "absolute",
   },
   userTypo: {
     textAlign: "center",
@@ -212,11 +211,6 @@ const styles = StyleSheet.create({
   },
   inputBgParent2:{
     top: 430,
-    position: "absolute",
-    left: 0,
-    right: 0,
-    
-    
   },
   inputBgParent1:{
     top: 570,

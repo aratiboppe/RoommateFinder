@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, StyleSheet, View, Pressable } from "react-native";
+import { Text, StyleSheet, View, Pressable, TextInput} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
@@ -7,33 +7,37 @@ import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
 const Profile = () => {
   const navigation = useNavigation();
 
+ 
+
   return (
     <View style={styles.profile}>
       <Text style={[styles.name, styles.ageTypo]}>Name:</Text>
       <Text style={styles.yourProfile}>Your Profile</Text>
-      <Pressable
+      <TextInput
         style={[styles.inputBg, styles.inputLayout1]}
-        onPress={() => navigation.goBack()}
+        placeholder= ""
       />
       <Text style={[styles.email, styles.ageTypo]}>Email:</Text>
       <Text style={[styles.phoneNumber, styles.ageTypo]}>Phone Number:</Text>
-      <Pressable
+      <TextInput
         style={[styles.inputBg1, styles.inputLayout]}
-        onPress={() => navigation.goBack()}
+        placeholder=""
       />
-      <Pressable
+      <TextInput
         style={[styles.inputBg2, styles.inputLayout1]}
-        onPress={() => navigation.goBack()}
+        placeholder=""
       />
       <Text style={[styles.university, styles.ageTypo]}>University:</Text>
-      <Pressable
+      <TextInput
         style={[styles.inputBg3, styles.inputLayout1]}
-        onPress={() => navigation.goBack()}
+        placeholder=""
       />
+    
+  
       <Text style={[styles.age, styles.ageTypo]}>Age:</Text>
-      <Pressable
+      <TextInput
         style={[styles.inputBg4, styles.inputLayout]}
-        onPress={() => navigation.goBack()}
+        placeholder=""
       />
       <Pressable
         style={styles.button}
@@ -63,7 +67,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_sm,
     textAlign: "left",
     fontFamily: FontFamily.sFPro,
-    left: 42,
+    left: 43,
     position: "absolute",
   },
   inputLayout1: {
@@ -77,48 +81,48 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   inputLayout: {
-    height: 31,
+    height: 32,
     width: 244,
     borderWidth: 1,
     borderColor: Color.colorLightgray,
     borderStyle: "solid",
     backgroundColor: Color.white,
     borderRadius: Border.br_xs,
-    left: 42,
+    left: 38,
     position: "absolute",
   },
   name: {
-    top: 194,
+    top: 365,
   },
   yourProfile: {
-    top: 24,
-    fontSize: FontSize.size_11xl,
+    top: 50,
+    fontSize: FontSize.size_45xl,
     letterSpacing: 0,
-    fontWeight: "500",
+    fontWeight: "200",
     color: Color.colorBrown,
-    textAlign: "center",
-    width: 231,
-    height: 64,
     fontFamily: FontFamily.sFPro,
-    left: 42,
     position: "absolute",
+    left: "10%",
   },
-  inputBg: {
-    top: 210,
-    left: 43,
+  inputBg: { //name
+    top: 271,
+    paddingLeft: 10,
+    left: 38,
   },
   email: {
-    top: 359,
+    top: 420,
   },
   phoneNumber: {
-    top: 413,
+    top: 475,
   },
-  inputBg1: {
-    top: 429,
+  inputBg1: { //phone
+    top: 490,
+    paddingLeft: 10,
   },
-  inputBg2: {
-    top: 375,
-    left: 42,
+  inputBg2: {  //email
+    paddingLeft: 10,
+    top: 436,
+    left: 38,
     height: 32,
     width: 244,
     borderWidth: 1,
@@ -128,11 +132,12 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_xs,
   },
   university: {
-    top: 305,
+    top: 310,
   },
-  inputBg3: {
-    top: 321,
-    left: 42,
+  inputBg3: { //university
+    top: 382,
+    paddingLeft: 10,
+    left: 38,
     height: 32,
     width: 244,
     borderWidth: 1,
@@ -142,53 +147,46 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_xs,
   },
   age: {
-    top: 248,
+    top: 252,
   },
-  inputBg4: {
-    top: 266,
+  inputBg4: { //age one
+    top: 327,
+    paddingLeft: 10,
   },
   saveProfile: {
-    fontSize: FontSize.size_mini,
-    lineHeight: 15,
-    fontWeight: "600",
-    fontFamily: FontFamily.sFProText,
+    fontSize: FontSize.size_xl,
+    top: 15,
+    textAlign: "center",
+    lineHeight: 20,
     color: Color.white,
-    textAlign: "left",
+    position: "absolute",
+    zIndex: 1,
+
   },
   button: {
-    height: "6.77%",
+    height: 50, // Adjusted height value
     width: "47.5%",
-    top: "85.56%",
-    right: "26.25%",
-    bottom: "7.66%",
-    left: "26.25%",
+    top: "85%", // Adjusted top value
+    left: "20%",
     borderRadius: Border.br_980xl,
     backgroundColor: Color.colorBrown,
     shadowColor: "rgba(136, 144, 194, 0.25)",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 8,
-    elevation: 8,
-    shadowOpacity: 1,
+    
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 0,
-    paddingVertical: Padding.p_4xl,
     position: "absolute",
-    overflow: "hidden",
+    zIndex: 1,
+
   },
   avatarIcon: {
-    top: 81,
+    top: 135,
     left: 107,
     width: 107,
     height: 101,
     position: "absolute",
   },
   profileChild: {
-    top: 166,
+    top: 220,
     left: 184,
     width: 18,
     height: 16,
@@ -198,8 +196,9 @@ const styles = StyleSheet.create({
     backgroundColor: Color.colorAntiquewhite,
     flex: 1,
     width: "100%",
-    height: 561,
+    height: "100%",
     overflow: "hidden",
+    left: "5%",
   },
 });
 
