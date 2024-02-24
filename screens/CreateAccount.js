@@ -265,10 +265,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_xl,
     position: "absolute",
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/frontend
   vectorIcon1: {
     width: "7.32%",
     left: "4.41%",
