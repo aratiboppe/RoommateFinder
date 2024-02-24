@@ -11,18 +11,21 @@ const Matches = () => {
     <View style={styles.matches}>
       <View style={styles.matchesChild} />
       <Text style={[styles.universityOfTexas, styles.messageThemLaterTypo]}>
-        University of Texas at Dallas
+        20, University of Texas at Dallas
       </Text>
-      <Text style={[styles.text, styles.textTypo]}>20</Text>
       <Text style={[styles.janeDoe, styles.textTypo1]}>Jane Doe</Text>
       <Text style={[styles.messageThemLater, styles.messageThemLaterTypo]}>
         Message them later
       </Text>
       <Image
-        style={styles.avatarIcon}
-        contentFit="cover"
-        source={require("../assets/avatar.png")}
+          style={[styles.avatarIcon1, styles.avatarIconLayout]}
+          contentFit="cover"
+          source={require("../assets/avatar1.png")}
       />
+
+
+
+
       <View style={styles.button}>
         <Text style={[styles.message, styles.textTypo]}>Message</Text>
       </View>
@@ -38,8 +41,9 @@ const Matches = () => {
         contentFit="cover"
         source={require("../assets/like.png")}
       />
+      
       <Image
-        style={[styles.matchesItem, styles.likeIconPosition]}
+        style={[styles.matchesItem, styles.dislikeIconPosition]}
         contentFit="cover"
         source={require("../assets/group-32.png")}
       />
@@ -68,6 +72,15 @@ const Matches = () => {
 };
 
 const styles = StyleSheet.create({
+  avatarIconLayout: {
+    height: 45,
+    position: "absolute",
+  },
+  avatarIcon1: {
+    top: 95,
+    left: 15,
+    width: 47,
+  },
   messageThemLaterTypo: {
     height: 24,
     textAlign: "center",
@@ -77,6 +90,7 @@ const styles = StyleSheet.create({
   },
   textTypo: {
     fontWeight: "600",
+    color: Color.white,
     fontSize: FontSize.size_mini,
   },
   textTypo1: {
@@ -113,8 +127,15 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   likeIconPosition: {
-    height: 18,
-    top: 370,
+    height: 20,
+    top: 170,
+    left: 40,
+    position: "absolute",
+  },
+  dislikeIconPosition: {
+    height: 20,
+    top: 170,
+    left: 310,
     position: "absolute",
   },
   matchesChild: {
@@ -127,15 +148,14 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   universityOfTexas: {
-    top: 299,
-    left: 68,
+    top: 125,
+    left: 75,
     fontSize: 13,
-    width: 179,
     color: Color.colorBlack,
     fontWeight: "500",
   },
   text: {
-    top: 273,
+    top: 105,
     left: 121,
     width: 74,
     height: 16,
@@ -146,9 +166,9 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   janeDoe: {
-    top: 239,
-    left: 107,
-    fontSize: FontSize.size_xl,
+    top: 95,
+    left: 70,
+    fontSize: 20,
     fontWeight: "700",
     width: 107,
     height: 23,
@@ -158,30 +178,29 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.sFPro,
   },
   messageThemLater: {
-    top: 478,
-    left: 88,
-    fontSize: FontSize.dropMenuMenu_size,
-    textDecoration: "underline",
+    top: 210,
+    left: 110,
+    fontSize: 12,
     color: "#992b13",
-    width: 139,
+    width: 150,
   },
   avatarIcon: {
-    top: 132,
-    left: 110,
+    top: 95,
+    left: 1,
     width: 100,
-    height: 92,
+    height: 95,
     position: "absolute",
   },
   message: {
-    lineHeight: 15,
+    lineHeight: 12,
+    height: 10,
     fontFamily: FontFamily.sFProText,
-    color: Color.white,
-    textAlign: "left",
+    textAlign: "center",
   },
   button: {
     height: "7.27%",
     width: "50.13%",
-    top: "76.11%",
+    top: "23%",
     right: "25.5%",
     bottom: "16.61%",
     left: "24.38%",
@@ -205,12 +224,11 @@ const styles = StyleSheet.create({
   },
   yourMatch: {
     top: 24,
-    left: 42,
-    fontSize: FontSize.size_21xl,
+    left: 70,
+    fontSize: 40,
     letterSpacing: 0,
     color: Color.colorBrown,
     width: 231,
-    height: 64,
     fontWeight: "500",
   },
   button1: {
@@ -231,30 +249,35 @@ const styles = StyleSheet.create({
     left: 71,
     width: 21,
   },
+  dislikeIcon: {
+    left: 71,
+    width: 21,
+  },
   matchesItem: {
     left: 228,
     width: 19,
   },
   matchesInner: {
-    top: 516,
-    left: 0,
-    width: 320,
-    height: 45,
+    top: 620,
+    width: 390,
+    height: 50,
     position: "absolute",
   },
   iconCog: {
-    top: 527,
-    left: 281,
-    width: 25,
+    top: 632,
+    left: 330,
+    width: 30,
     height: 25,
     position: "absolute",
   },
   icon: {
-    maxWidth: "100%",
-    maxHeight: "100%",
-    height: "100%",
+    maxWidth: "95%",
+    maxHeight: "95%",
+    height: "100s%",
     overflow: "hidden",
     width: "100%",
+    top: 5,
+    left: 3,
   },
   vector: {
     left: "69.38%",
@@ -266,7 +289,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   matches: {
-    backgroundColor: Color.colorAntiquewhite,
+    backgroundColor: '#F0DFCE',
     flex: 1,
     height: 561,
     overflow: "hidden",

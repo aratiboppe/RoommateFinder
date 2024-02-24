@@ -23,11 +23,13 @@ const CreateAccount = () => {
       contentFit="cover"
       source={require("../assets/screen-shot-20240208-at-307-1.png")}
     />
+    
     <View style={[styles.inputBgParent1, styles.inputLayout]}>
       <View
         style={[styles.inputBg, styles.inputBorder]}
         onPress={() => navigation.goBack()}
       />
+      
       <Image
           style={[styles.vectorIcon, styles.vectorIconLayout1]}
           contentFit="cover"
@@ -40,48 +42,27 @@ const CreateAccount = () => {
           style={[styles.inputBg, styles.inputBorder]}
           onPress={() => navigation.goBack()}
         />
+        
         <Image
           style={[styles.vectorIcon, styles.vectorIconLayout1]}
           contentFit="cover"
           source={require("../assets/vector2.png")}
         />
+        
     </View>
     
-
     <View style={[styles.inputBgParent2, styles.inputLayout]}>
         <View
             style={[styles.inputBg, styles.inputBorder]}
             onPress={() => navigation.goBack()}
         />
+        
         <Image
             style={[styles.vectorIcon1, styles.vectorIconLayout1]}
             contentFit="cover"
             source={require("../assets/vector3.png")}
         />
-      </View>
-
-      <View style={[styles.inputBgParent2, styles.inputLayout]}>
-        <TextInput 
-            style={[styles.username, styles.emailTypo]}
-            placeholder='Username'
-        />
-      </View>
-      
-      <View style={[styles.inputBgParent, styles.inputLayout]}>
-        <TextInput 
-            style={[styles.password, styles.emailTypo]}
-            placeholder='Password'
-        />
-      </View>
-      
-      <View style={[styles.inputBgParent1, styles.inputLayout]}>
-        <TextInput 
-            style={[styles.confirmPassword, styles.emailTypo]}
-            placeholder='Confirm Password'
-        />
-      </View>
-
-      
+    </View>
 
       <View style={styles.dashiconsemailAltParent}>
         <View style={styles.dashiconsemailAlt}></View>
@@ -101,9 +82,35 @@ const CreateAccount = () => {
       </View>
 
 
+
+      <View style={styles.dashiconsemailAltParent}>
+        <View style={styles.dashiconsemailAlt}></View>
+          <TextInput 
+            style={[styles.username, styles.userTypo]}
+            placeholder='Username'
+          />
+      </View>
+
+      <View style={styles.dashiconsemailAltParent}>
+        <View style={styles.dashiconsemailAlt}></View>
+        <TextInput 
+          style={[styles.password, styles.passwordTypo]}
+          placeholder='Password'
+        />
+        
+      </View>
+
+      <View style={styles.dashiconsemailAltParent}>
+        <View style={styles.dashiconsemailAlt}></View>
+        <TextInput 
+          style={[styles.confirmPassword, styles.confirmPasswordTypo]}
+          placeholder='Confirm Password'
+        />
+      </View>
+
       <Pressable
         style={[styles.button, styles.buttonShadowBox]}
-        onPress={() => navigation.navigate("Matches")}
+        onPress={() => navigation.navigate("Profile")}
       >
         <Text style={[styles.signUp, styles.signUpTypo]}>Create Account</Text>
       </Pressable>
@@ -176,6 +183,33 @@ const styles = StyleSheet.create({
     left: 48,
     position: "absolute",
   },
+  userTypo: {
+    textAlign: "center",
+    color: Color.colorDarkslategray,
+    fontWeight: "600",
+    fontFamily: FontFamily.sFProText,
+    zIndex: 1,
+    top: 17,
+    position: "absolute",
+  },
+  passwordTypo: {
+    textAlign: "center",
+    color: Color.colorDarkslategray,
+    fontWeight: "600",
+    fontFamily: FontFamily.sFProText,
+    zIndex: 1,
+    top: 87,
+    position: "absolute",
+  },
+  confirmPasswordTypo: {
+    textAlign: "center",
+    color: Color.colorDarkslategray,
+    fontWeight: "600",
+    fontFamily: FontFamily.sFProText,
+    zIndex: 1,
+    top: 157,
+    position: "absolute",
+  },
   inputBgParent2:{
     top: 430,
   },
@@ -218,36 +252,19 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.sFProText,
     letterSpacing: 0,
     fontSize: FontSize.size_xl,
-    top: "-95%",
+    top: "75%",
     position: "absolute",
   },
   inputBgParent: {
     top: 500,
   },
   username: {
-    top: "-95%",
+    top: "17%",
     left: "17%",
     fontFamily: FontFamily.sFProText,
     letterSpacing: 0,
     fontSize: FontSize.size_xl,
     position: "absolute",
-  },
-<<<<<<< Updated upstream
-=======
-
-  inputBgParent: {
-    top: 500,
-  },
-  username: {
-    top: "-95%",
-    width: 98,
-  },
-
-  confirmPassword: {
-    top: "-65%",
-    left: "17%",
-    fontSize: FontSize.size_xl,
-    position: 'absolute',
   },
   vectorIcon1: {
     width: "7.32%",
