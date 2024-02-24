@@ -45,10 +45,10 @@ const SignInPage = () => {
         <Text style={[styles.signIn1, styles.signTypo]}>Sign In</Text>
       </View> */}
 
-<View style={[styles.button, styles.buttonShadowBox]} />
+    <View style={[styles.button, styles.buttonShadowBox]} />
       <Pressable
         style={styles.buttonShadowBox}
-        onPress={() => navigation.navigate("Matches")}
+        onPress={() => navigation.navigate("SignInPage")}
       />
 
       <Pressable
@@ -174,8 +174,6 @@ const styles = StyleSheet.create({
     top: "88%",
     position: "absolute",
   },
-
-
   button: {
     right: "23.47%",
     left: "26.4%",
