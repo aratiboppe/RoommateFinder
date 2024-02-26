@@ -193,7 +193,6 @@ const styles = StyleSheet.create({
   message: {
     lineHeight: 12,
     height: 10,
-    fontFamily: FontFamily.sFProText,
     textAlign: "center",
   },
   button: {
