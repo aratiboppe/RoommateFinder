@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
   messageThemLaterTypo: {
     height: 24,
     textAlign: "center",
-    fontFamily: FontFamily.sFPro,
     letterSpacing: 1,
     position: "absolute",
   },
@@ -98,7 +97,6 @@ const styles = StyleSheet.create({
   },
   textTypo1: {
     textAlign: "center",
-    fontFamily: FontFamily.sFPro,
     position: "absolute",
   },
   buttonPosition1: {
@@ -163,7 +161,6 @@ const styles = StyleSheet.create({
     width: 74,
     height: 16,
     textAlign: "center",
-    fontFamily: FontFamily.sFPro,
     position: "absolute",
     color: Color.colorBlack,
     letterSpacing: 1,
@@ -178,7 +175,6 @@ const styles = StyleSheet.create({
     color: Color.colorBlack,
     letterSpacing: 1,
     textAlign: "center",
-    fontFamily: FontFamily.sFPro,
   },
   messageThemLater: {
     top: 210,

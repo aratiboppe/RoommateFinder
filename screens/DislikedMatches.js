@@ -50,7 +50,6 @@ const DislikedMatches = () => {
 const styles = StyleSheet.create({
   janeDoeClr: {
     color: Color.colorBlack,
-    fontFamily: FontFamily.sFPro,
     position: "absolute",
   },
   avatarIconLayout: {
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
     width: 249,
     height: 71,
     textAlign: "center",
-    fontFamily: FontFamily.sFPro,
     position: "absolute",
   },
   groupChild: {

@@ -1029,7 +1029,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: 231,
     height: 64,
-    fontFamily: FontFamily.sFPro,
     fontWeight: "500",
     position: "absolute",
   },
@@ -1060,7 +1059,6 @@ const styles = StyleSheet.create({
     left: 90,
     lineHeight: 15,
     fontWeight: "600",
-    fontFamily: FontFamily.sFProText,
     color: Color.white,
     textAlign: "left",
     fontSize: FontSize.size_mini,
@@ -1075,7 +1073,6 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: "left",
     fontSize: FontSize.size_mini,
-    fontFamily: FontFamily.sFPro,
     fontWeight: "500",
   },
   menuLabel: {

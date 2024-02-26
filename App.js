@@ -14,6 +14,7 @@ import LikedMatches from "./screens/LikedMatches";
 import DislikedMatches from "./screens/DislikedMatches";
 import Profile from "./screens/Profile";
 import Preferences from "./screens/Preferences";
+import ForgotPassword from "./screens/ForgotPassword";
 import IndividualMessages from "./screens/IndividualMessages";
 import LineVector from "./components/LineVector";
 
@@ -80,6 +81,11 @@ const App = () => {
             <Stack.Screen
               name="IndividualMessages"
               component={IndividualMessages}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ForgotPassword"
+              component={ForgotPassword}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

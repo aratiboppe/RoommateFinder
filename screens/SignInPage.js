@@ -58,6 +58,13 @@ const SignInPage = () => {
         <Text style={[styles.signIn1, styles.signIn1Typo]}>Sign In</Text>
       </Pressable>
 
+      <Pressable
+        style={styles.forgotPassword}
+        onPress={() => navigation.navigate("ForgotPassword")}  //change this to actual page later
+      >
+        <Text style={[styles.fpass, styles.fpass1]}>Forgot Password?</Text>
+      </Pressable>
+
       <Image
         style={styles.screenShot20240212At930}
         contentFit="cover"
@@ -95,7 +102,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     fontSize: FontSize.size_xl,
     left: 114,
-    fontFamily: FontFamily.sFProText,
     position: "absolute",
   },
   buttonShadowBox: {
@@ -166,7 +172,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   signIn: {
-    fontFamily: FontFamily.sFProText,
     color: Color.white,
     fontWeight: "400",
     lineHeight: 20,
@@ -179,7 +184,6 @@ const styles = StyleSheet.create({
     left: "26.4%",
   },
   signIn1: {
-    fontFamily: FontFamily.sFPro,
     lineHeight: 20,
     zIndex: 1,
     position: "relative",
@@ -190,7 +194,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: Color.white,
     fontWeight: "600",
-    fontFamily: FontFamily.sFProText,
     zIndex: 1,
     position: "relative",
   },
@@ -200,6 +203,19 @@ const styles = StyleSheet.create({
     left: "24.8%",
   },
 
+  fpass: {
+    top: 630,
+  },
+
+  fpass1: {
+    
+      color: Color.white,
+      letterSpacing: 0,
+      fontSize: FontSize.size_10xl,
+      left: "35%",
+      position: "absolute",
+  
+  },
   
   screenShot20240212At930: {
     top: 103,

@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: Color.white,
     fontWeight: "600",
-    fontFamily: FontFamily.sFProText,
   },
   pexelsCarlosMontelara598276Icon: {
     top: 0,
@@ -89,7 +88,6 @@ const styles = StyleSheet.create({
     height: "150%",
     width: "100%",
     fontSize: FontSize.size_base,
-    textDecoration: "underline",
     lineHeight: 16,
   },
   signUp: {
@@ -115,7 +113,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: Color.colorBlack,
     textAlign: "center",
-    fontFamily: FontFamily.sFProText,
     position: "absolute",
   },
   screenShot20240212At930: {

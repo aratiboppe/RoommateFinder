@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: Color.white,
     fontWeight: "600",
-    fontFamily: FontFamily.sFProText,
   },
   pexelsCarlosMontelara598276Icon: {
     top: -152,
@@ -119,7 +118,6 @@ const styles = StyleSheet.create({
     color: Color.colorBlack,
     textAlign: "center",
     display: "flex",
-    fontFamily: FontFamily.sFProText,
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",

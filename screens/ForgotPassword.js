@@ -23,7 +23,7 @@ const CreateAccount = () => {
       contentFit="cover"
       source={require("../assets/screen-shot-20240208-at-307-1.png")}
     />
-    
+    <Text style={styles.resetPass}>Reset Password</Text>
     <View style={[styles.inputBgParent1, styles.inputLayout]}>
       <View
         style={[styles.inputBg, styles.inputBorder]}
@@ -64,22 +64,7 @@ const CreateAccount = () => {
         />
     </View>
 
-      <View style={styles.dashiconsemailAltParent}>
-        <View style={styles.dashiconsemailAlt}></View>
-        <View
-          style={[styles.inputBg, styles.inputBorder]}
-          onPress={() => navigation.goBack()}
-        />
-        <TextInput 
-          style={[styles.email, styles.emailTypo]}
-          placeholder='Email'
-        />
-        <Image
-          style={[styles.vectorIcon2, styles.vectorIconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector4.png")}
-        />
-      </View>
+     
 
 
 
@@ -95,7 +80,7 @@ const CreateAccount = () => {
         <View style={styles.dashiconsemailAlt}></View>
         <TextInput 
           style={[styles.password, styles.passwordTypo]}
-          placeholder='Password'
+          placeholder='New Password'
         />
         
       </View>
@@ -104,15 +89,15 @@ const CreateAccount = () => {
         <View style={styles.dashiconsemailAlt}></View>
         <TextInput 
           style={[styles.confirmPassword, styles.confirmPasswordTypo]}
-          placeholder='Confirm Password'
+          placeholder='Confirm New Password'
         />
       </View>
 
       <Pressable
         style={[styles.button, styles.buttonShadowBox]}
-        onPress={() => navigation.navigate("Profile")}
+        onPress={() => navigation.navigate("Matches")}
       >
-        <Text style={[styles.signUp, styles.signUpTypo]}>Create Account</Text>
+        <Text style={[styles.signUp, styles.signUpTypo]}>Reset Password</Text>
       </Pressable>
       <Image
         style={styles.screenShot20240212At930}
@@ -173,12 +158,17 @@ const styles = StyleSheet.create({
     top: 15,
     position: "absolute",
   },
-  emailTypo: {
+
+  resetPass: {
+    top: "30%",
+    left: "5.6%",
+    fontSize: 50,
+    letterSpacing: 0,
+    lineHeight: 100,
+    fontWeight: "400",
+    color: Color.colorBlack,
     textAlign: "center",
-    color: Color.colorDarkslategray,
-    fontWeight: "600",
-    zIndex: 1,
-    left: 48,
+    position: "absolute",
   },
   userTypo: {
     textAlign: "center",

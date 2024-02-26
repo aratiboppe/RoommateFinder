@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   },
   janeDoeClr: {
     color: Color.colorBlack,
-    fontFamily: FontFamily.sFPro,
     position: "absolute",
   },
   avatarIconLayout: {
@@ -80,7 +79,6 @@ const styles = StyleSheet.create({
     width: 231,
     height: 64,
     textAlign: "center",
-    fontFamily: FontFamily.sFPro,
     position: "absolute",
   },
   groupChild: {

@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     color: Color.colorBlack,
     lineHeight: 18,
     fontSize: FontSize.size_2xs,
-    fontFamily: FontFamily.sFPro,
     position: "absolute",
   },
   groupViewLayout: {
@@ -108,7 +107,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: 231,
     height: 64,
-    fontFamily: FontFamily.sFPro,
     position: "absolute",
   },
   groupChild: {
