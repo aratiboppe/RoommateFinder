@@ -72,7 +72,7 @@ app.post('/signin', (req, res) => {
         const { Username, Password, Email } = req.body;
         console.log('Received variables:', Username, Email);
         try {
-            // Check if user already exists
+            // checking if user already exists
             const [existingUsers] = await pool.query('SELECT * FROM users WHERE email = ?', [Email]);
             if (existingUsers.length > 0) {
                 return res.status(400).json({ error: 'User already exists' });
