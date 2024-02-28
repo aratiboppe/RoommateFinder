@@ -66,4 +66,48 @@ app.post('/signin', (req, res) => {
             res.status(401).send({ message: 'Invalid username or password' });
         }
     });
+
+    app.post('/register', async (req, res) => {
+        console.log('Recieved Request Body:', req.body);
+        const { Username, Password, Email } = req.body;
+        console.log('Received variables:', Username, Email);
+        try {
+            // Check if user already exists
+            const [existingUsers] = await pool.query('SELECT * FROM users WHERE email = ?', [Email]);
+            if (existingUsers.length > 0) {
+                return res.status(400).json({ error: 'User already exists' });
+            }
+            // Insert new user into the database
+            const [result] = await pool.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [Username, Password, Email]);
+            console.log('INSERT RESULT: ', result);
+            res.status(201).json({ message: 'User registered successfully', Username: result.insertId });
+        } catch (error) {
+            console.error('Error registering user:', error);
+            res.status(500).json({ error: 'Error registering user' });
+        }
+    });
+
+    app.post('/reset-password', (req, res) => {
+        const { username, newPassword } = req.body;
+        // Input validation (in a real app, you'd also want to hash the password before storing it)
+        if (!username || !newPassword) {
+            return res.status(400).send({ message: 'Username and new password are required' });
+        }
+    
+        // SQL query to update the user's password
+        const query = 'UPDATE users SET password = ? WHERE username = ?';
+        con.query(query, [newPassword, username], (error, results) => {
+            if (error) {
+                console.error('Error updating the database:', error);
+                return res.status(500).send({ error: 'Error updating the database' });
+            }
+    
+            if (results.affectedRows > 0) {
+                res.send({ message: 'Password reset successful' });
+            } else {
+                res.status(404).send({ message: 'User not found' });
+            }
+        });
+    });    
+
 });
