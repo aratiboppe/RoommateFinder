@@ -8,6 +8,7 @@ var cors = require('cors');
 app.use(cors());
 
 // Middleware to parse JSON and URL-encoded bodies
+// updated on 2/27
 app.use(bodyParser.json({type: 'application/json'}));
 app.use(bodyParser.urlencoded({extended: true}));
 
