@@ -33,7 +33,7 @@ const CreateAccount = () => {
       <Image
           style={[styles.vectorIcon, styles.vectorIconLayout1]}
           contentFit="cover"
-          source={require("../assets/vector2.png")}
+          source={require("../assets/group-3.png")}
       />
     </View>
 
@@ -46,7 +46,7 @@ const CreateAccount = () => {
         <Image
           style={[styles.vectorIcon, styles.vectorIconLayout1]}
           contentFit="cover"
-          source={require("../assets/vector2.png")}
+          source={require("../assets/group-3.png")}
         />
         
     </View>
@@ -60,7 +60,7 @@ const CreateAccount = () => {
         <Image
             style={[styles.vectorIcon1, styles.vectorIconLayout1]}
             contentFit="cover"
-            source={require("../assets/vector3.png")}
+            source={require("../assets/vector2.png")}
         />
     </View>
 

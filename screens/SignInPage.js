@@ -21,7 +21,7 @@ const SignInPage = () => {
       <Image
         style={[styles.vectorIcon, styles.vectorIconLayout]}
         contentFit="cover"
-        source={require("../assets/vector.png")}
+        source={require("../assets/group-3.png")}
       />
       <Pressable
         style={[styles.inputBg1, styles.inputLayout]}
@@ -38,7 +38,7 @@ const SignInPage = () => {
       <Image
         style={[styles.vectorIcon1, styles.vectorIconLayout]}
         contentFit="cover"
-        source={require("../assets/vector1.png")}
+        source={require("../assets/vector2.png")}
       />
   
       {/* <View style={[styles.button1, styles.buttonShadowBox]}>
