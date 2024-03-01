@@ -1,14 +1,24 @@
 import * as React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
+import { useNavigation } from "@react-navigation/native";
+
 import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
 const Preferences = () => {
+  const navigation = useNavigation();
+ 
+
   return (
     <View style={styles.preferences}>
       <Text style={styles.preferences1}>Preferences</Text>
       <View style={styles.button} />
+      <Pressable
+        style={styles.findMyRoommateContainer}
+        onPress={() => navigation.navigate("Matches")}
+      >
       <Text style={styles.findMyRoommate}>Find my Roommate</Text>
+      </Pressable>
       <View style={[styles.dropdownBox, styles.dropdownLayout]}>
         <View style={[styles.header, styles.headerBorder]}>
           <Image
@@ -32,6 +42,8 @@ const Preferences = () => {
           <View style={[styles.label2, styles.labelLayout1]}>
             <Text style={styles.single}>Label5</Text>
           </View>
+
+
           <Image
             style={styles.iconsregularchevronLayout}
             contentFit="cover"
@@ -1055,8 +1067,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   findMyRoommate: {
-    top: 509,
-    left: 90,
+    top: "91%",
+    left: "33%",
     lineHeight: 15,
     fontWeight: "600",
     color: Color.white,
@@ -1064,6 +1076,13 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_mini,
     position: "absolute",
   },
+
+  findMyRoommateContainer: {
+    left: 125,
+    top: 607,
+    position: "absolute",
+  },
+
   iconsregularplus: {
     display: "none",
   },

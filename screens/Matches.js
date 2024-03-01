@@ -43,31 +43,66 @@ const Matches = () => {
       />
       
       <Image
-        style={[styles.matchesItem, styles.dislikeIconPosition]}
+        style={styles.likeIcon}
         contentFit="cover"
         source={require("../assets/group-32.png")}
-      />
-      <Image
-        style={styles.matchesInner}
-        contentFit="cover"
-        source={require("../assets/group-10.png")}
-
-        
-      />
-      <Image
-        style={styles.iconCog}
-        contentFit="cover"
-        source={require("../assets/-icon-cog.png")}
 
       />
+      <View style={styles.matchesItem} />
       <Pressable
-        style={styles.vector}
+        style={[styles.vector, styles.groupPosition]}
         onPress={() => navigation.navigate("LikedMatches")}
       >
         <Image
-          style={styles.icon}
+          style={[styles.icon, styles.iconLayout]}
           contentFit="cover"
           source={require("../assets/vector3.png")}
+        />
+      </Pressable>
+
+      <Pressable
+        style={[styles.vectorPreferences, styles.groupPosition]}
+        onPress={() => navigation.navigate("Preferences")}
+      >
+        <Image
+          style={[styles.preferences, styles.preferencesLayout]}
+          contentFit="cover"
+          source={require("../assets/icons8-preferences-32.png")}
+        />
+      </Pressable>
+
+
+
+
+
+      <Pressable
+        style={[styles.group, styles.groupPosition]}
+        onPress={() => navigation.navigate("Profile")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/group.png")}
+        />
+      </Pressable>
+      <Image
+        style={[styles.vectorIcon, styles.vectorPosition]}
+        contentFit="cover"
+        source={require("../assets/vector4.png")}
+      />
+      <Image
+        style={[styles.vectorIcon1, styles.iconLayout]}
+        contentFit="cover"
+        source={require("../assets/vector5.png")}
+      />
+      <Pressable
+        style={[styles.vector1, styles.vectorPosition]}
+        onPress={() => navigation.navigate("LikedMatches")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/vector5.png")}
         />
       </Pressable>
     </View>
@@ -84,6 +119,7 @@ const styles = StyleSheet.create({
     left: 15,
     width: 47,
   },
+
   messageThemLaterTypo: {
     height: 24,
     textAlign: "center",
@@ -106,6 +142,22 @@ const styles = StyleSheet.create({
     height: "6.77%",
     position: "absolute",
   },
+
+  preferences: {
+    height: "100%",
+    width: "100%",
+    maxHeight: "100%",
+    maxWidth: "100%",
+
+  },
+
+vectorPreferences: {
+    left: "24%",
+    right: "20%",
+    bottom: "2.58%",
+    width: "7%",
+    height: "3%",
+},
   buttonPosition: {
     left: "0%",
     bottom: "0%",
@@ -121,6 +173,14 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
+
+    vector: {
+      left: "24.47%",
+      right: "70.06%",
+      bottom: "2.58%",
+      width: "5.47%",
+      height: "2.67%",
+    },
     shadowColor: "rgba(136, 144, 194, 0.25)",
     borderRadius: Border.br_980xl,
     position: "absolute",
@@ -133,6 +193,7 @@ const styles = StyleSheet.create({
     left: 40,
     position: "absolute",
   },
+  
   dislikeIconPosition: {
     height: 20,
     top: 170,
@@ -175,6 +236,16 @@ const styles = StyleSheet.create({
     color: Color.colorBlack,
     letterSpacing: 1,
     textAlign: "center",
+  },
+
+  vectorIcon1: {
+    height: "3.33%",
+    width: "5.63%",
+    top: "94.49%",
+    right: "5.47%",
+    bottom: "2.17%",
+    left: "88.91%",
+    position: "absolute",
   },
   messageThemLater: {
     top: 210,
@@ -220,6 +291,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
+
+
   yourMatch: {
     top: 24,
     left: 70,
@@ -239,6 +312,19 @@ const styles = StyleSheet.create({
   button2: {
     backgroundColor: Color.colorLimegreen,
   },
+
+  icon: {
+    height: "100%",
+    width: "100%",
+    maxHeight: "100%",
+    maxWidth: "100%",
+  },
+  iconLayout: {
+    maxHeight: "100%",
+    maxWidth: "100%",
+    overflow: "hidden",
+  },
+
   buttonContainer: {
     right: "19.69%",
     left: "67.81%",
@@ -261,21 +347,38 @@ const styles = StyleSheet.create({
     height: 50,
     position: "absolute",
   },
+  vectorPosition: {
+    top: "94.3%",
+    position: "absolute",
+  },
+  groupPosition: {
+    top: "94.74%",
+    position: "absolute",
+  },
+
+  group: {
+    left: "4.22%",
+    right: "91.09%",
+    bottom: "2.44%",
+    width: "7%",
+    height: "4%",
+  },
+  vectorIcon: {
+    height: "3.98%",
+    width: "7.81%",
+    right: "46.25%",
+    bottom: "1.73%",
+    left: "45.94%",
+    maxHeight: "100%",
+    maxWidth: "100%",
+    overflow: "hidden",
+  },
   iconCog: {
     top: 632,
     left: 330,
     width: 30,
     height: 25,
     position: "absolute",
-  },
-  icon: {
-    maxWidth: "95%",
-    maxHeight: "95%",
-    height: "100s%",
-    overflow: "hidden",
-    width: "100%",
-    top: 5,
-    left: 3,
   },
   vector: {
     left: "69.38%",

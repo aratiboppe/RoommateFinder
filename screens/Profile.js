@@ -3,11 +3,8 @@ import { Text, StyleSheet, View, Pressable, TextInput} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
-
 const Profile = () => {
   const navigation = useNavigation();
-
- 
 
   return (
     <View style={styles.profile}>
@@ -41,7 +38,7 @@ const Profile = () => {
       />
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate("Matches")}
+        onPress={() => navigation.navigate("Preferences")}
       >
         <Text style={styles.saveProfile}>Save Profile</Text>
       </Pressable>
