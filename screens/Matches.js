@@ -36,18 +36,22 @@ const Matches = () => {
       <View style={[styles.buttonContainer, styles.buttonPosition1]}>
         <View style={[styles.button2, styles.buttonPosition]} />
       </View>
-      <Image
-        style={[styles.likeIcon, styles.likeIconPosition]}
-        contentFit="cover"
-        source={require("../assets/like.png")}
-      />
       
-      <Image
-        style={styles.likeIcon}
-        contentFit="cover"
-        source={require("../assets/group-32.png")}
+      
 
-      />
+
+      <Pressable
+        style={[styles.dislikeIcon, styles.dislikeIconPosition]}
+        onPress={() => navigation.navigate("DislikedMatches")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/like.png")}
+        />
+      </Pressable>
+
+
       <View style={styles.matchesItem} />
       <Pressable
         style={[styles.vector, styles.groupPosition]}
@@ -70,9 +74,17 @@ const Matches = () => {
           source={require("../assets/icons8-preferences-32.png")}
         />
       </Pressable>
-
-
-
+      
+      <Pressable
+        style={[styles.likeIcon, styles.likeIconPosition]}
+        onPress={() => navigation.navigate("LikedMatches")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/group-33.png")}
+        />
+      </Pressable>
 
 
       <Pressable
@@ -187,14 +199,14 @@ vectorPreferences: {
     overflow: "hidden",
     width: "100%",
   },
-  likeIconPosition: {
+  dislikeIconPosition: {
     height: 20,
     top: 170,
     left: 40,
     position: "absolute",
   },
   
-  dislikeIconPosition: {
+  likeIconPosition: {
     height: 20,
     top: 170,
     left: 310,
@@ -329,11 +341,11 @@ vectorPreferences: {
     right: "19.69%",
     left: "67.81%",
   },
-  likeIcon: {
+  dislikeIcon: {
     left: 71,
     width: 21,
   },
-  dislikeIcon: {
+  likeIcon: {
     left: 71,
     width: 21,
   },

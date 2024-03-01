@@ -35,11 +35,20 @@ const LikedMatches = () => {
         style={styles.wrapper}
         onPress={() => navigation.navigate("LikedMatches")}
       >
-        <Image
-          style={styles.icon}
-          contentFit="cover"
-          source={require("../assets/group-33.png")}
-        />
+
+
+      <Pressable
+        style={styles.vector}
+        onPress={() => navigation.navigate("DislikedMatches")}
+      >
+      <Image
+        style={styles.icon}
+        contentFit="cover"
+        source={require("../assets/like.png")}
+      />
+      </Pressable>
+
+
       </Pressable>
       <Image
         style={styles.iconCog}
@@ -71,13 +80,12 @@ const styles = StyleSheet.create({
   },
   likedMatches1: {
     top: 24,
-    left: 42,
-    fontSize: FontSize.size_14xl,
+    left: 70,
+    fontSize: 35,
     letterSpacing: 0,
     fontWeight: "500",
     color: Color.colorBrown,
     width: 231,
-    height: 64,
     textAlign: "center",
     position: "absolute",
   },
@@ -88,8 +96,8 @@ const styles = StyleSheet.create({
     left: 0,
   },
   thankYouThat: {
-    top: 35,
-    left: 71,
+    top: 40,
+    left: 70,
     fontSize: FontSize.size_7xs,
     lineHeight: 18,
     textAlign: "left",
@@ -97,18 +105,17 @@ const styles = StyleSheet.create({
     height: 18,
   },
   janeDoe: {
-    top: 20,
-    left: 60,
-    fontSize: FontSize.size_3xs,
+    top: 15,
+    left: 70,
+    fontSize: 15,
     letterSpacing: 1,
     fontWeight: "700",
     width: 76,
-    height: 11,
     textAlign: "center",
   },
   avatarIcon: {
-    top: 13,
-    left: 12,
+    top: 15,
+    left: 7,
     width: 47,
   },
   rectangleParent: {
@@ -145,6 +152,7 @@ const styles = StyleSheet.create({
   icon: {
     height: "100%",
     width: "100%",
+    left: 35,
   },
   wrapper: {
     left: 273,
