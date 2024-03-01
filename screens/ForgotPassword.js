@@ -66,20 +66,21 @@ const CreateAccount = () => {
 
      
 
-
-
-      <View style={styles.dashiconsemailAltParent}>
-        <View style={styles.dashiconsemailAlt}></View>
+      <View style={styles.usernameCursor}>
+        <View style={styles.usernameCursorBox}></View>
           <TextInput 
             style={[styles.username, styles.userTypo]}
             placeholder='Username'
           />
       </View>
 
+  
+
       <View style={styles.dashiconsemailAltParent}>
         <View style={styles.dashiconsemailAlt}></View>
         <TextInput 
           style={[styles.password, styles.passwordTypo]}
+          secureTextEntry={true}
           placeholder='New Password'
         />
         
@@ -90,6 +91,8 @@ const CreateAccount = () => {
         <TextInput 
           style={[styles.confirmPassword, styles.confirmPasswordTypo]}
           placeholder='Confirm New Password'
+          secureTextEntry={true}
+
         />
       </View>
 
@@ -260,6 +263,22 @@ const styles = StyleSheet.create({
   inputBgGroup: {
     top: 430,
   },
+
+  usernameCursorBox: {
+    width: 20,
+    height: 20,
+    left: 0,
+    top: "50%",
+    position: "absolute",
+  },
+
+  usernameCursor: {
+    top: 359,
+    left: 35,
+    overflow: "show",
+    zIndex: 1,
+  },
+
   dashiconsemailAlt: {
     width: 20,
     height: 20,
@@ -284,6 +303,7 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     right: "88.27%",
   },
+
   dashiconsemailAltParent: {
     top: 359,
     height: 90,
@@ -291,6 +311,8 @@ const styles = StyleSheet.create({
     left: 52,
     position: "absolute",
   },
+
+
   signUp: {
     lineHeight: 20,
     fontWeight: "400",

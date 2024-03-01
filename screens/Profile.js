@@ -8,30 +8,26 @@ const Profile = () => {
 
   return (
     <View style={styles.profile}>
-      <Text style={[styles.name, styles.ageTypo]}>Name:</Text>
+      <Text style={[styles.name, styles.ageTypo]}>University:</Text>
       <Text style={styles.yourProfile}>Your Profile</Text>
       <TextInput
         style={[styles.inputBg, styles.inputLayout1]}
         placeholder= ""
       />
-      <Text style={[styles.email, styles.ageTypo]}>Email:</Text>
-      <Text style={[styles.phoneNumber, styles.ageTypo]}>Phone Number:</Text>
-      <TextInput
-        style={[styles.inputBg1, styles.inputLayout]}
-        placeholder=""
-      />
+      <Text style={[styles.email, styles.ageTypo]}>College Year:</Text>
+      
       <TextInput
         style={[styles.inputBg2, styles.inputLayout1]}
         placeholder=""
       />
-      <Text style={[styles.university, styles.ageTypo]}>University:</Text>
+      <Text style={[styles.university, styles.ageTypo]}>Email:</Text>
       <TextInput
         style={[styles.inputBg3, styles.inputLayout1]}
         placeholder=""
       />
     
   
-      <Text style={[styles.age, styles.ageTypo]}>Age:</Text>
+      <Text style={[styles.age, styles.ageTypo]}>Name:</Text>
       <TextInput
         style={[styles.inputBg4, styles.inputLayout]}
         placeholder=""

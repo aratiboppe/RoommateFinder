@@ -25,7 +25,6 @@ const SignInPage = () => {
       />
       <Pressable
         style={[styles.inputBg1, styles.inputLayout]}
-        onPress={() => navigation.goBack()}
       />
       <TextInput 
           style={[styles.username, styles.usernameTypo]}
@@ -33,6 +32,7 @@ const SignInPage = () => {
       />
       <TextInput 
           style={[styles.password, styles.usernameTypo]}
+          secureTextEntry={true}
           placeholder='Password'
       />
       <Image

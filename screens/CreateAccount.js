@@ -83,8 +83,8 @@ const CreateAccount = () => {
 
 
 
-      <View style={styles.dashiconsemailAltParent}>
-        <View style={styles.dashiconsemailAlt}></View>
+      <View style={styles.usernameCursor}>
+        <View style={styles.usernameCursorBox}></View>
           <TextInput 
             style={[styles.username, styles.userTypo]}
             placeholder='Username'
@@ -96,6 +96,8 @@ const CreateAccount = () => {
         <TextInput 
           style={[styles.password, styles.passwordTypo]}
           placeholder='Password'
+          secureTextEntry={true}
+
         />
         
       </View>
@@ -105,6 +107,8 @@ const CreateAccount = () => {
         <TextInput 
           style={[styles.confirmPassword, styles.confirmPasswordTypo]}
           placeholder='Confirm Password'
+          secureTextEntry={true}
+
         />
       </View>
 
@@ -196,6 +200,21 @@ const styles = StyleSheet.create({
     top: 87,
     position: "absolute",
   },
+
+  usernameCursorBox: {
+    width: 20,
+    height: 20,
+    left: 0,
+    top: "50%",
+    position: "absolute",
+  },
+
+  usernameCursor: {
+    top: 359,
+    left: 35,
+    zIndex: 2,
+  },
+  
   confirmPasswordTypo: {
     textAlign: "center",
     color: Color.colorDarkslategray,
@@ -275,8 +294,7 @@ const styles = StyleSheet.create({
     height: 20,
     left: 0,
     top: "50%",
-    position: "absolute",
-    overflow: "hidden",
+    zIndex: 1,
   },
   email: {
     top: "-60%",
@@ -300,6 +318,7 @@ const styles = StyleSheet.create({
     width: 272,
     left: 52,
     position: "absolute",
+    zIndex: 1,
   },
   signUp: {
     lineHeight: 20,
