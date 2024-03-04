@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   signUp: {
-    left: "31.47%",
+    left: "30%",
     top: "87.56%",
     position: "absolute",
   },

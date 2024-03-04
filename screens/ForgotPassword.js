@@ -3,14 +3,52 @@ import { Image } from "expo-image";
 import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
+import { Alert } from 'react-native';
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
+import axios from 'axios';
+import { useState } from "react";
 
-const CreateAccount = () => {
+const ForgotPassword = () => {
   const navigation = useNavigation();
+  const [username, setUsername] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleResetPassword = async () => {
+    // Check if newPassword and confirmPassword match
+    if (newPassword !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+    // Check if newPassword and confirmPassword match
+    try {
+      const response = await axios.post('http://localhost:3305/reset-password', {
+        username: username, // Make sure this matches the case expected by your server
+        newPassword: newPassword
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // Assuming your API responds with a success message on password reset
+      if (response.status === 200) {
+        Alert.alert("Success", "Password has been reset successfully");
+        navigation.goBack(); // or navigate to a different screen if needed
+      } else {
+        // Handle any other responses from your backend
+        Alert.alert("Error", "Failed to reset password");
+      }
+    } catch (error) {
+      console.error(error);
+      // You can access error.response.data to get more details about the error from the server
+      Alert.alert("Error", error.response ? error.response.data.message : "Failed to reset password");
+    }
+  };
 
   return (
     <LinearGradient
-      style={[styles.createAccount, styles.buttonShadowBox]}
+      style={[styles.ForgotPassword, styles.buttonShadowBox]}
       locations={[0, 0.53, 1]}
       colors={[
         "rgba(233, 130, 116, 0.81)",
@@ -18,87 +56,84 @@ const CreateAccount = () => {
         "rgba(245, 182, 121, 0.86)",
       ]}
     >
-    <Image
-      style={styles.screenShot20240208At307}
-      contentFit="cover"
-      source={require("../assets/screen-shot-20240208-at-307-1.png")}
-    />
-    <Text style={styles.resetPass}>Reset Password</Text>
-    <View style={[styles.inputBgParent1, styles.inputLayout]}>
-      <View
-        style={[styles.inputBg, styles.inputBorder]}
-        onPress={() => navigation.goBack()}
-      />
-      
       <Image
-          style={[styles.vectorIcon, styles.vectorIconLayout1]}
-          contentFit="cover"
-          source={require("../assets/group-3.png")}
+        style={styles.screenShot20240208At307}
+        contentFit="cover"
+        source={require("../assets/screen-shot-20240208-at-307-1.png")}
       />
-    </View>
-
-    <View style={[styles.inputBgParent, styles.inputLayout]}>
+      <Text style={styles.resetPass}>Reset Password</Text>
+      <View style={[styles.inputBgParent1, styles.inputLayout]}>
         <View
           style={[styles.inputBg, styles.inputBorder]}
           onPress={() => navigation.goBack()}
         />
-        
+
         <Image
           style={[styles.vectorIcon, styles.vectorIconLayout1]}
           contentFit="cover"
           source={require("../assets/group-3.png")}
         />
-        
-    </View>
-    
-    <View style={[styles.inputBgParent2, styles.inputLayout]}>
-        <View
-            style={[styles.inputBg, styles.inputBorder]}
-            onPress={() => navigation.goBack()}
-        />
-        
-        <Image
-            style={[styles.vectorIcon1, styles.vectorIconLayout1]}
-            contentFit="cover"
-            source={require("../assets/vector2.png")}
-        />
-    </View>
-
-     
-
-      <View style={styles.usernameCursor}>
-        <View style={styles.usernameCursorBox}></View>
-          <TextInput 
-            style={[styles.username, styles.userTypo]}
-            placeholder='Username'
-          />
       </View>
 
-  
+      <View style={[styles.inputBgParent, styles.inputLayout]}>
+        <View
+          style={[styles.inputBg, styles.inputBorder]}
+          onPress={() => navigation.goBack()}
+        />
+
+        <Image
+          style={[styles.vectorIcon, styles.vectorIconLayout1]}
+          contentFit="cover"
+          source={require("../assets/group-3.png")}
+        />
+
+      </View>
+
+      <View style={[styles.inputBgParent2, styles.inputLayout]}>
+        <View
+          style={[styles.inputBg, styles.inputBorder]}
+          onPress={() => navigation.goBack()}
+        />
+
+        <Image
+          style={[styles.vectorIcon1, styles.vectorIconLayout1]}
+          contentFit="cover"
+          source={require("../assets/vector2.png")}
+        />
+      </View>
+
+      <View style={styles.usernameCursor}>
+        <TextInput
+          style={[styles.username, styles.userTypo]}
+          placeholder='Username'
+          onChangeText={text => setUsername(text)} // Set the username state
+          value={username}
+        />
+      </View>
 
       <View style={styles.dashiconsemailAltParent}>
-        <View style={styles.dashiconsemailAlt}></View>
-        <TextInput 
+        <TextInput
           style={[styles.password, styles.passwordTypo]}
           secureTextEntry={true}
           placeholder='New Password'
+          onChangeText={text => setNewPassword(text)} // Set the new password state
+          value={newPassword}
         />
-        
       </View>
 
       <View style={styles.dashiconsemailAltParent}>
-        <View style={styles.dashiconsemailAlt}></View>
-        <TextInput 
+        <TextInput
           style={[styles.confirmPassword, styles.confirmPasswordTypo]}
           placeholder='Confirm New Password'
           secureTextEntry={true}
-
+          onChangeText={text => setConfirmPassword(text)} // Set the confirm password state
+          value={confirmPassword}
         />
       </View>
 
       <Pressable
         style={[styles.button, styles.buttonShadowBox]}
-        onPress={() => navigation.navigate("Matches")}
+        onPress={handleResetPassword}
       >
         <Text style={[styles.signUp, styles.signUpTypo]}>Reset Password</Text>
       </Pressable>
@@ -197,10 +232,10 @@ const styles = StyleSheet.create({
     top: 157,
     position: "absolute",
   },
-  inputBgParent2:{
+  inputBgParent2: {
     top: 430,
   },
-  inputBgParent1:{
+  inputBgParent1: {
     top: 570,
   },
   screenShot20240208At307: {
@@ -353,7 +388,7 @@ const styles = StyleSheet.create({
     height: 111,
     position: "absolute",
   },
-  createAccount: {
+  ForgotPassword: {
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowRadius: 4,
     elevation: 2,
@@ -369,4 +404,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateAccount;
+export default ForgotPassword;

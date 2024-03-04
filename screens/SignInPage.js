@@ -1,11 +1,38 @@
-import * as React from "react";
-import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
+import { Image as ExpoImage} from "expo-image";
 import { useNavigation } from "@react-navigation/native";
+import {useState} from "react";
+import { Alert } from 'react-native';
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
+import { Image, StyleSheet, View, Pressable, Text, TextInput } from "react-native";
+import axios from 'axios';
 
-const SignInPage = () => {
+  const SignInPage = () => {
   const navigation = useNavigation();
+  const [Username, setUsername] = useState('');
+  const [Password, setPassword] = useState('');
+
+  const handleSignIn = async () => {
+    try {
+      const response = await axios.post('http://localhost:3305/signin', {
+        Username: Username,
+        Password: Password
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.status === 200 && response.data.message === 'Sign-In Successful') {
+        Alert.alert("Login Status", "Logged in successfully");
+        navigation.navigate("Matches");
+      } else {
+        Alert.alert("Login Status", "Invalid login credentials");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      Alert.alert("Login Error", error.response ? error.response.data.message : "An error occurred during login");
+    }
+  };  
 
   return (
     <View style={styles.signInPage}>
@@ -29,11 +56,16 @@ const SignInPage = () => {
       <TextInput 
           style={[styles.username, styles.usernameTypo]}
           placeholder='Username'
+          value={Username}
+          onChangeText={setUsername}
       />
       <TextInput 
           style={[styles.password, styles.usernameTypo]}
           secureTextEntry={true}
           placeholder='Password'
+          value={Password}
+          onChangeText={setPassword} // Make sure to update the state
+
       />
       <Image
         style={[styles.vectorIcon1, styles.vectorIconLayout]}
@@ -48,7 +80,7 @@ const SignInPage = () => {
     <View style={[styles.button, styles.buttonShadowBox]} />
       <Pressable
         style={styles.buttonShadowBox}
-        onPress={() => navigation.navigate("SignInPage")}
+        onPress={handleSignIn} 
       />
 
       <Pressable

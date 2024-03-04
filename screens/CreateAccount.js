@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Image } from "expo-image";
+import {useState} from "react";
 import { StyleSheet, View, Pressable, Text, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
@@ -7,7 +8,32 @@ import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 
 const CreateAccount = () => {
   const navigation = useNavigation();
+  const [Username, setUsername] = useState("");
+  const [Password, setPassword] = useState("");
+  const [Email, setEmail] = useState("");
+ 
 
+  const handleRegister = async () => {
+    console.log('State values for the DB are:', Username, Password, Email);
+    try {
+      // Send a POST request to the backend
+      const response = await axios.post("http://localhost:3305/register", {
+        Username: Username,
+        Password: Password,
+        Email: Email,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      );
+      console.log(response.data); // Log the response from the backend
+    } catch (error) {
+      console.error("Error registering user:", error);
+    }
+  };
+ 
   return (
     <LinearGradient
       style={[styles.createAccount, styles.buttonShadowBox]}
@@ -73,6 +99,8 @@ const CreateAccount = () => {
         <TextInput 
           style={[styles.email, styles.emailTypo]}
           placeholder='Email'
+          onChangeText={text => setEmail(text)}
+          value={setEmail}
         />
         <Image
           style={[styles.vectorIcon2, styles.vectorIconLayout]}
@@ -84,18 +112,22 @@ const CreateAccount = () => {
 
 
       <View style={styles.usernameCursor}>
-        <View style={styles.usernameCursorBox}></View>
-          <TextInput 
-            style={[styles.username, styles.userTypo]}
-            placeholder='Username'
-          />
+        <TextInput
+          style={[styles.username, styles.userTypo]}
+          placeholder='Username'
+          onChangeText={text => setUsername(text)} // Set the username state
+          value={Username}
+        />
       </View>
+
 
       <View style={styles.dashiconsemailAltParent}>
         <View style={styles.dashiconsemailAlt}></View>
         <TextInput 
           style={[styles.password, styles.passwordTypo]}
           placeholder='Password'
+          onChangeText={text => setPassword(text)}
+          value={Password}
           secureTextEntry={true}
 
         />
