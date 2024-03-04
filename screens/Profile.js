@@ -184,12 +184,12 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   profile: {
-    backgroundColor: Color.colorAntiquewhite,
+    backgroundColor: '#F0DFCE',
     flex: 1,
     width: "100%",
     height: "100%",
     overflow: "hidden",
-    left: "5%",
+    left: "0%",
   },
 });
 

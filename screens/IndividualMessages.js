@@ -1,9 +1,11 @@
 import * as React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { Color, FontSize, FontFamily, Border } from "../GlobalStyles";
+import { useNavigation } from "@react-navigation/native";
 
 const IndividualMessages = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.individualMessages}>
       <Text style={styles.janeDoe}>Jane Doe</Text>
@@ -51,17 +53,60 @@ const IndividualMessages = () => {
           source={require("../assets/avatar1.png")}
         />
       </View>
+     
+      <Pressable
+        style={[styles.vectorPreferences, styles.groupPosition]}
+        onPress={() => navigation.navigate("Preferences")}
+      >
+        <Image
+          style={[styles.preferences, styles.preferencesLayout]}
+          contentFit="cover"
+          source={require("../assets/icons8-preferences-32.png")}
+        />
+      </Pressable>
+      
+      <Pressable
+        style={[styles.likeIcon, styles.likeIconPosition]}
+        onPress={() => navigation.navigate("LikedMatches")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/vector3.png")}
+        />
+      </Pressable>
+
+
+      <Pressable
+        style={[styles.group, styles.groupPosition]}
+        onPress={() => navigation.navigate("Profile")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/group.png")}
+        />
+      </Pressable>
+
+       {/* <Pressable
+        style={[styles.vectorIcon, styles.vectorPosition]}
+        onPress={() => navigation.navigate("Matches")}
+      > */}
       <Image
-        style={[styles.individualMessagesChild, styles.groupViewLayout]}
+        style={[styles.vectorIcon, styles.vectorPosition]}
         contentFit="cover"
-        source={require("../assets/group-103.png")}
+        source={require("../assets/vector4.png")}
       />
+      {/* </Pressable> */}
+
+      <Image
+        style={[styles.vectorIcon1, styles.iconLayout]}
+        contentFit="cover"
+        source={require("../assets/vector5.png")}
+      />
+
       <View style={styles.uilthumbsUp} />
-      <Image
-        style={styles.vectorIcon}
-        contentFit="cover"
-        source={require("../assets/vector3.png")}
-      />
+      
       <Image
         style={styles.fluentsettings16RegularIcon}
         contentFit="cover"
@@ -87,6 +132,71 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_2xs,
     position: "absolute",
   },
+
+  vectorPreferences: {
+    left: "24%",
+    right: "20%",
+    bottom: "2.58%",
+    width: "7%",
+    height: "3%",
+},
+
+vectorMatches: {
+  left: "50%",
+  right: "20%",
+  bottom: "15.58%",
+  width: "8%",
+  height: "3%",
+},
+matchesPosition: {
+    top: "40.74%",
+    position: "absolute",
+ 
+},
+groupPosition: {
+  top: "94.74%",
+  position: "absolute",
+},
+preferences: {
+  height: "100%",
+  width: "100%",
+  maxHeight: "100%",
+  maxWidth: "100%",
+
+},
+likeIconPosition: {
+  height: 20,
+  top: 635,
+  left: 260,
+  position: "absolute",
+},
+
+likeIcon: {
+  left: 71,
+  width: 21,
+},
+
+icon: {
+  height: "100%",
+  width: "100%",
+  maxHeight: "100%",
+  maxWidth: "100%",
+},
+iconLayout: {
+  maxHeight: "100%",
+  maxWidth: "100%",
+  overflow: "hidden",
+},
+
+group: {
+  left: "4.22%",
+  right: "91.09%",
+  bottom: "2.44%",
+  width: "7%",
+  height: "4%",
+},
+
+
   groupViewLayout: {
     height: 45,
     position: "absolute",
@@ -98,11 +208,11 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   janeDoe: {
-    top: 24,
-    left: 42,
-    fontSize: FontSize.size_14xl,
+    top: 50,
+    left: 70,
+    fontSize: 50,
     letterSpacing: 0,
-    fontWeight: "500",
+    fontWeight: "300",
     color: Color.colorBrown,
     textAlign: "center",
     width: 231,
@@ -170,6 +280,7 @@ const styles = StyleSheet.create({
     width: 246,
     left: 18,
   },
+
   individualMessagesChild: {
     top: 516,
     width: 320,
@@ -185,21 +296,21 @@ const styles = StyleSheet.create({
   },
   vectorIcon: {
     height: "3.57%",
-    width: "6.25%",
-    top: "93.94%",
-    right: "23.13%",
+    width: "7%",
+    top: "94.5%",
     bottom: "2.5%",
-    left: "70.63%",
+    left: "45.63%",
     maxWidth: "100%",
     maxHeight: "100%",
     position: "absolute",
-    overflow: "hidden",
+    zIndex: 1,
   },
+
   fluentsettings16RegularIcon: {
-    top: 526,
-    left: 286,
-    width: 25,
-    height: 25,
+    top: 627,
+    left: 330,
+    width: 30,
+    height: 30,
     position: "absolute",
     overflow: "hidden",
   },

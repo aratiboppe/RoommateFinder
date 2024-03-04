@@ -36,7 +36,7 @@ const Matches = () => {
         <View style={[styles.button1, styles.buttonPosition]} />
       </View>
       <View style={[styles.buttonContainer, styles.buttonPosition1]}>
-        <View style={[styles.button2, styles.buttonPosition]} />
+        <View style={[styles.button2, styles.buttonPosition2]} />
       </View>
       
       
@@ -180,10 +180,10 @@ vectorPreferences: {
     height: "3%",
 },
   buttonPosition: {
-    left: "0%",
+    left: "-93%",
     bottom: "0%",
     right: "0%",
-    top: "0%",
+    top: -272,
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -194,7 +194,6 @@ vectorPreferences: {
       width: 0,
       height: 3,
     },
-
     vector: {
       left: "24.47%",
       right: "70.06%",
@@ -207,6 +206,34 @@ vectorPreferences: {
     position: "absolute",
     overflow: "hidden",
     width: "100%",
+  },
+  buttonPosition2: {
+    left: "90%",
+    bottom: "0%",
+    right: "0%",
+    top: -272,
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowOpacity: 1,
+    elevation: 8,
+    shadowRadius: 8,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+  vector: {
+    left: "24.47%",
+    right: "70.06%",
+    bottom: "2.58%",
+    width: "5.47%",
+    height: "2.67%",
+  },
+  shadowColor: "rgba(136, 144, 194, 0.25)",
+  borderRadius: Border.br_980xl,
+  position: "absolute",
+  overflow: "hidden",
+  width: "100%",
   },
   dislikeIconPosition: {
     height: 20,
@@ -284,7 +311,7 @@ vectorPreferences: {
   },
   message: {
     lineHeight: 12,
-    height: 10,
+    height: 12,
     textAlign: "center",
   },
   button: {
@@ -324,14 +351,16 @@ vectorPreferences: {
     fontWeight: "500",
   },
   button1: {
-    backgroundColor: Color.colorLightcoral,
+    backgroundColor: '#E98274',
+    opacity: 0.5,
   },
   buttonWrapper: {
     right: "68.44%",
     left: "19.06%",
   },
   button2: {
-    backgroundColor: Color.colorLimegreen,
+    backgroundColor: '#2FD658',
+    opacity: 0.3,
   },
 
   icon: {

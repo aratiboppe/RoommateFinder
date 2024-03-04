@@ -1034,8 +1034,8 @@ const styles = StyleSheet.create({
   },
   preferences1: {
     top: 24,
-    left: 42,
-    fontSize: FontSize.size_11xl,
+    left: 75,
+    fontSize: 35,
     letterSpacing: 0,
     color: Color.colorBrown,
     textAlign: "center",
@@ -1199,7 +1199,7 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_5xs,
   },
   preferences: {
-    backgroundColor: Color.colorAntiquewhite,
+    backgroundColor: '#F0DFCE',
     flex: 1,
     height: 561,
     overflow: "hidden",
