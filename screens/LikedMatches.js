@@ -25,11 +25,28 @@ const LikedMatches = () => {
           source={require("../assets/avatar1.png")}
         />
       </View>
+
       <Image
-        style={[styles.likedMatchesChild, styles.avatarIconLayout]}
-        contentFit="cover"
-        source={require("../assets/group-101.png")}
+          style={styles.likeVectorIcon}
+          contentFit="cover"
+          source={require("../assets/vector3.png")}
       />
+      <Image
+        style={[styles.linkVectorIcon, styles.iconLayout]}
+        contentFit="cover"
+        source={require("../assets/vector4.png")}
+      />
+      <Image
+        style={[styles.vectorIcon, styles.iconLayout]}
+        contentFit="cover"
+        source={require("../assets/vector5.png")}
+      />
+      <Image
+        style={[styles.vectorIcon, styles.iconLayout]}
+        contentFit="cover"
+        source={require("../assets/group.png")}
+      />
+
       <View style={styles.button} />
       <Pressable
         style={styles.wrapper}
@@ -49,17 +66,10 @@ const LikedMatches = () => {
       </Pressable>
 
 
+      
       </Pressable>
-      <Image
-        style={styles.iconCog}
-        contentFit="cover"
-        source={require("../assets/-icon-cog.png")}
-      />
-      <Image
-        style={styles.vectorIcon}
-        contentFit="cover"
-        source={require("../assets/vector3.png")}
-      />
+
+      
     </View>
   );
 };
@@ -149,10 +159,28 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
+  vectorPosition: {
+    top: "94.3%",
+    position: "absolute",
+  },
   icon: {
     height: "100%",
     width: "100%",
     left: 35,
+  },
+  icon1: {
+    height: "100%",
+    width: "100%",
+    maxHeight: "100%",
+    maxWidth: "100%",
+    right:90,
+    top: 500,
+
+  },
+  iconLayout: {
+    maxHeight: "100%",
+    maxWidth: "100%",
+    overflow: "hidden",
   },
   wrapper: {
     left: 273,
@@ -168,7 +196,7 @@ const styles = StyleSheet.create({
     height: 25,
     position: "absolute",
   },
-  vectorIcon: {
+  likeVectorIcon: {
     height: "3.57%",
     width: "6.25%",
     top: "94.3%",
@@ -180,8 +208,20 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
+  linkVectorIcon: {
+    height: "5%",
+    width: "10%",
+    top: "93.3%",
+    right: "25%",
+    bottom: "2.14%",
+    left: "46%",
+    maxWidth: "100%",
+    maxHeight: "100%",
+    position: "absolute",
+    overflow: "hidden",
+  },
   likedMatches: {
-    backgroundColor: Color.colorAntiquewhite,
+    backgroundColor: '#F0DFCE',
     flex: 1,
     height: 561,
     overflow: "hidden",

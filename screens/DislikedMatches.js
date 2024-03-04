@@ -22,27 +22,27 @@ const DislikedMatches = () => {
           source={require("../assets/avatar1.png")}
         />
       </View>
-      <Image
-        style={[styles.dislikedMatchesChild, styles.avatarIconLayout]}
-        contentFit="cover"
-        source={require("../assets/group-102.png")}
-      />
-      <Pressable
-        style={styles.like}
-        onPress={() => navigation.navigate("DislikedMatches")}
-      >
-        <Image
-          style={styles.icon}
-          contentFit="cover"
-          source={require("../assets/like1.png")}
-        />
-      </Pressable>
-      <View style={styles.button} />
+
       <Image
         style={styles.vectorIcon}
         contentFit="cover"
         source={require("../assets/vector3.png")}
       />
+
+      <Pressable
+        style={styles.like}
+        onPress={() => navigation.navigate("LikedMatches")}
+      >
+        <Image
+          style={styles.icon}
+          contentFit="cover"
+          source={require("../assets/group-32.png")}
+        />
+      </Pressable>
+      <View style={styles.button} />
+
+      
+      
     </View>
   );
 };
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   dislikedMatches: {
-    backgroundColor: Color.colorAntiquewhite,
+    backgroundColor: '#F0DFCE',
     flex: 1,
     height: 561,
     overflow: "hidden",

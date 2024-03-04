@@ -24,11 +24,13 @@ const Matches = () => {
       />
 
 
-
-
-      <View style={styles.button}>
+      <Pressable
+        style={styles.button}
+        onPress={() => navigation.navigate("IndividualMessages")}  //change this to actual page later
+      >
         <Text style={[styles.message, styles.textTypo]}>Message</Text>
-      </View>
+      </Pressable>
+
       <Text style={[styles.yourMatch, styles.textTypo1]}>Your Match!</Text>
       <View style={[styles.buttonWrapper, styles.buttonPosition1]}>
         <View style={[styles.button1, styles.buttonPosition]} />
@@ -50,7 +52,6 @@ const Matches = () => {
           source={require("../assets/like.png")}
         />
       </Pressable>
-
 
       <View style={styles.matchesItem} />
       <Pressable
@@ -85,8 +86,7 @@ const Matches = () => {
           source={require("../assets/group-33.png")}
         />
       </Pressable>
-
-
+    
       <Pressable
         style={[styles.group, styles.groupPosition]}
         onPress={() => navigation.navigate("Profile")}
@@ -97,11 +97,18 @@ const Matches = () => {
           source={require("../assets/group.png")}
         />
       </Pressable>
-      <Image
+      
+      <Pressable
         style={[styles.vectorIcon, styles.vectorPosition]}
-        contentFit="cover"
-        source={require("../assets/vector4.png")}
-      />
+        onPress={() => navigation.navigate("Matches")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/vector4.png")}
+        />
+      </Pressable>
+      
       <Image
         style={[styles.vectorIcon1, styles.iconLayout]}
         contentFit="cover"
@@ -117,7 +124,9 @@ const Matches = () => {
           source={require("../assets/vector5.png")}
         />
       </Pressable>
+      
     </View>
+
   );
 };
 
