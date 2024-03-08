@@ -2,14 +2,29 @@ import * as React from "react";
 import { Text, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
+import { SelectList } from 'react-native-dropdown-select-list'
 
 import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
 const Preferences = () => {
   const navigation = useNavigation();
- 
+
+  const [selected, setSelected] = React.useState("");
+  
+  const data = [
+      {key:'1', value:'Mobiles', disabled:true},
+      {key:'2', value:'Appliances'},
+      {key:'3', value:'Cameras'},
+      {key:'4', value:'Computers', disabled:true},
+      {key:'5', value:'Vegetables'},
+      {key:'6', value:'Diary Products'},
+      {key:'7', value:'Drinks'},
+  ]
+
+
 
   return (
+    
     <View style={styles.preferences}>
       <Text style={styles.preferences1}>Preferences</Text>
       <View style={styles.button} />
@@ -963,6 +978,20 @@ const Preferences = () => {
           source={require("../assets/iconsregularchevrondowns2.png")}
         />
       </View>
+
+      
+
+
+    <SelectList 
+        setSelected={(val) => setSelected(val)} 
+        data={data} 
+        save="value"
+    />
+
+
+      
+
+
     </View>
   );
 };

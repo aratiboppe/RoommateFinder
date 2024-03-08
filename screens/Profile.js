@@ -88,12 +88,13 @@ const styles = StyleSheet.create({
   },
   yourProfile: {
     top: 50,
-    fontSize: FontSize.size_45xl,
-    letterSpacing: 0,
-    fontWeight: "200",
-    color: Color.colorBrown,
     position: "absolute",
-    left: "10%",
+    left: "19%",
+    fontSize: 45,
+    letterSpacing: 0,
+    color: Color.colorBrown,
+    width: 231,
+    fontWeight: "500",
   },
   inputBg: { //name
     top: 271,
@@ -152,13 +153,12 @@ const styles = StyleSheet.create({
     color: Color.white,
     position: "absolute",
     zIndex: 1,
-
   },
   button: {
     height: 50, // Adjusted height value
     width: "47.5%",
     top: "85%", // Adjusted top value
-    left: "20%",
+    left: "27%",
     borderRadius: Border.br_980xl,
     backgroundColor: Color.colorBrown,
     shadowColor: "rgba(136, 144, 194, 0.25)",
@@ -171,14 +171,14 @@ const styles = StyleSheet.create({
   },
   avatarIcon: {
     top: 135,
-    left: 107,
+    left: 125,
     width: 107,
     height: 101,
     position: "absolute",
   },
   profileChild: {
     top: 220,
-    left: 184,
+    left: 200,
     width: 18,
     height: 16,
     position: "absolute",

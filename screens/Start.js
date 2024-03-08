@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   livinglink: {
     top: "40%",
-    left: "5.6%",
+    left: "10%",
     fontSize: FontSize.size_45xl,
     letterSpacing: 0,
     lineHeight: 100,
