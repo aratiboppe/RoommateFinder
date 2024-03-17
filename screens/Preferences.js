@@ -1,14 +1,10 @@
 import React, {useState} from 'react';
 
-import { Text, Switch, StyleSheet, View, Pressable } from "react-native";
+import { Text, Switch, StyleSheet, View, Pressable, TextInput } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
 import { SelectList } from 'react-native-dropdown-select-list'
-
-
-
-
 
 import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
@@ -18,11 +14,9 @@ const Preferences = () => {
 
   const navigation = useNavigation();
 
+  const [startDate, setStartDate] = useState('');
+  const [maxBudget, setMaxBudget] = useState('');
 
-
-  const [label, setSelected] = React.useState("");
-
-  
 
   const [isEnabled1, setIsEnabled1] = useState(false);
 
@@ -37,18 +31,6 @@ const Preferences = () => {
   const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
 
   const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
-
-
-
-  const random = [
-
-    {key:'1', value:'hi'},
-
-  ]
-
-
-
-  
 
   const roomTypeData = [
 
@@ -119,19 +101,24 @@ const Preferences = () => {
       <View style={styles.button} />
 
       <Pressable
-
         style={styles.findMyRoommateContainer}
-
         onPress={() => navigation.navigate("Matches")}
-
       >
-
-      <Text style={styles.findMyRoommate}>Find my Roommate</Text>
-
+        <Text style={styles.findMyRoommate}>Find my Roommate</Text>
       </Pressable>
 
-
-
+      <TextInput 
+          style={[styles.startDate, styles.startDateTypo]}
+          placeholder='Lease Start Date'
+          value={startDate}
+          onChangeText={setStartDate}
+      />
+      <TextInput 
+          style={[styles.maxBudget, styles.maxBudgetTypo]}
+          placeholder='Max Budget'
+          value={maxBudget}
+          onChangeText={setMaxBudget}
+      />
       
 
 
@@ -172,6 +159,8 @@ const Preferences = () => {
             placeholder="Locality"
         />
 
+        
+
       </View>
 
       <View style={styles.smokerContainer}>
@@ -209,10 +198,10 @@ const Preferences = () => {
             <Switch
 
               trackColor={{false: '#808080', true: '#00ff00'}}
-              thumbColor={isEnabled3 ? '#ffffff' : '#f4f3f4'}
+              thumbColor={isEnabled2 ? '#ffffff' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch3}
-              value={isEnabled3}
+              onValueChange={toggleSwitch2}
+              value={isEnabled2}
             />
           </View>
       </View>
@@ -239,6 +228,28 @@ const Preferences = () => {
 };
 
 const styles = StyleSheet.create({
+  startDate: {
+    top: 90,
+  },
+  startDateTypo: {
+    textAlign: "left",
+    color: Color.colorBlack,
+    letterSpacing: 0,
+    fontSize: 15,
+    left: 20,
+    position: "absolute",
+  },
+  maxBudget: {
+    top: 120,
+  },
+  maxBudgetTypo: {
+    textAlign: "left",
+    color: Color.colorBlack,
+    letterSpacing: 0,
+    fontSize: 15,
+    left: 20,
+    position: "absolute",
+  },
   smokerContainer: {
     flex: 1,
     alignItems: 'center',
@@ -278,7 +289,7 @@ const styles = StyleSheet.create({
     marginRight: 265,
   },
   selectListContainer: {
-    marginTop: 100,
+    marginTop: 150,
     zIndex: 3,
   },
 
