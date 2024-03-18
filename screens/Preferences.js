@@ -1,16 +1,9 @@
 import {useState} from 'react';
-
 import * as React from "react";
-
 import { Text, Switch, StyleSheet, View, Pressable, TextInput } from "react-native";
-
 import { useNavigation } from "@react-navigation/native";
-
 import { SelectList } from 'react-native-dropdown-select-list'
-
 import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
-
-
 
 const Preferences = () => {
 
@@ -18,15 +11,17 @@ const Preferences = () => {
 
   const [startDate, setStartDate] = useState('');
   const [maxBudget, setMaxBudget] = useState('');
-
+  const [roomType, setRoomType] = useState('');
+  const [leaseDuration, setLeaseDuration] = useState('');
+  const [housingType, setHousingType] = useState('');
+  const [locality, setLocality] = useState('');
+  //const [gender, setGender] = useState('');
+  //const [grade, setGrade] = useState('');
+  //const [leaseStartDate, setLeaseStartDate] = useState('');
 
   const [isEnabled1, setIsEnabled1] = useState(false);
-
   const [isEnabled2, setIsEnabled2] = useState(false);
-
   const [isEnabled3, setIsEnabled3] = useState(false);
-
-
 
   const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
 
@@ -111,7 +106,7 @@ const Preferences = () => {
 
       <TextInput 
           style={[styles.startDate, styles.startDateTypo]}
-          placeholder='Lease Start Date'
+          placeholder='Lease Start Date (MM-DD-YY)'
           value={startDate}
           onChangeText={setStartDate}
       />
@@ -131,7 +126,7 @@ const Preferences = () => {
 
         <SelectList 
 
-            setSelected={(val) => setSelected(val)} 
+            setSelected={setRoomType} 
             data={roomTypeData} 
             save="value"
             placeholder = "Room Type"
@@ -140,7 +135,7 @@ const Preferences = () => {
 
     
         <SelectList
-            setSelected={(val) => setSelected(val)} 
+            setSelected={setLeaseDuration} 
             placeholder="Lease Duration"
             data={leaseDurationData}
             save="value"
@@ -149,18 +144,17 @@ const Preferences = () => {
         
         <SelectList
             placeholder="Housing Type"
-            setSelected={(val) => setSelected(val)} 
+            setSelected={setHousingType} 
             data={housingTypeData}
             save="value"
         />
 
         <SelectList
-            setSelected={(val) => setSelected(val)} 
+            setSelected={setLocality} 
             data={localityData}
             save="value"
             placeholder="Locality"
         />
-
         
 
       </View>
