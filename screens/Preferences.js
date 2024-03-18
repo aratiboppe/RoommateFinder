@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
+
+import * as React from "react";
 
 import { Text, Switch, StyleSheet, View, Pressable, TextInput } from "react-native";
 
