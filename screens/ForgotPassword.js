@@ -198,8 +198,8 @@ const styles = StyleSheet.create({
   },
 
   resetPass: {
-    top: "30%",
-    left: "5.6%",
+    top: "22%",
+    left: "10.6%",
     fontSize: 50,
     letterSpacing: 0,
     lineHeight: 100,
@@ -303,13 +303,13 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     left: 0,
-    top: "50%",
+    top: "17%",
     position: "absolute",
   },
 
   usernameCursor: {
     top: 359,
-    left: 35,
+    left: '6%',
     overflow: "show",
     zIndex: 1,
   },
@@ -322,12 +322,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
-  email: {
-    top: "-60%",
-    letterSpacing: 0,
-    fontSize: FontSize.size_xl,
-    position: "absolute",
-  },
+  
   vectorIcon2: {
     height: "22.22%",
     top: "60.78%",
@@ -349,7 +344,7 @@ const styles = StyleSheet.create({
 
 
   signUp: {
-    lineHeight: 20,
+    lineHeight: 35,
     fontWeight: "400",
     color: Color.white,
     textAlign: "center",
@@ -382,8 +377,8 @@ const styles = StyleSheet.create({
     },
   },
   screenShot20240212At930: {
-    top: 99,
-    left: 139,
+    top: '10%',
+    left: '37%',
     width: 97,
     height: 111,
     position: "absolute",

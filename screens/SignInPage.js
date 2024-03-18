@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     top: 450,
   },
   vectorIcon: {
-    top: "70%",
+    top: "49.5%",
     bottom: "35.71%",
   },
   inputBg1: {
@@ -192,11 +192,12 @@ const styles = StyleSheet.create({
     top: 465,
   },
   vectorIcon1: {
-    top: "58%",
+    top: "41%",
     bottom: "48.77%",
+   
   },
   oiperson: {
-    left: 68,
+    left: '20%',
     width: 20,
     height: 20,
     top: 396,
@@ -236,22 +237,22 @@ const styles = StyleSheet.create({
   },
 
   fpass: {
-    top: 630,
+    top: 880,
   },
 
   fpass1: {
     
-      color: Color.white,
-      letterSpacing: 0,
-      fontSize: FontSize.size_10xl,
-      left: "35%",
-      position: "absolute",
-  
+    color: Color.white,
+    letterSpacing: 0,
+    fontSize: FontSize.size_10xl,
+    left: "36%",
+    
+    
   },
   
   screenShot20240212At930: {
-    top: 103,
-    left: 139,
+    top: '15%',
+    left: '37%',
     width: 97,
     height: 111,
     position: "absolute",

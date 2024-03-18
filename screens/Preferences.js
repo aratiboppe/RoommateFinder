@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import { Text, Switch, StyleSheet, View, Pressable, TextInput } from "react-native";
 
@@ -7,8 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { SelectList } from 'react-native-dropdown-select-list'
 
 import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
-
-
+import {useState} from 'react';
 
 const Preferences = () => {
 
@@ -332,18 +331,17 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   findMyRoommate: {
-    top: "91%",
-    left: "33%",
-    lineHeight: 15,
+    top: "97%",
+    left: "20%",
     fontWeight: "600",
     color: Color.white,
     textAlign: "left",
-    fontSize: FontSize.size_mini,
+    fontSize: 20,
     position: "absolute",
   },
   findMyRoommateContainer: {
-    left: 125,
-    top: 607,
+    left: '30%',
+    top: '90.5%',
     position: "absolute",
   },
   preferences: {
