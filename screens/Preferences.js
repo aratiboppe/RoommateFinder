@@ -110,25 +110,24 @@ const Preferences = () => {
 
     <View style={styles.preferences}>
 
-      <Text style={styles.preferences1}>Preferences</Text>
+    <Text style={styles.preferences1}>Preferences</Text>
 
-      <View style={styles.button} />
+    <View style={styles.button} />
 
-      
 
-      <Pressable
-        style={[styles.button]}
-        onPress={() => navigation.navigate("Profile")}
+    <Pressable
+        style={styles.findRoommate}
+        onPress={() => navigation.navigate("Matches")}  
       >
-        <Text style={[styles.findMyRoommate]}>Find My Roommate</Text>
+        <Text style={[styles.findRoommate1, styles.findRoommate1Typo]}>Find My Roommate</Text>
       </Pressable>
 
-      <TextInput 
-          style={[styles.univerity, styles.univerityTypo]}
-          placeholder='University'
-          value={univerity}
-          onChangeText={setUniversity}
-      />
+    <TextInput 
+        style={[styles.univerity, styles.univerityTypo]}
+        placeholder='University'
+        value={univerity}
+        onChangeText={setUniversity}
+    />
 
       <TextInput 
           style={[styles.startDate, styles.startDateTypo]}
@@ -374,26 +373,37 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
-  findMyRoommate: {
-    top: 20,
-    left: 30,
-    fontWeight: "600",
-    color: Color.white,
-    textAlign: "left",
-    fontSize: 20,
-    position: "absolute",
-  },
-  findMyRoommateContainer: {
-    left: '30%',
-    top: 845,
-    position: "absolute",
-  },
+  
   preferences: {
     backgroundColor: '#F0DFCE',
     flex: 1,
     height: 561,
     overflow: "hidden",
     width: "100%",
+  },
+
+  findRoommate: {
+    color: Color.white,
+    fontWeight: "400",
+    lineHeight: 20,
+    left: "30%", 
+    top: "91%",
+    position: "absolute",
+    zIndex: 1,
+  },
+  findRoommate1: {
+    lineHeight: 20,
+    zIndex: 1,
+    position: "relative",
+    fontSize: 20,
+  },
+
+  findRoommate1Typo: {
+    textAlign: "center",
+    color: Color.white,
+    fontWeight: "600",
+    zIndex: 1,
+    position: "relative",
   },
 });
 

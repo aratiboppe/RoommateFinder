@@ -216,6 +216,8 @@ const styles = StyleSheet.create({
     right: "23.47%",
     left: "26.4%",
   },
+
+  
   signIn1: {
     lineHeight: 20,
     zIndex: 1,
