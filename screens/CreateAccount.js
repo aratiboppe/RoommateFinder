@@ -101,6 +101,7 @@ const CreateAccount = () => {
           placeholder='Email'
           onChangeText={text => setEmail(text)}
           value={setEmail}
+          autoFocus={true}
         />
         <Image
           style={[styles.vectorIcon2, styles.vectorIconLayout]}
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     color: Color.white,
     fontWeight: "600",
     zIndex: 1,
-    top: 15,
+    top: '110%',
     position: "absolute",
   },
   emailTypo: {
@@ -214,14 +215,14 @@ const styles = StyleSheet.create({
     color: Color.colorDarkslategray,
     fontWeight: "600",
     zIndex: 1,
-    left: 48,
+    left: '20%',
   },
   userTypo: {
     textAlign: "center",
     color: Color.colorDarkslategray,
     fontWeight: "600",
     zIndex: 1,
-    top: 17,
+    top: 16,
     position: "absolute",
   },
   passwordTypo: {
@@ -230,6 +231,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     zIndex: 1,
     top: 87,
+    left: '20%',
     position: "absolute",
   },
 
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
 
   usernameCursor: {
     top: 359,
-    left: 35,
+    left: '7%',
     zIndex: 2,
   },
   
@@ -253,6 +255,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     zIndex: 1,
     top: 157,
+    left: '20%',
     position: "absolute",
   },
   inputBgParent2:{
@@ -386,11 +389,10 @@ const styles = StyleSheet.create({
     },
   },
   screenShot20240212At930: {
-    top: 99,
-    left: 139,
+    top: '15%',
+    left: '35%',
     width: 97,
     height: 111,
-    position: "absolute",
   },
   createAccount: {
     shadowColor: "rgba(0, 0, 0, 0.25)",

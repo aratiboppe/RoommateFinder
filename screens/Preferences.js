@@ -1,8 +1,7 @@
-import {useState} from 'react';
+import React from 'react';
+//import * as React from "react";
 
-import * as React from "react";
-
-import { Text, Switch, StyleSheet, View, Pressable, TextInput } from "react-native";
+import { Pressable, Text, Switch, StyleSheet, View, TextInput } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -10,15 +9,17 @@ import { SelectList } from 'react-native-dropdown-select-list'
 
 import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
-
+import {useState} from 'react';
 
 const Preferences = () => {
 
   const navigation = useNavigation();
 
+  const [univerity, setUniversity] = useState('');
   const [startDate, setStartDate] = useState('');
   const [maxBudget, setMaxBudget] = useState('');
-
+  
+  const [selected, setSelected] = React.useState("");
 
   const [isEnabled1, setIsEnabled1] = useState(false);
 
@@ -33,6 +34,17 @@ const Preferences = () => {
   const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
 
   const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
+
+  const genderData = [
+
+    {key:'1', value:'Female'},
+
+    {key:'2', value:'Male'},
+
+    {key:'3', value:'No Preference'},
+
+  ]
+
 
   const roomTypeData = [
 
@@ -102,12 +114,21 @@ const Preferences = () => {
 
       <View style={styles.button} />
 
+      
+
       <Pressable
-        style={styles.findMyRoommateContainer}
-        onPress={() => navigation.navigate("Matches")}
+        style={[styles.button]}
+        onPress={() => navigation.navigate("Profile")}
       >
-        <Text style={styles.findMyRoommate}>Find my Roommate</Text>
+        <Text style={[styles.findMyRoommate]}>Find My Roommate</Text>
       </Pressable>
+
+      <TextInput 
+          style={[styles.univerity, styles.univerityTypo]}
+          placeholder='University'
+          value={univerity}
+          onChangeText={setUniversity}
+      />
 
       <TextInput 
           style={[styles.startDate, styles.startDateTypo]}
@@ -115,6 +136,7 @@ const Preferences = () => {
           value={startDate}
           onChangeText={setStartDate}
       />
+
       <TextInput 
           style={[styles.maxBudget, styles.maxBudgetTypo]}
           placeholder='Max Budget'
@@ -127,7 +149,14 @@ const Preferences = () => {
 
       <View style={styles.selectListContainer}>
 
+        <SelectList 
 
+          setSelected={(val) => setSelected(val)} 
+          data={genderData} 
+          save="value"
+          placeholder = "Gender"
+
+        />
 
         <SelectList 
 
@@ -230,25 +259,36 @@ const Preferences = () => {
 };
 
 const styles = StyleSheet.create({
+  univerity:{
+    top: 120,
+  },
+  univerityTypo:{
+    textAlign: "left",
+    color: Color.colorBlack,
+    letterSpacing: 0,
+    fontSize: 20,
+    left: 20,
+    position: "absolute",
+  },
   startDate: {
-    top: 90,
+    top: 160,
   },
   startDateTypo: {
     textAlign: "left",
     color: Color.colorBlack,
     letterSpacing: 0,
-    fontSize: 15,
+    fontSize: 20,
     left: 20,
     position: "absolute",
   },
   maxBudget: {
-    top: 120,
+    top: 200,
   },
   maxBudgetTypo: {
     textAlign: "left",
     color: Color.colorBlack,
     letterSpacing: 0,
-    fontSize: 15,
+    fontSize: 20,
     left: 20,
     position: "absolute",
   },
@@ -263,6 +303,7 @@ const styles = StyleSheet.create({
   },
   smokerText: {
     marginRight: 240,
+    fontSize: 20,
   },
   drinkerContainer: {
     flex: 1,
@@ -276,6 +317,7 @@ const styles = StyleSheet.create({
   },
   drinkerText: {
     marginRight: 240,
+    fontSize: 20,
   },
   petsContainer: {
     flex: 1,
@@ -289,19 +331,18 @@ const styles = StyleSheet.create({
   },
   petsText: {
     marginRight: 265,
+    fontSize: 20,
   },
   selectListContainer: {
-    marginTop: 150,
+    marginTop: 250,
     zIndex: 3,
   },
-
   selectList : {
     padding: 30,
   },
-  
   preferences1: {
-    top: 35,
-    left: 75,
+    top: 50,
+    left: 95,
     fontSize: 35,
     letterSpacing: 0,
     color: Color.colorBrown,
@@ -334,18 +375,17 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   findMyRoommate: {
-    top: "91%",
-    left: "33%",
-    lineHeight: 15,
+    top: 20,
+    left: 30,
     fontWeight: "600",
     color: Color.white,
     textAlign: "left",
-    fontSize: FontSize.size_mini,
+    fontSize: 20,
     position: "absolute",
   },
   findMyRoommateContainer: {
-    left: 125,
-    top: 607,
+    left: '30%',
+    top: 845,
     position: "absolute",
   },
   preferences: {
