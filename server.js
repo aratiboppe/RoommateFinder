@@ -106,29 +106,31 @@ app.post('/reset-password', (req, res) => {
 app.post('/submit-preferences', async (req, res) => {
     // Extract preferences from the request body
     const preferences = {
+        moveDate: req.body['Move Date'],
+        budget: req.body.Budget,
         roomType: req.body['Room type'],
-        gender: req.body.Gender,
-        grade: req.body.Grade,
+        leaseDuration: req.body['Lease Duration'],
         housingType: req.body['Housing Type'],
         locality: req.body.Locality,
-        pets: req.body.Pets,
-        leaseDuration: req.body['Lease Duration'],
-        smoking: req.body.Smoking,
-        drinking: req.body.Drinking,
-        moveDate: req.body['Move Date'],
-        budget: req.body.Budget
+        university: req.body.University,
+        gender: req.body.Gender,
+        //grade: req.body.Grade,
+        //major: req.body.Major,
+        smoking: req.body.Smoking ? "Yes" : "No", // Convert boolean to Yes/No
+        drinking: req.body.Drinking ? "Yes" : "No", // Convert boolean to Yes/No
+        pets: req.body.Pets ? "Yes" : "No", // Convert boolean to Yes/No
     };
 
+    // Ensure strings are properly escaped to prevent SQL injection
+    const escapeString = value => value.replace(/'/g, "\\'");
+
     // Construct the SQL query dynamically based on the preferences
-    let query = 'SELECT * FROM project_data WHERE 1=1';
+    let query = 'SELECT Name, Grade, University FROM project_data WHERE 1=1';
     if (preferences.roomType && preferences.roomType !== "No Preference") {
         query += ` AND \`Room type\` = '${preferences.roomType}'`;
     }
     if (preferences.gender && preferences.gender !== "No Preference") {
         query += ` AND Gender = '${preferences.gender}'`;
-    }
-    if (preferences.grade && preferences.grade !== "No Preference") {
-        query += ` AND Grade = '${preferences.grade}'`;
     }
     if (preferences.housingType && preferences.housingType !== "No Preference") {
         query += ` AND \`Housing Type\` = '${preferences.housingType}'`;
@@ -149,13 +151,14 @@ app.post('/submit-preferences', async (req, res) => {
     if (preferences.drinking && preferences.drinking !== "No Preference") {
         query += ` AND Drinking = '${preferences.drinking}'`;
     }
-    if (preferences.budget && preferences.budget !== "No Preference") {
-        // Assuming you want to find users within a budget range, for simplicity, this example matches exact budget
-        query += ` AND Budget <= ${preferences.budget}`;
+    if (preferences.budget && preferences.budget.trim() !== '') {
+        query += ` AND Budget <= ${parseInt(preferences.budget, 10)}`;
     }
-    if (preferences.moveDate && preferences.moveDate !== "No Preference") {
-        // Assuming moveDate is stored in YYYY-MM-DD format and preferences.moveDate is also in the same format
+    if (preferences.moveDate && preferences.moveDate.trim() !== '') {
         query += ` AND STR_TO_DATE(\`Move Date\`, '%m/%d/%y') BETWEEN DATE_SUB(STR_TO_DATE('${preferences.moveDate}', '%m/%d/%y'), INTERVAL 7 DAY) AND DATE_ADD(STR_TO_DATE('${preferences.moveDate}', '%m/%d/%y'), INTERVAL 7 DAY)`;
+    }
+    if (preferences.university && preferences.university.trim() !== '') {
+        query += ` AND University = '${escapeString(preferences.university)}'`;
     }
 
     // Execute the query
@@ -167,8 +170,9 @@ app.post('/submit-preferences', async (req, res) => {
 
         if (results.length > 0) {
             res.json({ message: 'Matching users found', matches: results });
-        } else {
+        } 
+        else {
             res.status(404).send({ message: 'No matching users found' });
         }
     });
-}); 
+});
