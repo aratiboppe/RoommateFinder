@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
- 
+
 const app = express();
 
 const PORT = process.env.PORT || 3001;
@@ -12,8 +12,8 @@ app.use(cors({
     origin: "http://localhost:3001",
     methods: ['GET', 'POST'],
 }));
- 
-// Database connection
+
+// Database Connection
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
@@ -24,17 +24,7 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
- 
-// app.get('/users', async (req, res) => {
-//     try {
-//         const [rows] = await pool.query('SELECT * FROM users');
-//         res.json(rows);
-//     } catch (error) {
-//         console.error('Error querying the database', error);
-//         res.status(500).json({ error: 'Error querying the database' });
-//     }
-// });
-
+// Create Account Server Code
 app.post('/register', async (req, res) => {
     console.log('Recieved Request Body:', req.body);
     const { Username, Password, Email } = req.body;
@@ -54,16 +44,40 @@ app.post('/register', async (req, res) => {
         res.status(500).json({ error: 'Error registering user' });
     }
 });
- 
-// app.get('/', (req, res) => {
-//     res.send('From the backend'); // Replace with your desired response
-// });
- 
-// app.get('/shutdown', (req, res) => {
-//     res.send('Server shutting down...');
-//     process.exit(0);
-// });
- 
+
+// Create Profile Server Code
+app.post('/saveProfile', async (req, res) => {
+    console.log('Recieved Request Body:', req.body);
+    const profile = { 
+        Name: req.body.Name,
+        Grade: req.body.Grade,
+        Gender: req.body.Gender,
+        University: req.body.University,
+        MoveDate: req.body['Move Date'],
+        LeaseDuration: req.body['Lease Duration'],
+        HousingType:req.body['Housing Type'],
+        Locality: req.body.Locality,
+        RoomType: req.body['Room Type'],
+        Budget: req.body.Budget,
+        Smoking: req.body.Smoking ? "Yes" : "No",
+        Drinking: req.body.Drinking ? "Yes" : "No",
+        Pets: req.body.Pets ? "Yes" : "No",
+        Email: req.body.Email
+        
+    };
+    //const {Name, Grade, Gender, University, MoveDate, LeaseDuration, HousingType, Locality, RoomType, Budget, Smoking, Drinking, Pets, Email} = req.body;
+    try{
+        const[result] = await pool.query('INSERT INTO profiles (Name, Grade, Gender, University, `Move Date`, `Lease Duration`, `Housing Type`, Locality, `Room Type`, Budget, Smoking, Drinking, Pets, Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [profile.Name, profile.Grade, profile.Gender, profile.University, profile.MoveDate, profile.LeaseDuration, profile.HousingType, profile.Locality, profile.RoomType, profile.Budget, profile.Smoking, profile.Drinking, profile.Pets, profile.Email]);
+        console.log('INSERT RESULT: ',result);
+        res.status(201).json({message: 'Profile saved successfully', ProfileId: result.insertId});
+    } catch(error){
+        console.log('Error saving profile:', error);
+        res.status(500).json({error: 'Error saving profile'});
+    }
+});
+
+// Server Running and Active
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     console.log("listening");
