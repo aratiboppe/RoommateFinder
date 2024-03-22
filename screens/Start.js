@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     left: "24.8%",
     bottom: "16.13%",
     right: "25.07%",
-    top: "76.6%",
+    top: "82.5%",
     width: "50.13%",
     height: "7.27%",
     position: "absolute",
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     left: -394,
     width: 1588,
     position: "absolute",
-    height: 812,
+    height: 1000,
   },
   button: {
     display: "none",
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   signUp: {
-    left: "30%",
-    top: "87.56%",
+    left: "33%",
+    top: "93%",
     position: "absolute",
   },
   signIn1: {
@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   signIn: {
-    left: 154,
-    top: 525,
+    left: '42%',
+    top: '85%',
     position: "absolute",
   },
   livinglink: {
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   screenShot20240212At930: {
-    top: 125,
-    left: 93,
+    top: '15%',
+    left: '27%',
     width: 183,
     height: 150,
     position: "absolute",

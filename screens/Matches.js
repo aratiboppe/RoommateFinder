@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   },
   avatarIcon1: {
     top: 95,
-    left: 15,
+    left: 10,
     width: 47,
   },
 
@@ -243,7 +243,7 @@ vectorPreferences: {
   },
   
   likeIconPosition: {
-    height: 20,
+    height: 10,
     top: 170,
     left: 310,
     position: "absolute",
@@ -292,7 +292,7 @@ vectorPreferences: {
     top: "94.49%",
     right: "5.47%",
     bottom: "2.17%",
-    left: "88.91%",
+    left: "85.91%",
     position: "absolute",
   },
   messageThemLater: {
@@ -364,13 +364,13 @@ vectorPreferences: {
   },
 
   icon: {
-    height: "100%",
-    width: "100%",
+    height: "80%",
+    width: "110%",
     maxHeight: "100%",
     maxWidth: "100%",
   },
   iconLayout: {
-    maxHeight: "100%",
+    maxHeight: "93%",
     maxWidth: "100%",
     overflow: "hidden",
   },
