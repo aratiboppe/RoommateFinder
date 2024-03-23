@@ -36,7 +36,7 @@ const Matches = () => {
       </Pressable>
 
 
-      <Text style={[styles.yourMatch, styles.textTypo1]}>Liked Matches</Text>
+      <Text style={[styles.yourMatch, styles.textTypo1]}>Disliked Matches</Text>
       <View style={[styles.buttonWrapper, styles.buttonPosition1]}>
         <View style={[styles.button1, styles.buttonPosition]} />
       </View>
@@ -178,11 +178,11 @@ vectorPreferences: {
     height: "3%",
 },
   buttonPosition: {
-    left: "491%",
+    left: "490%",
     bottom: "0%",
     right: "0%",
-    top: "-725%",
-    height: "100%",
+    top: "-715%",
+    height: "85%",
     justifyContent: "center",
     alignItems: "center",
     shadowOpacity: 1,
@@ -208,7 +208,7 @@ vectorPreferences: {
   },
  
   likeIconPosition: {
-    height: 20,
+    height: 25,
     top: '17.5%',
     left: '84%',
     position: "absolute",
@@ -298,11 +298,11 @@ vectorPreferences: {
   },
   yourMatch: {
     top: '7%',
-    left: '25%',
+    left: '15%',
     fontSize: 35,
     letterSpacing: 0,
     color: Color.colorBrown,
-    width: 231,
+    width: 300,
     fontWeight: "500",
   },
   button1: {

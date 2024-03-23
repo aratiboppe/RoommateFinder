@@ -178,11 +178,11 @@ vectorPreferences: {
     height: "3%",
 },
   buttonPosition: {
-    left: "491%",
+    left: "490%",
     bottom: "0%",
     right: "0%",
-    top: "-725%",
-    height: "100%",
+    top: "-715%",
+    height: "85%",
     justifyContent: "center",
     alignItems: "center",
     shadowOpacity: 1,
@@ -208,7 +208,7 @@ vectorPreferences: {
   },
  
   likeIconPosition: {
-    height: 20,
+    height: 25,
     top: '17.5%',
     left: '84%',
     position: "absolute",
