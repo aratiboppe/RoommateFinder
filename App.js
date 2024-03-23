@@ -19,9 +19,8 @@ import IndividualMessages from "./screens/IndividualMessages";
 import LineVector from "./components/LineVector";
 
 const App = () => {
-  const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
-
-
+  const [hideSplashScreen, setHideSplashScreen] = React.useState(true);  
+  
   return (
     <>
       <NavigationContainer>

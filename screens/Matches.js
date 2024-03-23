@@ -103,7 +103,7 @@ const Matches = () => {
         onPress={() => navigation.navigate("Matches")}
       >
         <Image
-          style={[styles.icon, styles.iconLayout]}
+          style={[styles.linkIcon, styles.iconLayout]}
           contentFit="cover"
           source={require("../assets/vector4.png")}
         />
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   avatarIcon1: {
-    top: 95,
+    top: 125,
     left: 10,
     width: 47,
   },
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   textTypo: {
     fontWeight: "600",
     color: Color.white,
-    fontSize: FontSize.size_mini,
+    fontSize: 15,
   },
   textTypo1: {
     textAlign: "center",
@@ -183,8 +183,8 @@ vectorPreferences: {
     left: "-93%",
     bottom: "0%",
     right: "0%",
-    top: -272,
-    height: "100%",
+    top: "-650%",
+    height: "85%",
     justifyContent: "center",
     alignItems: "center",
     shadowOpacity: 1,
@@ -211,8 +211,8 @@ vectorPreferences: {
     left: "90%",
     bottom: "0%",
     right: "0%",
-    top: -272,
-    height: "100%",
+    top: "-650%",
+    height: "85%",
     justifyContent: "center",
     alignItems: "center",
     shadowOpacity: 1,
@@ -236,16 +236,16 @@ vectorPreferences: {
   width: "100%",
   },
   dislikeIconPosition: {
-    height: 20,
-    top: 170,
-    left: 40,
+    height: 23,
+    top: 208,
+    left: 48,
     position: "absolute",
   },
   
   likeIconPosition: {
-    height: 10,
-    top: 170,
-    left: 310,
+    height: 25,
+    top: 205,
+    left: 357,
     position: "absolute",
   },
   matchesChild: {
@@ -258,9 +258,9 @@ vectorPreferences: {
     position: "absolute",
   },
   universityOfTexas: {
-    top: 125,
+    top: 155,
     left: 75,
-    fontSize: 13,
+    fontSize: 15,
     color: Color.colorBlack,
     fontWeight: "500",
   },
@@ -275,7 +275,7 @@ vectorPreferences: {
     letterSpacing: 1,
   },
   janeDoe: {
-    top: 95,
+    top: 125,
     left: 70,
     fontSize: 20,
     fontWeight: "700",
@@ -315,12 +315,12 @@ vectorPreferences: {
     textAlign: "center",
   },
   button: {
-    height: "7.27%",
-    width: "50.13%",
-    top: "23%",
+    height: "5.5%",
+    width: "45%",
+    top: "20%",
     right: "25.5%",
     bottom: "16.61%",
-    left: "24.38%",
+    left: "27%",
     backgroundColor: Color.colorBrown,
     flexDirection: "row",
     paddingHorizontal: 0,
@@ -342,8 +342,8 @@ vectorPreferences: {
 
 
   yourMatch: {
-    top: 24,
-    left: 70,
+    top: 55,
+    left: 100,
     fontSize: 40,
     letterSpacing: 0,
     color: Color.colorBrown,
@@ -369,12 +369,15 @@ vectorPreferences: {
     maxHeight: "100%",
     maxWidth: "100%",
   },
+  linkIcon: {
+    height: "80%",
+    width: "150%",
+  },
   iconLayout: {
     maxHeight: "93%",
     maxWidth: "100%",
     overflow: "hidden",
   },
-
   buttonContainer: {
     right: "19.69%",
     left: "67.81%",
