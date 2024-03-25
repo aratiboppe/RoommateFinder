@@ -88,30 +88,24 @@ const IndividualMessages = () => {
         />
       </Pressable>
 
-       {/* <Pressable
+      <Pressable
         style={[styles.vectorIcon, styles.vectorPosition]}
         onPress={() => navigation.navigate("Matches")}
-      > */}
-      <Image
-        style={[styles.vectorIcon, styles.vectorPosition]}
-        contentFit="cover"
-        source={require("../assets/vector4.png")}
-      />
-      {/* </Pressable> */}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/vector4.png")}
+        />
+      </Pressable>
 
       <Image
-        style={[styles.vectorIcon1, styles.iconLayout]}
+        style={[styles.vectorIcon1, styles.vectorPosition1]}
         contentFit="cover"
         source={require("../assets/vector5.png")}
       />
 
-      <View style={styles.uilthumbsUp} />
       
-      <Image
-        style={styles.fluentsettings16RegularIcon}
-        contentFit="cover"
-        source={require("../assets/-icon-cog.png")}
-      />
     </View>
   );
 };
@@ -165,10 +159,30 @@ preferences: {
 
 },
 likeIconPosition: {
-  height: 20,
-  top: 635,
-  left: 260,
+  left: 300,
+  height: "3%",
+  width: "7%",
+  top: "94.5%",
+  bottom: "2.5%",
+  maxWidth: "100%",
+  maxHeight: "100%",  
   position: "absolute",
+},
+vectorIcon1: {
+  height: "3%",
+  width: "7%",
+  top: "94.5%",
+  bottom: "2.5%",
+  maxWidth: "100%",
+  maxHeight: "100%",  
+  position: "absolute",
+},
+vectorPosition1: {
+  height: "3.57%",
+  width: "7%",
+  top: "94.5%",
+  bottom: "2.5%",
+  left: "87%",
 },
 
 likeIcon: {
@@ -209,10 +223,10 @@ group: {
   },
   janeDoe: {
     top: 50,
-    left: 70,
+    left: 90,
     fontSize: 50,
     letterSpacing: 0,
-    fontWeight: "300",
+    fontWeight: "500",
     color: Color.colorBrown,
     textAlign: "center",
     width: 231,
@@ -304,6 +318,13 @@ group: {
     maxHeight: "100%",
     position: "absolute",
     zIndex: 1,
+  },
+  vectorPosition: {
+    height: "3.57%",
+    width: "7%",
+    top: "94.5%",
+    bottom: "2.5%",
+    left: "45.63%",
   },
 
   fluentsettings16RegularIcon: {
