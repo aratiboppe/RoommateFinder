@@ -25,7 +25,7 @@ const Matches = () => {
 
 
       <Pressable
-        onPress={() => navigation.navigate("IndividualMessages")}
+        onPress={() => navigation.navigate("NewMessagesPage")}
       >
        
      

@@ -17,6 +17,7 @@ import Preferences from "./screens/Preferences";
 import ForgotPassword from "./screens/ForgotPassword";
 import IndividualMessages from "./screens/IndividualMessages";
 import LineVector from "./components/LineVector";
+import NewMessagesPage from "./screens/NewMessagesPage";
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);  
@@ -81,6 +82,11 @@ const App = () => {
               name="IndividualMessages"
               component={IndividualMessages}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="NewMessagesPage"
+              component={NewMessagesPage}
+              options={{headerShown: false}}
             />
             <Stack.Screen
               name="ForgotPassword"
