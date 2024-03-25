@@ -62,21 +62,30 @@ app.post('/signin', (req, res) => {
 app.post('/register', async (req, res) => {
     console.log('Recieved Request Body:', req.body);
     const { Username, Password, Email } = req.body;
-    console.log('Received variables:', Username, Email);
-    try {
-        // Check if user already exists
-        const [existingUsers] = await pool.query('SELECT * FROM users WHERE email = ?', [Email]);
+    // First, check if the user already exists
+    const checkUserQuery = 'SELECT * FROM users WHERE Email = ?';
+    con.query(checkUserQuery, [Email], (checkError, existingUsers) => {
+        if (checkError) {
+            console.error('Error checking user:', checkError);
+            return res.status(500).json({ error: 'Error checking user' });
+        }
         if (existingUsers.length > 0) {
+            // User already exists
             return res.status(400).json({ error: 'User already exists' });
         }
-        // Insert new user into the database
-        const [result] = await pool.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [Username, Password, Email]);
-        console.log('INSERT RESULT: ', result);
-        res.status(201).json({ message: 'User registered successfully', Username: result.insertId });
-    } catch (error) {
-        console.error('Error registering user:', error);
-        res.status(500).json({ error: 'Error registering user' });
-    }
+
+        // If user does not exist, insert new user into the database
+        const insertUserQuery = 'INSERT INTO users (Username, Password, Email) VALUES (?, ?, ?)';
+        con.query(insertUserQuery, [Username, Password, Email], (insertError, result) => {
+            if (insertError) {
+                console.error('Error registering user:', insertError);
+                return res.status(500).json({ error: 'Error registering user' });
+            }
+            console.log('INSERT RESULT:', result);
+            // Assuming `Username` is unique or an auto-incremented ID, you might want to return it or another identifier
+            res.status(201).json({ message: 'User registered successfully', userId: result.insertId });
+        });
+    });
 });
 
 app.post('/reset-password', (req, res) => {
@@ -103,24 +112,134 @@ app.post('/reset-password', (req, res) => {
     });
 });
 
+// Create Profile Server Code
+app.post('/saveProfile', async (req, res) => {
+    console.log('Recieved Request Body:', req.body);
+    const profile = { 
+        Name: req.body.Name,
+        Grade: req.body.Grade,
+        Gender: req.body.Gender,
+        University: req.body.University,
+        MoveDate: req.body['Move Date'],
+        LeaseDuration: req.body['Lease Duration'],
+        HousingType:req.body['Housing Type'],
+        Locality: req.body.Locality,
+        RoomType: req.body['Room type'],
+        Budget: req.body.Budget,
+        Smoking: req.body.Smoking ? "Yes" : "No",
+        Drinking: req.body.Drinking ? "Yes" : "No",
+        Pets: req.body.Pets ? "Yes" : "No",
+        Email: req.body.Email
+        
+    };
+    const insertQuery = 'INSERT INTO profiles (Name, Grade, Gender, University, `Move Date`, `Lease Duration`, `Housing Type`, Locality, `Room Type`, Budget, Smoking, Drinking, Pets, Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const values = [profile.Name, profile.Grade, profile.Gender, profile.University, profile.MoveDate, profile.LeaseDuration, profile.HousingType, profile.Locality, profile.RoomType, profile.Budget, profile.Smoking, profile.Drinking, profile.Pets, profile.Email];
+
+    con.query(insertQuery, values, (error, result) => {
+        if (error) {
+            console.log('Error saving profile:', error);
+            return res.status(500).json({error: 'Error saving profile'});
+        }
+        console.log('INSERT RESULT:', result);
+        res.status(201).json({message: 'Profile saved successfully', ProfileId: result.insertId});
+    });
+});
+
+/*
+function calculateSimilarityScore(userPreferences, potentialMatch) {
+    let score = 0;
+    const totalCriteria = 11;
+    const scorePerCriteria = 100 / totalCriteria;
+
+    // Compare each criterion
+    if (userPreferences.roomType === potentialMatch.roomType || userPreferences.roomType === "No Preference") score += scorePerCriteria;
+    if (userPreferences.gender === potentialMatch.gender) score += scorePerCriteria;
+    if (userPreferences.housingType === potentialMatch.housingType || userPreferences.housingType === "No Preference") score += scorePerCriteria;
+    if (userPreferences.locality === potentialMatch.locality || userPreferences.locality === "No Preference") score += scorePerCriteria;
+    if (userPreferences.university === potentialMatch.university) score += scorePerCriteria;
+    if (userPreferences.smoking === potentialMatch.smoking) score += scorePerCriteria;
+    if (userPreferences.drinking === potentialMatch.drinking) score += scorePerCriteria;
+    if (userPreferences.pets === potentialMatch.pets) score += scorePerCriteria;
+
+    // Handling numerical values like budget with a range
+    const budgetDifference = Math.abs(userPreferences.budget - potentialMatch.budget);
+    if (budgetDifference <= 500) score += scorePerCriteria; // Assuming a tolerance of 500
+
+    // Handling dates (e.g., moveDate) with a tolerance
+    const moveDateUser = new Date(userPreferences.moveDate);
+    const moveDateMatch = new Date(potentialMatch.moveDate);
+    const dayDifference = Math.abs(moveDateUser - moveDateMatch) / (1000 * 60 * 60 * 24);
+    if (dayDifference <= 30) score += scorePerCriteria; // Assuming a 30-day tolerance
+
+    // Handling lease duration as a direct match or within a tolerance
+    if (userPreferences.leaseDuration === potentialMatch.leaseDuration) score += scorePerCriteria;
+
+    return score;
+}
+*/
+
 app.post('/submit-preferences', async (req, res) => {
     // Extract preferences from the request body
     const preferences = {
-        moveDate: req.body['Move Date'],
-        budget: req.body.Budget,
+        moveDate: req.body['Move Date'] || null,
+        budget: req.body.Budget || 0,
         roomType: req.body['Room type'],
         leaseDuration: req.body['Lease Duration'],
         housingType: req.body['Housing Type'],
         locality: req.body.Locality,
-        university: req.body.University,
+        university: req.body.University || 'No Preference',
         gender: req.body.Gender,
-        //grade: req.body.Grade,
-        //major: req.body.Major,
         smoking: req.body.Smoking ? "Yes" : "No", // Convert boolean to Yes/No
         drinking: req.body.Drinking ? "Yes" : "No", // Convert boolean to Yes/No
         pets: req.body.Pets ? "Yes" : "No", // Convert boolean to Yes/No
     };
 
+    let formattedMoveDate = null;
+    if (preferences.moveDate && preferences.moveDate.includes('/')) {
+        const moveDateParts = preferences.moveDate.split('/');
+        if (moveDateParts.length === 3) {
+            const year = parseInt(moveDateParts[2], 10) + 2000; // Adjusting 'YY' to 'YYYY'
+            const month = moveDateParts[0].padStart(2, '0'); // Ensuring two digits
+            const day = moveDateParts[1].padStart(2, '0'); // Ensuring two digits
+            formattedMoveDate = `${year}-${month}-${day}`; // 'YYYY-MM-DD'
+        }
+    }
+
+    ///////////
+
+    // First, insert the preferences into the database
+    const insertPreferencesQuery = `
+        INSERT INTO preferences 
+        (MoveDate, Budget, RoomType, LeaseDuration, HousingType, Locality, University, Gender, Smoking, Drinking, Pets)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        ;
+
+    // Assuming a default value for budget if left blank or invalid
+    const formattedBudget = preferences.budget && !isNaN(parseFloat(preferences.budget)) ? parseFloat(preferences.budget) : 'No Preference';
+
+    const values = [
+        formattedMoveDate, // Handling 'No Preference' as null for SQL date
+        formattedBudget,
+        preferences.roomType,
+        preferences.leaseDuration,
+        preferences.housingType,
+        preferences.locality,
+        preferences.university,
+        preferences.gender,
+        preferences.smoking,
+        preferences.drinking,
+        preferences.pets,
+    ];
+
+    con.query(insertPreferencesQuery, values, (error, insertResult) => {
+        if (error) {
+            console.error('Error inserting preferences into the database:', error);
+            //return res.status(500).send({ error: 'Error inserting preferences into the database' });
+        }
+        console.log('INSERT RESULT:', insertResult);
+        //res.status(201).json({message: 'Preferences submitted'});
+    });
+    
     // Ensure strings are properly escaped to prevent SQL injection
     const escapeString = value => value.replace(/'/g, "\\'");
 
@@ -173,6 +292,30 @@ app.post('/submit-preferences', async (req, res) => {
         } 
         else {
             res.status(404).send({ message: 'No matching users found' });
+            /*
+            // If no direct matches found, attempt to find similar matches
+            const similarityQuery = `SELECT * FROM project_data`; // Adjust as necessary
+            con.query(similarityQuery, (similarityError, allPotentialMatches) => {
+                if (similarityError) {
+                    console.error('Error querying the database for similarity check:', similarityError);
+                    return res.status(500).send({ error: 'Error querying the database' });
+                }
+    
+                // Calculate similarity scores for all potential matches
+                const scoredMatches = allPotentialMatches.map(match => ({
+                    ...match,
+                    similarityScore: calculateSimilarityScore(preferences, match) // Define this function
+                })).filter(match => match.similarityScore >= 70 && match.similarityScore < 100)
+                    .sort((a, b) => b.similarityScore - a.similarityScore);
+    
+                if (scoredMatches.length > 0) {
+                    // Return top similar matches based on the score
+                    res.json({ message: 'Potential matches found based on similarity score', matches: scoredMatches.slice(0, 3) });
+                } else {
+                    res.status(404).send({ message: 'No similar users found' });
+                }
+            });
+            */
         }
     });
 });
