@@ -25,7 +25,7 @@ const Matches = () => {
 
 
       <Pressable
-        onPress={() => navigation.navigate("IndividualMessages")}
+        onPress={() => navigation.navigate("NewMessagesPage")}
       >
        
      
@@ -54,7 +54,7 @@ const Matches = () => {
         onPress={() => navigation.navigate("DisikedMatches")}
       >
         <Image
-          style={[styles.icon, styles.iconLayout]}
+          style={[styles.iconLike, styles.iconLayout]}
           contentFit="cover"
           source={require("../assets/vector3.png")}
         />
@@ -93,16 +93,32 @@ const Matches = () => {
           source={require("../assets/group.png")}
         />
       </Pressable>
-      <Image
+
+      
+      <Pressable
+        style={[styles.vectorIcon, styles.vectorPosition]}
+        onPress={() => navigation.navigate("Matches")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/vector4.png")}
+        />
+      </Pressable>
+      
+      {/* <Image
         style={[styles.vectorIcon, styles.vectorPosition]}
         contentFit="cover"
         source={require("../assets/vector4.png")}
-      />
+      />  */}
+
+
       <Image
         style={[styles.vectorIcon1, styles.iconLayout]}
         contentFit="cover"
         source={require("../assets/vector5.png")}
       />
+
       <Pressable
         style={[styles.vector1, styles.vectorPosition]}
         onPress={() => navigation.navigate("LikedMatches")}
@@ -123,7 +139,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   avatarIcon1: {
-    top: 95,
+    top: '16%',
     left: 15,
     width: 47,
   },
@@ -162,11 +178,11 @@ vectorPreferences: {
     height: "3%",
 },
   buttonPosition: {
-    left: "491%",
+    left: "490%",
     bottom: "0%",
     right: "0%",
-    top: "-725%",
-    height: "100%",
+    top: "-715%",
+    height: "85%",
     justifyContent: "center",
     alignItems: "center",
     shadowOpacity: 1,
@@ -190,16 +206,11 @@ vectorPreferences: {
     overflow: "hidden",
     width: "100%",
   },
-  dislikeIconPosition: {
-    height: 20,
-    top: 170,
-    left: 40,
-    position: "absolute",
-  },
+ 
   likeIconPosition: {
-    height: 20,
-    top: 115,
-    left: 315,
+    height: 25,
+    top: '17.5%',
+    left: '84%',
     position: "absolute",
   },
   matchesChild: {
@@ -212,8 +223,8 @@ vectorPreferences: {
     position: "absolute",
   },
   universityOfTexas: {
-    top: 125,
-    left: 75,
+    top: '20%',
+    left: '18%',
     fontSize: 13,
     color: Color.colorBlack,
     fontWeight: "500",
@@ -229,8 +240,8 @@ vectorPreferences: {
     letterSpacing: 1,
   },
   janeDoe: {
-    top: 95,
-    left: 70,
+    top: '16%',
+    left: '17%',
     fontSize: 20,
     fontWeight: "700",
     width: 107,
@@ -241,12 +252,12 @@ vectorPreferences: {
   },
 
   vectorIcon1: {
-    height: "3.33%",
-    width: "5.63%",
+    maxHeight: "100%",
+    maxWidth: "100%",
     top: "94.49%",
-    right: "5.47%",
+    right: "8.47%",
     bottom: "2.17%",
-    left: "88.91%",
+    left: "84.91%",
     position: "absolute",
   },
   
@@ -265,7 +276,7 @@ vectorPreferences: {
   button: {
     height: "7.27%",
     width: "50.13%",
-    top: 135,
+    top: 210,
     right: "25.5%",
     backgroundColor: Color.colorBrown,
     flexDirection: "row",
@@ -286,8 +297,8 @@ vectorPreferences: {
     overflow: "hidden",
   },
   yourMatch: {
-    top: 35,
-    left: 70,
+    top: '7%',
+    left: '25%',
     fontSize: 35,
     letterSpacing: 0,
     color: Color.colorBrown,
@@ -307,11 +318,20 @@ vectorPreferences: {
   },
 
   icon: {
+    height: "80%",
+    width: "100%",
+    maxHeight: "90%",
+    maxWidth: "70%",
+  },
+
+  iconLike: {
     height: "100%",
     width: "100%",
-    maxHeight: "100%",
-    maxWidth: "100%",
+    right: '30%',
+    maxHeight: "90%",
+    maxWidth: "70%",
   },
+
   iconLayout: {
     maxHeight: "100%",
     maxWidth: "100%",
@@ -358,12 +378,12 @@ vectorPreferences: {
   },
   vectorIcon: {
     height: "3.98%",
-    width: "7.81%",
+    width: "9.81%",
     right: "46.25%",
-    bottom: "1.73%",
+    bottom: "0.73%",
     left: "45.94%",
     maxHeight: "100%",
-    maxWidth: "100%",
+    maxWidth: "79%",
     overflow: "hidden",
   },
   iconCog: {
@@ -378,8 +398,8 @@ vectorPreferences: {
     top: "94.3%",
     right: "24.38%",
     bottom: "2.14%",
-    width: "6.25%",
-    height: "3.57%",
+    maxHeight: "90%",
+    maxWidth: "100%",
     position: "absolute",
   },
   matches: {

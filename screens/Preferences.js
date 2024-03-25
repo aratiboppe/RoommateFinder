@@ -1,131 +1,166 @@
 import React from 'react';
 //import * as React from "react";
-
 import { Pressable, Text, Switch, StyleSheet, View, TextInput } from "react-native";
-
 import { useNavigation } from "@react-navigation/native";
 import { SelectList } from 'react-native-dropdown-select-list'
 import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
-
 import {useState} from 'react';
+import axios from 'axios';
 
 const Preferences = () => {
 
   const navigation = useNavigation();
-
-  const [univerity, setUniversity] = useState('');
+  const [university, setUniversity] = useState('');
   const [startDate, setStartDate] = useState('');
   const [maxBudget, setMaxBudget] = useState('');
-  
-  const [selected, setSelected] = React.useState("");
+  const [roomType, setRoomType] = useState('');
+  const [leaseDuration, setLeaseDuration] = useState('');
+  const [housingType, setHousingType] = useState('');
+  const [locality, setLocality] = useState('');
+  const [gender, setGender] = useState('');
 
+  const [selected, setSelected] = React.useState("");
   const [isEnabled1, setIsEnabled1] = useState(false);
   const [isEnabled2, setIsEnabled2] = useState(false);
   const [isEnabled3, setIsEnabled3] = useState(false);
 
   const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
-
   const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
-
   const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
 
   const genderData = [
-
     {key:'1', value:'Female'},
-
     {key:'2', value:'Male'},
-
     {key:'3', value:'No Preference'},
-
   ]
-
 
   const roomTypeData = [
-
     {key:'1', value:'Single'},
-
     {key:'2', value:'Double'},
-
     {key:'3', value:'Studio'},
-
     {key:'4', value:'No Preference'},
-
   ]
-
-
 
   const leaseDurationData = [
-
     {key:'1', value:'Month-to-month'},
-
     {key:'2', value:'6 months'},
-
     {key:'3', value:'12 months'},
-
     {key:'4', value:'No Preference'},
-
   ]
-
-
 
   const housingTypeData = [
-
     {key:'1', value:'Dorm'},
-
     {key:'2', value:'Apartment'},
-
     {key:'3', value:'House'},
-
     {key:'4', value:'No Preference'},
-
   ]
-
-
 
   const localityData = [
-
     {key:'1', value:'On-campus'},
-
     {key:'2', value:'Near-campus'},
-
     {key:'3', value:'Off-campus'},
-
     {key:'4', value:'No Preference'},
-
   ]
-
-
-
   
+  const handleSubmitPreferences = async () => {
+    try {
+      const response = await fetch('http://localhost:3305/submit-preferences', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'University': university,
+        'Move Date': startDate, // Ensure this matches the expected format "MM/DD/YY"
+        'Budget': maxBudget,
+        'Gender': gender,
+        'Room type': roomType,
+        'Lease Duration': leaseDuration,
+        'Housing Type': housingType,
+        'Locality': locality,
+        'Smoking': isEnabled1, // Assuming true => "Yes", false => "No"
+        'Drinking': isEnabled2,
+        'Pets': isEnabled3,
+      }),
+    });
+
+
+    const data = await response.json();
+
+    // Check if the backend found matches
+    if (data && data.matches) {
+      console.log("Matches found:", data.matches);
+      // Optionally, handle the matches data further, e.g., display it in the UI
+
+      // Navigate to matches screen or show matches
+      navigation.navigate("Matches", { matches: data.matches });
+    } else {
+      // Handle case where no matches are found or response is not as expected
+      console.log("No matches found or unexpected response:", data);
+      alert("No matches found based on preferences.");
+    }
+  } catch (error) {
+    // Log the error and show an alert
+    console.error('Error submitting preferences:', error);
+    alert("An error occurred while submitting preferences.");
+  }
+      /*
+      const response = await axios.post('http://localhost:3305/submit-preferences', {
+        'University': university,
+        'Move Date': startDate, // Ensure this matches the expected format "MM/DD/YY"
+        Budget: maxBudget,
+        'Gender': gender,
+        'Room type': roomType,
+        'Lease Duration': leaseDuration,
+        'Housing Type': housingType,
+        Locality: locality,
+        Smoking: isEnabled1 ? "Yes" : "No", // Assuming true => "Yes", false => "No"
+        Drinking: isEnabled2 ? "Yes" : "No",
+        Pets: isEnabled3 ? "Yes" : "No"
+    })
+      // Check if the backend found matches
+      if (response.data && response.data.matches) {
+        console.log("Matches found:", response.data.matches);
+        // Optionally, handle the matches data further, e.g., display it in the UI
+  
+        // Navigate to matches screen or show matches
+        navigation.navigate("Matches", {matches: response.data.matches});
+      } else {
+        // Handle case where no matches are found or response is not as expected
+        console.log("No matches found or unexpected response:", response.data);
+        alert("No matches found based on preferences.");
+      }
+    } catch (error) {
+      // Log the error and show an alert
+      console.error('Error submitting preferences:', error);
+      alert("An error occurred while submitting preferences.");
+    }
+    */
+  };
 
   return (
 
-    
-
     <View style={styles.preferences}>
-
     <Text style={styles.preferences1}>Preferences</Text>
-
     <View style={styles.button} />
-
 
     <Pressable
         style={styles.findRoommate}
-        onPress={() => navigation.navigate("Matches")}  
+        onPress={handleSubmitPreferences}  
       >
         <Text style={[styles.findRoommate1, styles.findRoommate1Typo]}>Find My Roommate</Text>
       </Pressable>
 
     <TextInput 
-        style={[styles.univerity, styles.univerityTypo]}
+        style={[styles.university, styles.universityTypo]}
         placeholder='University'
-        value={univerity}
+        value={university}
         onChangeText={setUniversity}
     />
 
       <TextInput 
           style={[styles.startDate, styles.startDateTypo]}
-          placeholder='Lease Start Date (MM-DD-YY)'
+          placeholder='Lease Start Date'
           value={startDate}
           onChangeText={setStartDate}
       />
@@ -137,20 +172,22 @@ const Preferences = () => {
           onChangeText={setMaxBudget}
       />
       
-
-
-
       <View style={styles.selectListContainer}>
-
-
 
         <SelectList 
 
-            setSelected={(val) => setSelected(val)} 
+          setSelected={setGender} 
+          data={genderData} 
+          save="value"
+          placeholder = {"Gender"}
+        />
+
+        <SelectList 
+
+            setSelected={setRoomType} 
             data={roomTypeData} 
             save="value"
             placeholder = "Room Type"
-            
         />
 
     
@@ -175,7 +212,6 @@ const Preferences = () => {
             save="value"
             placeholder="Locality"
         />
-        
 
       </View>
 
@@ -188,15 +224,10 @@ const Preferences = () => {
             <Switch
 
               trackColor={{false: '#808080', true: '#00ff00'}}
-
               thumbColor={isEnabled1 ? '#ffffff' : '#f4f3f4'}
-
               ios_backgroundColor="#3e3e3e"
-
               onValueChange={toggleSwitch1}
-
               value={isEnabled1}
-
             />
 
           </View>
@@ -244,10 +275,10 @@ const Preferences = () => {
 };
 
 const styles = StyleSheet.create({
-  univerity:{
+  university:{
     top: 120,
   },
-  univerityTypo:{
+  universityTypo:{
     textAlign: "left",
     color: Color.colorBlack,
     letterSpacing: 0,
