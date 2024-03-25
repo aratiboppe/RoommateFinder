@@ -147,7 +147,7 @@ const CreateAccount = () => {
 
       <Pressable
         style={[styles.button, styles.buttonShadowBox]}
-        onPress={() => navigation.navigate("Profile")}
+        onPress={handleRegister}
       >
         <Text style={[styles.signUp, styles.signUpTypo]}>Create Account</Text>
       </Pressable>

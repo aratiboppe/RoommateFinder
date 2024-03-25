@@ -6,127 +6,36 @@ import { FontFamily, FontSize, Border, Color, Padding } from "../GlobalStyles";
 
 const Matches = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const matches = route.params?.matches ?? [];
 
   return (
-    <View style={styles.matches}>
-      <View style={styles.matchesChild} />
-      <Text style={[styles.universityOfTexas, styles.messageThemLaterTypo]}>
-        20, University of Texas at Dallas
-      </Text>
-      <Text style={[styles.janeDoe, styles.textTypo1]}>Jane Doe</Text>
-      <Text style={[styles.messageThemLater, styles.messageThemLaterTypo]}>
-        Message them later
-      </Text>
-      <Image
-          style={[styles.avatarIcon1, styles.avatarIconLayout]}
-          contentFit="cover"
-          source={require("../assets/avatar1.png")}
-      />
-
-
-      <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate("NewMessagesPage")}  //change this to actual page later
-      >
-        <Text style={[styles.message, styles.textTypo]}>Message</Text>
-      </Pressable>
-
-      <Text style={[styles.yourMatch, styles.textTypo1]}>Your Match!</Text>
-      <View style={[styles.buttonWrapper, styles.buttonPosition1]}>
-        <View style={[styles.button1, styles.buttonPosition]} />
-      </View>
-      <View style={[styles.buttonContainer, styles.buttonPosition1]}>
-        <View style={[styles.button2, styles.buttonPosition2]} />
-      </View>
-      
-      
-
-
-      <Pressable
-        style={[styles.dislikeIcon, styles.dislikeIconPosition]}
-        onPress={() => navigation.navigate("DislikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/like.png")}
-        />
-      </Pressable>
-
-      <View style={styles.matchesItem} />
-      <Pressable
-        style={[styles.vector, styles.groupPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector3.png")}
-        />
-      </Pressable>
-
-      <Pressable
-        style={[styles.vectorPreferences, styles.groupPosition]}
-        onPress={() => navigation.navigate("Preferences")}
-      >
-        <Image
-          style={[styles.preferences, styles.preferencesLayout]}
-          contentFit="cover"
-          source={require("../assets/icons8-preferences-32.png")}
-        />
-      </Pressable>
-      
-      <Pressable
-        style={[styles.likeIcon, styles.likeIconPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/group-33.png")}
-        />
-      </Pressable>
-    
-      <Pressable
-        style={[styles.group, styles.groupPosition]}
-        onPress={() => navigation.navigate("Profile")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/group.png")}
-        />
-      </Pressable>
-      
-      <Pressable
-        style={[styles.vectorIcon, styles.vectorPosition]}
-        onPress={() => navigation.navigate("Matches")}
-      >
-        <Image
-          style={[styles.linkIcon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector4.png")}
-        />
-      </Pressable>
-      
-      <Image
-        style={[styles.vectorIcon1, styles.iconLayout]}
-        contentFit="cover"
-        source={require("../assets/vector5.png")}
-      />
-      <Pressable
-        style={[styles.vector1, styles.vectorPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector5.png")}
-        />
-      </Pressable>
-      
+    <View style={styles.container}>
+      <Text style={styles.title}>Your Matches!</Text>
+      <ScrollView style={styles.scrollView}>
+        {matches.map((match, index) => (
+          <View key={index} style={styles.matchContainer}>
+            <View style={styles.matchChild}>
+              <Image
+                style={styles.avatarIcon}
+                source={require("../assets/avatar1.png")}
+              />
+              <View style={styles.infoContainer}>
+                <Text style={styles.name}>{match.Name}</Text>
+                <Text style={styles.details}>{match.Grade}, {match.University}</Text>
+                <Text style={styles.messageLater}>Message them later</Text>
+              </View>
+              <Pressable
+                style={styles.messageButton}
+                onPress={() => navigation.navigate("IndividualMessages")}
+              >
+                <Text style={styles.messageButtonText}>Message</Text>
+              </Pressable>
+            </View>
+          </View>
+        ))}
+      </ScrollView>
     </View>
-
   );
 };
 
