@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View, Pressable, TextInput, ScrollView } from "react-native";
+import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 
 const NewMessagesPage = () => {
   const [message, setMessage] = useState(""); // State to manage message input
@@ -15,6 +16,7 @@ const NewMessagesPage = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.janeDoe}>Jane Doe</Text>
       <ScrollView>
         {/* Display sent messages */}
         {messages.map((msg, index) => (
@@ -32,7 +34,7 @@ const NewMessagesPage = () => {
           onChangeText={setMessage}
         />
         <Pressable style={styles.sendButton} onPress={sendMessage}>
-          <Text>Send</Text>
+          <Text style={styles.send}>Send</Text>
         </Pressable>
       </View>
     </View>
@@ -40,6 +42,21 @@ const NewMessagesPage = () => {
 };
 
 const styles = StyleSheet.create({
+  janeDoe: {
+    top: 50,
+    left: 95,
+    fontSize: 40,
+    letterSpacing: 0,
+    fontWeight: "500",
+    color: Color.colorBrown,
+    textAlign: "center",
+    width: 231,
+    height: 64,
+    position: "absolute",
+  },
+  send: {
+    color: Color.white,
+  },
   container: {
     flex: 1,
     backgroundColor: "#F0DFCE",
@@ -49,7 +66,8 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     borderRadius: 10,
-    alignSelf: "flex-start",
+    top: 100,
+    alignSelf: "flex-end",
   },
   sentMessage: {
     fontSize: 16,
@@ -60,11 +78,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 10,
     borderTopWidth: 1,
+    height: 70,
     borderTopColor: "#CCC",
   },
   input: {
     flex: 1,
     borderWidth: 1,
+    height: 40, 
     borderColor: "#CCC",
     borderRadius: 20,
     paddingHorizontal: 15,
@@ -73,7 +93,7 @@ const styles = StyleSheet.create({
   sendButton: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: "#007AFF",
+    backgroundColor: Color.colorBrown,
     borderRadius: 20,
   },
 });
