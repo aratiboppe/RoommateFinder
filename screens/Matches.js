@@ -26,7 +26,7 @@ const Matches = () => {
 
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate("IndividualMessages")}  //change this to actual page later
+        onPress={() => navigation.navigate("NewMessagesPage")}  //change this to actual page later
       >
         <Text style={[styles.message, styles.textTypo]}>Message</Text>
       </Pressable>
