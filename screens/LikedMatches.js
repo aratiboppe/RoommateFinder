@@ -113,15 +113,9 @@ const Matches = () => {
       />  */}
 
 
-      <Image
-        style={[styles.vectorIcon1, styles.iconLayout]}
-        contentFit="cover"
-        source={require("../assets/vector5.png")}
-      />
-
       <Pressable
-        style={[styles.vector1, styles.vectorPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
+        style={[styles.vectorIcon1, styles.iconLayout]}
+        onPress={() => navigation.navigate("IndividualMessages")}
       >
         <Image
           style={[styles.icon, styles.iconLayout]}
@@ -129,6 +123,18 @@ const Matches = () => {
           source={require("../assets/vector5.png")}
         />
       </Pressable>
+
+      <Pressable
+        style={[styles.vectorIcon1, styles.vectorIcon1Position]}
+        onPress={() => navigation.navigate("IndividualMessages")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/vector5.png")}
+        />
+      </Pressable>
+
     </View>
   );
 };
@@ -223,9 +229,9 @@ vectorPreferences: {
     position: "absolute",
   },
   universityOfTexas: {
-    top: '20%',
-    left: '18%',
-    fontSize: 13,
+    top: 180,
+    left: 75,
+    fontSize: 15,
     color: Color.colorBlack,
     fontWeight: "500",
   },
@@ -252,12 +258,16 @@ vectorPreferences: {
   },
 
   vectorIcon1: {
-    maxHeight: "100%",
-    maxWidth: "100%",
+    height: "4%",
+    width: "6.5%",
     top: "94.49%",
-    right: "8.47%",
+    right: "5.47%",
     bottom: "2.17%",
-    left: "84.91%",
+    left: "87%",
+    position: "absolute",
+  },
+  vectorIcon1Position: {
+    top: "94.5%",
     position: "absolute",
   },
   

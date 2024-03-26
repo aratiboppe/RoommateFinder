@@ -1,60 +1,53 @@
-
 import * as React from "react";
-import { Text, StyleSheet, View, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { Color, FontSize, FontFamily, Border } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
+import { FontFamily, FontSize, Border, Color, Padding } from "../GlobalStyles";
 
 const IndividualMessages = () => {
   const navigation = useNavigation();
+
   return (
-    <View style={styles.individualMessages}>
-      <Text style={styles.janeDoe}>Jane Doe</Text>
-      <View style={styles.rectangleParent}>
-        <View style={[styles.groupChild, styles.groupLayout]} />
-        <Text style={[styles.thankYouThat, styles.thankLayout]}>
-          Thank you! That was very helpful!
-        </Text>
-        <Image
-          style={[styles.avatarIcon, styles.groupViewLayout]}
+    <View style={styles.indivMessage}>
+      <View style={styles.messagesChild} />
+      <Text style={[styles.messageFrom, styles.messageThemLaterTypo]}>
+        Hey, how are you?
+      </Text>
+      <Text style={[styles.janeDoe, styles.textTypo1]}>Jane Doe</Text>
+
+      <Image
+          style={[styles.avatarIcon1, styles.avatarIconLayout]}
           contentFit="cover"
           source={require("../assets/avatar1.png")}
-        />
+      />
+
+
+      <Pressable
+        style={styles.button}
+        onPress={() => navigation.navigate("NewMessagesPage")}  //change this to actual page later
+      >
+        <Text style={[styles.message, styles.textTypo]}>Message</Text>
+      </Pressable>
+
+      <Text style={[styles.yourMessage, styles.textTypo1]}>Messages</Text>
+      
+      
+
+
+      
+
+      <View style={styles.messageItem} />
+      <Pressable
+        style={[styles.vector, styles.groupPosition]}
+        onPress={() => navigation.navigate("LikedMatches")}
+      >
         <Image
-          style={[styles.avatarIcon1, styles.avatarIconPosition]}
+          style={[styles.icon, styles.iconLayout]}
           contentFit="cover"
-          source={require("../assets/avatar1.png")}
+          source={require("../assets/vector3.png")}
         />
-        <Image
-          style={[styles.avatarIcon2, styles.avatarIconPosition]}
-          contentFit="cover"
-          source={require("../assets/avatar1.png")}
-        />
-      </View>
-      <View style={[styles.rectangleGroup, styles.groupLayout]}>
-        <View style={styles.groupItem} />
-        <Text style={[styles.thankYouThat1, styles.thankLayout]}>
-          Thank you! That was very helpful!
-        </Text>
-      </View>
-      <View style={[styles.rectangleContainer, styles.groupLayout]}>
-        <View style={styles.groupItem} />
-        <Text style={[styles.thankYouThat1, styles.thankLayout]}>
-          Thank you! That was very helpful!
-        </Text>
-      </View>
-      <View style={[styles.groupView, styles.groupViewLayout]}>
-        <View style={[styles.groupChild, styles.groupLayout]} />
-        <Text style={[styles.thankYouThat, styles.thankLayout]}>
-          Thank you! That was very helpful!
-        </Text>
-        <Image
-          style={[styles.avatarIcon, styles.groupViewLayout]}
-          contentFit="cover"
-          source={require("../assets/avatar1.png")}
-        />
-      </View>
-     
+      </Pressable>
+
       <Pressable
         style={[styles.vectorPreferences, styles.groupPosition]}
         onPress={() => navigation.navigate("Preferences")}
@@ -66,18 +59,8 @@ const IndividualMessages = () => {
         />
       </Pressable>
       
-      <Pressable
-        style={[styles.likeIcon, styles.likeIconPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector3.png")}
-        />
-      </Pressable>
-
-
+     
+    
       <Pressable
         style={[styles.group, styles.groupPosition]}
         onPress={() => navigation.navigate("Profile")}
@@ -88,260 +71,369 @@ const IndividualMessages = () => {
           source={require("../assets/group.png")}
         />
       </Pressable>
-
+      
       <Pressable
         style={[styles.vectorIcon, styles.vectorPosition]}
         onPress={() => navigation.navigate("Matches")}
       >
         <Image
-          style={[styles.icon, styles.iconLayout]}
+          style={[styles.linkIcon, styles.iconLayout]}
           contentFit="cover"
           source={require("../assets/vector4.png")}
         />
       </Pressable>
 
-      <Image
-        style={[styles.vectorIcon1, styles.vectorPosition1]}
-        contentFit="cover"
-        source={require("../assets/vector5.png")}
-      />
+      <Pressable
+        style={[styles.vectorIcon1, styles.vectorIcon1Position]}
+        onPress={() => navigation.navigate("IndividualMessages")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/vector5.png")}
+        />
+      </Pressable>
+      
 
+
+      <Pressable
+        style={[styles.vector1, styles.vectorPosition]}
+        onPress={() => navigation.navigate("LikedMatches")}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/vector5.png")}
+        />
+      </Pressable>
       
     </View>
+
   );
 };
 
 const styles = StyleSheet.create({
-  groupLayout: {
-    height: 37,
-    width: 189,
-    left: 57,
+  avatarIconLayout: {
+    height: 45,
     position: "absolute",
   },
-  thankLayout: {
-    height: 18,
-    width: 179,
-    textAlign: "left",
-    color: Color.colorBlack,
-    lineHeight: 18,
-    fontSize: FontSize.size_2xs,
+  avatarIcon1: {
+    top: 125,
+    left: 10,
+    width: 47,
+  },
+
+  messageThemLaterTypo: {
+    height: 24,
+    textAlign: "center",
+    letterSpacing: 1,
+    position: "absolute",
+  },
+  textTypo: {
+    fontWeight: "600",
+    color: Color.white,
+    fontSize: 15,
+  },
+  textTypo1: {
+    textAlign: "center",
+    position: "absolute",
+  },
+  buttonPosition1: {
+    bottom: "29.06%",
+    top: "64.17%",
+    width: "12.5%",
+    height: "6.77%",
     position: "absolute",
   },
 
-  vectorPreferences: {
+  preferences: {
+    height: "100%",
+    width: "100%",
+    maxHeight: "100%",
+    maxWidth: "100%",
+
+  },
+
+vectorPreferences: {
     left: "24%",
     right: "20%",
     bottom: "2.58%",
     width: "7%",
     height: "3%",
 },
-
-vectorMatches: {
-  left: "50%",
-  right: "20%",
-  bottom: "15.58%",
-  width: "8%",
-  height: "3%",
-},
-matchesPosition: {
-    top: "40.74%",
+  buttonPosition: {
+    left: "-93%",
+    bottom: "0%",
+    right: "0%",
+    top: "-650%",
+    height: "85%",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowOpacity: 1,
+    elevation: 8,
+    shadowRadius: 8,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    vector: {
+      left: "24.47%",
+      right: "70.06%",
+      bottom: "2.58%",
+      width: "5.47%",
+      height: "2.67%",
+    },
+    shadowColor: "rgba(136, 144, 194, 0.25)",
+    borderRadius: Border.br_980xl,
     position: "absolute",
- 
-},
-groupPosition: {
-  top: "94.74%",
+    overflow: "hidden",
+    width: "100%",
+  },
+  buttonPosition2: {
+    left: "90%",
+    bottom: "0%",
+    right: "0%",
+    top: "-650%",
+    height: "85%",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowOpacity: 1,
+    elevation: 8,
+    shadowRadius: 8,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+  vector: {
+    left: "24.47%",
+    right: "70.06%",
+    bottom: "2.58%",
+    width: "5.47%",
+    height: "2.67%",
+  },
+  shadowColor: "rgba(136, 144, 194, 0.25)",
+  borderRadius: Border.br_980xl,
   position: "absolute",
-},
-preferences: {
-  height: "100%",
-  width: "100%",
-  maxHeight: "100%",
-  maxWidth: "100%",
-
-},
-likeIconPosition: {
-  left: 300,
-  height: "3%",
-  width: "7%",
-  top: "94.5%",
-  bottom: "2.5%",
-  maxWidth: "100%",
-  maxHeight: "100%",  
-  position: "absolute",
-},
-vectorIcon1: {
-  height: "3%",
-  width: "7%",
-  top: "94.5%",
-  bottom: "2.5%",
-  maxWidth: "100%",
-  maxHeight: "100%",  
-  position: "absolute",
-},
-vectorPosition1: {
-  height: "3.57%",
-  width: "7%",
-  top: "94.5%",
-  bottom: "2.5%",
-  left: "87%",
-},
-
-likeIcon: {
-  left: 71,
-  width: 21,
-},
-
-icon: {
-  height: "100%",
-  width: "100%",
-  maxHeight: "100%",
-  maxWidth: "100%",
-},
-iconLayout: {
-  maxHeight: "100%",
-  maxWidth: "100%",
   overflow: "hidden",
-},
-
-group: {
-  left: "4.22%",
-  right: "91.09%",
-  bottom: "2.44%",
-  width: "7%",
-  height: "4%",
-},
-
-
-  groupViewLayout: {
-    height: 45,
+  width: "100%",
+  },
+  dislikeIconPosition: {
+    height: 23,
+    top: 208,
+    left: 48,
     position: "absolute",
   },
-  avatarIconPosition: {
-    left: 246,
-    height: 45,
-    width: 47,
+  
+  likeIconPosition: {
+    height: 25,
+    top: 205,
+    left: 357,
     position: "absolute",
+  },
+  messagesChild: {
+    top: 102,
+    left: 39,
+    borderRadius: Border.br_mini,
+    backgroundColor: Color.colorLinen,
+    width: 242,
+    height: 312,
+    position: "absolute",
+  },
+  messageFrom: {
+    top: 155,
+    left: 75,
+    fontSize: 15,
+    color: Color.colorBlack,
+    fontWeight: "500",
+  },
+  text: {
+    top: 105,
+    left: 121,
+    width: 74,
+    height: 16,
+    textAlign: "center",
+    position: "absolute",
+    color: Color.colorBlack,
+    letterSpacing: 1,
   },
   janeDoe: {
-    top: 50,
-    left: 90,
-    fontSize: 50,
-    letterSpacing: 0,
-    fontWeight: "500",
-    color: Color.colorBrown,
+    top: 125,
+    left: 70,
+    fontSize: 20,
+    fontWeight: "700",
+    width: 107,
+    height: 23,
+    color: Color.colorBlack,
+    letterSpacing: 1,
     textAlign: "center",
-    width: 231,
-    height: 64,
+  },
+
+  vectorIcon1: {
+    height: "4%",
+    width: "6.5%",
+    top: "94.49%",
+    right: "5.47%",
+    bottom: "2.17%",
+    left: "87%",
     position: "absolute",
   },
-  groupChild: {
-    top: 3,
-    backgroundColor: Color.colorLinen,
-    borderRadius: Border.br_mini,
-    height: 37,
-    width: 189,
-    left: 57,
+  vectorIcon1Position: {
+    top: "94.5%",
+    position: "absolute",
   },
-  thankYouThat: {
-    top: 14,
-    left: 67,
+  messageThemLater: {
+    top: 210,
+    left: 110,
+    fontSize: 12,
+    color: "#992b13",
+    width: 150,
   },
   avatarIcon: {
-    width: 47,
-    height: 45,
-    left: 0,
-    top: 0,
-  },
-  avatarIcon1: {
-    top: 68,
-  },
-  avatarIcon2: {
-    top: 214,
-  },
-  rectangleParent: {
-    top: 152,
-    width: 293,
-    height: 259,
-    left: 18,
+    top: 95,
+    left: 1,
+    width: 100,
+    height: 95,
     position: "absolute",
   },
-  groupItem: {
-    left: 0,
-    top: 0,
-    height: 37,
-    width: 189,
-    backgroundColor: Color.colorLinen,
-    borderRadius: Border.br_mini,
-    position: "absolute",
+  message: {
+    lineHeight: 12,
+    height: 12,
+    textAlign: "center",
   },
-  thankYouThat1: {
-    top: 11,
-    left: 10,
-  },
-  rectangleGroup: {
-    top: 223,
-    height: 37,
-    width: 189,
-    left: 57,
-  },
-  rectangleContainer: {
-    top: 369,
-    height: 37,
-    width: 189,
-    left: 57,
-  },
-  groupView: {
-    top: 288,
-    width: 246,
-    left: 18,
-  },
-
-  individualMessagesChild: {
-    top: 516,
-    width: 320,
-    left: 0,
-  },
-  uilthumbsUp: {
-    top: 534,
-    left: 259,
-    width: 20,
-    height: 20,
+  button: {
+    height: "5.5%",
+    width: "30%",
+    top: "13.5%",
+    right: "25.5%",
+    bottom: "16.61%",
+    left: "65%",
+    backgroundColor: Color.colorBrown,
+    flexDirection: "row",
+    paddingHorizontal: 0,
+    paddingVertical: Padding.p_4xl,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowOpacity: 1,
+    elevation: 8,
+    shadowRadius: 8,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowColor: "rgba(136, 144, 194, 0.25)",
+    borderRadius: Border.br_980xl,
     position: "absolute",
     overflow: "hidden",
   },
-  vectorIcon: {
-    height: "3.57%",
-    width: "7%",
-    top: "94.5%",
-    bottom: "2.5%",
-    left: "45.63%",
-    maxWidth: "100%",
+
+
+  yourMessage: {
+    top: 55,
+    left: 100,
+    fontSize: 40,
+    letterSpacing: 0,
+    color: Color.colorBrown,
+    width: 231,
+    fontWeight: "500",
+  },
+  button1: {
+    backgroundColor: '#E98274',
+    opacity: 0.5,
+  },
+  buttonWrapper: {
+    right: "68.44%",
+    left: "19.06%",
+  },
+  button2: {
+    backgroundColor: '#2FD658',
+    opacity: 0.3,
+  },
+
+  icon: {
+    height: "80%",
+    width: "110%",
     maxHeight: "100%",
+    maxWidth: "100%",
+  },
+  linkIcon: {
+    height: "80%",
+    width: "150%",
+  },
+  iconLayout: {
+    maxHeight: "93%",
+    maxWidth: "100%",
+    overflow: "hidden",
+  },
+  buttonContainer: {
+    right: "19.69%",
+    left: "67.81%",
+  },
+  dislikeIcon: {
+    left: 71,
+    width: 21,
+  },
+  likeIcon: {
+    left: 71,
+    width: 21,
+  },
+  messageItem: {
+    left: 228,
+    width: 19,
+  },
+  matchesInner: {
+    top: 620,
+    width: 390,
+    height: 50,
     position: "absolute",
-    zIndex: 1,
   },
   vectorPosition: {
-    height: "3.57%",
-    width: "7%",
-    top: "94.5%",
-    bottom: "2.5%",
-    left: "45.63%",
+    top: "94.3%",
+    position: "absolute",
+  },
+  groupPosition: {
+    top: "94.74%",
+    position: "absolute",
   },
 
-  fluentsettings16RegularIcon: {
-    top: 627,
-    left: 330,
-    width: 30,
-    height: 30,
-    position: "absolute",
+  group: {
+    left: "4.22%",
+    right: "91.09%",
+    bottom: "2.44%",
+    width: "7%",
+    height: "4%",
+  },
+  vectorIcon: {
+    height: "3.98%",
+    width: "7.81%",
+    right: "46.25%",
+    bottom: "1.73%",
+    left: "45.94%",
+    maxHeight: "100%",
+    maxWidth: "100%",
     overflow: "hidden",
   },
-  individualMessages: {
+  iconCog: {
+    top: 632,
+    left: 330,
+    width: 30,
+    height: 25,
+    position: "absolute",
+  },
+  vector: {
+    left: "69.38%",
+    top: "94.3%",
+    right: "24.38%",
+    bottom: "2.14%",
+    width: "6.25%",
+    height: "3.57%",
+    position: "absolute",
+  },
+  indivMessage: {
     backgroundColor: '#F0DFCE',
     flex: 1,
-    width: "100%",
     height: 561,
     overflow: "hidden",
+    width: "100%",
   },
 });
 

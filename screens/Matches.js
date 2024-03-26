@@ -108,15 +108,10 @@ const Matches = () => {
           source={require("../assets/vector4.png")}
         />
       </Pressable>
-      
-      <Image
-        style={[styles.vectorIcon1, styles.iconLayout]}
-        contentFit="cover"
-        source={require("../assets/vector5.png")}
-      />
+
       <Pressable
-        style={[styles.vector1, styles.vectorPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
+        style={[styles.vectorIcon1, styles.vectorIcon1Position]}
+        onPress={() => navigation.navigate("IndividualMessages")}
       >
         <Image
           style={[styles.icon, styles.iconLayout]}
@@ -124,6 +119,7 @@ const Matches = () => {
           source={require("../assets/vector5.png")}
         />
       </Pressable>
+      
       
     </View>
 
@@ -287,12 +283,16 @@ vectorPreferences: {
   },
 
   vectorIcon1: {
-    height: "3.33%",
-    width: "5.63%",
+    height: "4%",
+    width: "6.5%",
     top: "94.49%",
     right: "5.47%",
     bottom: "2.17%",
-    left: "85.91%",
+    left: "87%",
+    position: "absolute",
+  },
+  vectorIcon1Position: {
+    top: "94.5%",
     position: "absolute",
   },
   messageThemLater: {
