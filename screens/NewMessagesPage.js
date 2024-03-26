@@ -42,12 +42,12 @@ const NewMessagesPage = () => {
       </View>
       <Pressable
         style={[styles.vectorIcon, styles.vectorPosition]}
-        onPress={() => navigation.navigate("Matches")}
+        onPress={() => navigation.goBack()}
       >
         <Image
-          style={[styles.linkIcon, styles.iconLayout]}
+          style={[styles.linkIcon, styles.iconLayout, {transform: [{rotate:'90deg'}] }] }
           contentFit="cover"
-          source={require("../assets/vector4.png")}
+          source={require("../assets/chevrondown.png")}
         />
       </Pressable>
     </View>
