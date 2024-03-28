@@ -40,7 +40,7 @@ const Start = () => {
       <Image
         style={styles.screenShot20240212At930}
         contentFit="cover"
-        source={require("../assets/screen-shot-20240212-at-930-1.png")}
+        source={require("../assets/vector4.png")}
       />
     </View>
   );
@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   livinglink: {
-    top: "40%",
-    left: "10%",
+    top: "30%",
+    left: "9%",
     fontSize: FontSize.size_45xl,
     letterSpacing: 0,
     lineHeight: 100,
@@ -116,10 +116,10 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   screenShot20240212At930: {
-    top: '15%',
-    left: '27%',
-    width: 183,
-    height: 150,
+    top: '32%',
+    left: '80%',
+    width: 60,
+    height: 53,
     position: "absolute",
   },
   start1: {
