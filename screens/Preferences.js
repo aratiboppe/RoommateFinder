@@ -15,6 +15,7 @@ const Preferences = () => {
 
   const navigation = useNavigation();
 
+  const [username, setUsername] = useState('');
   const [univerity, setUniversity] = useState('');
   const [startDate, setStartDate] = useState('');
   const [maxBudget, setMaxBudget] = useState('');
@@ -121,6 +122,13 @@ const Preferences = () => {
       >
         <Text style={[styles.findRoommate1, styles.findRoommate1Typo]}>Find My Roommate</Text>
       </Pressable>
+
+      <TextInput 
+        style={[styles.username, styles.usernameTypo]}
+        placeholder='Username'
+        value={username}
+        onChangeText={setUsername}
+    />
 
     <TextInput 
         style={[styles.univerity, styles.univerityTypo]}
@@ -258,8 +266,19 @@ const Preferences = () => {
 };
 
 const styles = StyleSheet.create({
+  username:{
+    top: 110,
+  },
+  usernameTypo:{
+    textAlign: "left",
+    color: Color.colorBlack,
+    letterSpacing: 0,
+    fontSize: 20,
+    left: 20,
+    position: "absolute",
+  },
   univerity:{
-    top: 120,
+    top: 140,
   },
   univerityTypo:{
     textAlign: "left",
@@ -270,7 +289,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   startDate: {
-    top: 160,
+    top: 170,
   },
   startDateTypo: {
     textAlign: "left",
