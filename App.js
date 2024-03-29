@@ -13,6 +13,7 @@ import Matches from "./screens/Matches";
 import LikedMatches from "./screens/LikedMatches";
 import DislikedMatches from "./screens/DislikedMatches";
 import Profile from "./screens/Profile";
+import ExistingUserProfile from "./screens/ExistingUserProfile";
 import Preferences from "./screens/Preferences";
 import ForgotPassword from "./screens/ForgotPassword";
 import IndividualMessages from "./screens/IndividualMessages";
@@ -71,6 +72,11 @@ const App = () => {
             <Stack.Screen
               name="Profile"
               component={Profile}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ExistingUserProfile"
+              component={ExistingUserProfile}
               options={{ headerShown: false }}
             />
             <Stack.Screen

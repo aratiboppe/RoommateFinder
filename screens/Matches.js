@@ -89,7 +89,7 @@ const Matches = () => {
     
       <Pressable
         style={[styles.group, styles.groupPosition]}
-        onPress={() => navigation.navigate("Profile")}
+        onPress={() => navigation.navigate("ExistingUserProfile")}
       >
         <Image
           style={[styles.icon, styles.iconLayout]}

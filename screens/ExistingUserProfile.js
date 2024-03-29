@@ -1,23 +1,18 @@
-import React from 'react';
 //import * as React from "react";
-import { Image } from "expo-image";
-
-import { Pressable, Text, Switch, StyleSheet, View, TextInput } from "react-native";
-
-import { useNavigation } from "@react-navigation/native";
-
-import { SelectList } from 'react-native-dropdown-select-list'
-
-import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
-
+import React from 'react';
 import {useState} from 'react';
-
-const Preferences = () => {
-
+import { Text, StyleSheet, Switch, View, Pressable, TextInput} from "react-native";
+import { Image } from "expo-image";
+import { SelectList } from 'react-native-dropdown-select-list'
+import { useNavigation } from "@react-navigation/native";
+import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
+const ExistingUserProfile = () => {
   const navigation = useNavigation();
 
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [univerity, setUniversity] = useState('');
+  const [collegeYear, setCollegeYear] = useState('');
   const [startDate, setStartDate] = useState('');
   const [maxBudget, setMaxBudget] = useState('');
   
@@ -102,58 +97,72 @@ const Preferences = () => {
 
   ]
 
-
-
-  
-
   return (
-
+    <View style={styles.profile}>
+      <Text style={styles.yourProfile}>Your Profile</Text>
+      
+      
     
-
-    <View style={styles.preferences}>
-
-    <Text style={styles.preferences1}>Preferences</Text>
-
-    <View style={styles.button} />
-
-
-    <Pressable
-        style={styles.findRoommate}
-        onPress={() => navigation.navigate("Matches")}  
+  
+      
+      <Pressable
+        style={styles.button}
+        onPress={() => navigation.navigate("Profile")}
       >
-        <Text style={[styles.findRoommate1, styles.findRoommate1Typo]}>Find My Roommate</Text>
+        <Text style={styles.saveProfile}>Edit Profile</Text>
       </Pressable>
-
+      <Pressable
+        style={styles.buttonOpt}
+        onPress={() => navigation.navigate("Matches")} //CHANGE
+      >
+        <Text style={styles.optOut}>Opt Out</Text>
+      </Pressable>
+      <Image
+        style={styles.avatarIcon}
+        contentFit="cover"
+        source={require("../assets/avatar2.png")}
+      />
+      <Image
+        style={styles.profileChild}
+        contentFit="cover"
+        source={require("../assets/group-4.png")}
+      />
       <TextInput 
-        style={[styles.username, styles.usernameTypo]}
-        placeholder='Username'
-        value={username}
-        onChangeText={setUsername}
-    />
-
-    <TextInput 
+          style={[styles.name, styles.nameTypo]}
+          placeholder='Name'
+          value={name}
+          onChangeText={setName}
+      />
+      <TextInput 
+        style={[styles.email, styles.emailTypo]}
+        placeholder='Email'
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput 
         style={[styles.univerity, styles.univerityTypo]}
         placeholder='University'
         value={univerity}
         onChangeText={setUniversity}
-    />
-
+      />
+      <TextInput 
+        style={[styles.collegeYear, styles.collegeYearTypo]}
+        placeholder='College Year'
+        value={collegeYear}
+        onChangeText={setCollegeYear}
+      />
       <TextInput 
           style={[styles.startDate, styles.startDateTypo]}
           placeholder='Lease Start Date'
           value={startDate}
           onChangeText={setStartDate}
       />
-
       <TextInput 
           style={[styles.maxBudget, styles.maxBudgetTypo]}
           placeholder='Max Budget'
           value={maxBudget}
           onChangeText={setMaxBudget}
       />
-      
-
-
 
       <View style={styles.selectListContainer}>
 
@@ -175,7 +184,7 @@ const Preferences = () => {
             
         />
 
-    
+
         <SelectList
             setSelected={(val) => setSelected(val)} 
             placeholder="Lease Duration"
@@ -183,7 +192,7 @@ const Preferences = () => {
             save="value"
         />
 
-        
+
         <SelectList
             placeholder="Housing Type"
             setSelected={(val) => setSelected(val)} 
@@ -198,71 +207,71 @@ const Preferences = () => {
             placeholder="Locality"
         />
 
+
+
+      </View>
+
+        <View style={styles.smokerContainer}>
+
+          <View style={styles.smokerSwitchContainer}>
+
+            <Text style={styles.smokerText}>Smoking</Text>
+
+              <Switch
+
+                trackColor={{false: '#808080', true: '#00ff00'}}
+
+                thumbColor={isEnabled1 ? '#ffffff' : '#f4f3f4'}
+
+                ios_backgroundColor="#3e3e3e"
+
+                onValueChange={toggleSwitch1}
+
+                value={isEnabled1}
+
+              />
+
+            </View>
+
+        </View>
+
+
+
+        <View style={styles.drinkerContainer}>
+
+          <View style={styles.drinkerSwitchContainer}>
+
+            <Text style={styles.drinkerText}>Drinking</Text>
+
+              <Switch
+
+                trackColor={{false: '#808080', true: '#00ff00'}}
+                thumbColor={isEnabled2 ? '#ffffff' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
+              />
+            </View>
+        </View>
         
+        <View style={styles.petsContainer}>
 
+          <View style={styles.petsSwitchContainer}>
+
+          <Text style={styles.petsText}>Pets</Text>
+
+          <Switch
+
+          trackColor={{false: '#808080', true: '#00ff00'}}
+          thumbColor={isEnabled3 ? '#ffffff' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch3}
+          value={isEnabled3}
+        />
+        </View>
       </View>
 
-      <View style={styles.smokerContainer}>
-
-        <View style={styles.smokerSwitchContainer}>
-
-          <Text style={styles.smokerText}>Smoking</Text>
-
-            <Switch
-
-              trackColor={{false: '#808080', true: '#00ff00'}}
-
-              thumbColor={isEnabled1 ? '#ffffff' : '#f4f3f4'}
-
-              ios_backgroundColor="#3e3e3e"
-
-              onValueChange={toggleSwitch1}
-
-              value={isEnabled1}
-
-            />
-
-          </View>
-
-      </View>
-
-
-
-      <View style={styles.drinkerContainer}>
-
-        <View style={styles.drinkerSwitchContainer}>
-
-          <Text style={styles.drinkerText}>Drinking</Text>
-
-            <Switch
-
-              trackColor={{false: '#808080', true: '#00ff00'}}
-              thumbColor={isEnabled2 ? '#ffffff' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch2}
-              value={isEnabled2}
-            />
-          </View>
-      </View>
-      
-      <View style={styles.petsContainer}>
-
-        <View style={styles.petsSwitchContainer}>
-
-        <Text style={styles.petsText}>Pets</Text>
-
-        <Switch
-
-        trackColor={{false: '#808080', true: '#00ff00'}}
-        thumbColor={isEnabled3 ? '#ffffff' : '#f4f3f4'}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch3}
-        value={isEnabled3}
-      />
-      </View>
-    </View>
-
-    <Pressable
+      <Pressable
         style={[styles.vectorPreferences, styles.groupPosition]}
         onPress={() => navigation.navigate("Preferences")}
       >
@@ -319,7 +328,10 @@ const Preferences = () => {
         />
       </Pressable>
 
+
     </View>
+    
+
   );
 };
 
@@ -399,48 +411,71 @@ const styles = StyleSheet.create({
     top: "94.5%",
     position: "absolute",
   },
-  
-  username:{
-    top: 110,
+  name: {
+    top: 200,
   },
-  usernameTypo:{
+  nameTypo: {
     textAlign: "left",
     color: Color.colorBlack,
     letterSpacing: 0,
-    fontSize: 20,
+    fontSize: 15,
+    left: 20,
+    top: 250,
+    position: "absolute",
+  },
+  email: {
+    top: 150,
+  }, 
+  emailTypo: {
+    textAlign: "left",
+    color: Color.colorBlack,
+    letterSpacing: 0,
+    fontSize: 15,
+    left: 20,
+    top: 275,
+    position: "absolute",
+  },
+  univerity: {
+    top: 300,
+  },
+  univerityTypo: {
+    textAlign: "left",
+    color: Color.colorBlack,
+    letterSpacing: 0,
+    fontSize: 15,
     left: 20,
     position: "absolute",
   },
-  univerity:{
-    top: 140,
+  collegeYear: {
+    top: 325,
   },
-  univerityTypo:{
+  collegeYearTypo: {
     textAlign: "left",
     color: Color.colorBlack,
     letterSpacing: 0,
-    fontSize: 20,
+    fontSize: 15,
     left: 20,
     position: "absolute",
   },
   startDate: {
-    top: 170,
+    top: 350,
   },
   startDateTypo: {
     textAlign: "left",
     color: Color.colorBlack,
     letterSpacing: 0,
-    fontSize: 20,
+    fontSize: 15,
     left: 20,
     position: "absolute",
   },
   maxBudget: {
-    top: 200,
+    top: 375,
   },
   maxBudgetTypo: {
     textAlign: "left",
     color: Color.colorBlack,
     letterSpacing: 0,
-    fontSize: 20,
+    fontSize: 15,
     left: 20,
     position: "absolute",
   },
@@ -484,30 +519,127 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   selectListContainer: {
-    marginTop: 250,
+    marginTop: 400,
     zIndex: 3,
   },
   selectList : {
     padding: 30,
   },
-  preferences1: {
-    top: 50,
-    left: 95,
-    fontSize: 35,
-    letterSpacing: 0,
-    color: Color.colorBrown,
-    textAlign: "center",
-    width: 231,
-    height: 64,
-    fontWeight: "500",
+  ageTypo: {
+    height: 22,
+    width: 232,
+    color: Color.colorBrown_100,
+    fontSize: FontSize.size_sm,
+    textAlign: "left",
+    left: 43,
     position: "absolute",
   },
-  
+  inputLayout1: {
+    height: 32,
+    width: 244,
+    borderWidth: 1,
+    borderColor: Color.colorLightgray,
+    borderStyle: "solid",
+    backgroundColor: Color.white,
+    borderRadius: Border.br_xs,
+    position: "absolute",
+  },
+  inputLayout: {
+    height: 32,
+    width: 244,
+    borderWidth: 1,
+    borderColor: Color.colorLightgray,
+    borderStyle: "solid",
+    backgroundColor: Color.white,
+    borderRadius: Border.br_xs,
+    left: 38,
+    position: "absolute",
+  },
+  name: {
+    top: 365,
+  },
+  yourProfile: {
+    top: 50,
+    position: "absolute",
+    left: "23%",
+    fontSize: 45,
+    letterSpacing: 0,
+    color: Color.colorBrown,
+    width: 231,
+    fontWeight: "500",
+  },
+  inputBg: { //name
+    top: 271,
+    paddingLeft: 10,
+    left: 38,
+  },
+  email: {
+    top: 420,
+  },
+  phoneNumber: {
+    top: 475,
+  },
+  inputBg1: { //phone
+    top: 490,
+    paddingLeft: 10,
+  },
+  inputBg2: {  //email
+    paddingLeft: 10,
+    top: 436,
+    left: 38,
+    height: 32,
+    width: 244,
+    borderWidth: 1,
+    borderColor: Color.colorLightgray,
+    borderStyle: "solid",
+    backgroundColor: Color.white,
+    borderRadius: Border.br_xs,
+  },
+  university: {
+    top: 310,
+  },
+  inputBg3: { //university
+    top: 382,
+    paddingLeft: 10,
+    left: 38,
+    height: 32,
+    width: 244,
+    borderWidth: 1,
+    borderColor: Color.colorLightgray,
+    borderStyle: "solid",
+    backgroundColor: Color.white,
+    borderRadius: Border.br_xs,
+  },
+  age: {
+    top: 252,
+  },
+  inputBg4: { //age one
+    top: 327,
+    paddingLeft: 10,
+  },
+  saveProfile: {
+    fontSize: FontSize.size_xl,
+    top: 15,
+    textAlign: "center",
+    lineHeight: 20,
+    color: Color.white,
+    position: "absolute",
+    zIndex: 1,
+  },
+  optOut: {
+    fontSize: FontSize.size_xl,
+    top: 15,
+    textAlign: "center",
+    lineHeight: 20,
+    color: Color.white,
+    position: "absolute",
+    zIndex: 1,
+  },
   button: {
     height: 50, // Adjusted height value
-    width: "47.5%",
+    width: "40%",
     top: "85%", // Adjusted top value
-    left: "27%",
+    left: "5%",
     borderRadius: Border.br_980xl,
     backgroundColor: Color.colorBrown,
     shadowColor: "rgba(136, 144, 194, 0.25)",
@@ -518,42 +650,43 @@ const styles = StyleSheet.create({
     zIndex: 1,
 
   },
-  
-  preferences: {
+  buttonOpt: {
+    height: 50, // Adjusted height value
+    width: "40%",
+    top: "85%", // Adjusted top value
+    left: "55%",
+    borderRadius: Border.br_980xl,
+    backgroundColor: Color.colorBrown,
+    shadowColor: "rgba(136, 144, 194, 0.25)",
+    
+    flexDirection: "row",
+    justifyContent: "center",
+    position: "absolute",
+    zIndex: 1,
+
+  },
+  avatarIcon: {
+    top: 135,
+    left: 160,
+    width: 107,
+    height: 101,
+    position: "absolute",
+  },
+  profileChild: {
+    top: 220,
+    left: 240,
+    width: 20,
+    height: 18,
+    position: "absolute",
+  },
+  profile: {
     backgroundColor: '#F0DFCE',
     flex: 1,
-    height: 561,
-    overflow: "hidden",
     width: "100%",
-  },
-
-  findRoommate: {
-    color: Color.white,
-    fontWeight: "400",
-    lineHeight: 20,
-    left: "30%", 
-    top: "91%",
-    position: "absolute",
-    zIndex: 1,
-  },
-  
-  findRoommate1: {
-    fontSize: 18,
-    top: -40,
-    left: 10,
-    textAlign: "center",
-    lineHeight: 20,
-    color: Color.white,
-    position: "absolute",
-    zIndex: 1,
-  },
-  findRoommate1Typo: {
-    textAlign: "center",
-    color: Color.white,
-    fontWeight: "600",
-    zIndex: 1,
-    position: "relative",
+    height: "100%",
+    overflow: "hidden",
+    left: "0%",
   },
 });
 
-export default Preferences;
+export default ExistingUserProfile;

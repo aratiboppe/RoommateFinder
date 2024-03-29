@@ -100,7 +100,7 @@ import axios from 'axios';
       <Image
         style={styles.screenShot20240212At930}
         contentFit="cover"
-        source={require("../assets/screen-shot-20240212-at-930-11.png")}
+        source={require("../assets/vector4.png")}
       />
     </View>
   );
@@ -108,11 +108,11 @@ import axios from 'axios';
 
 const styles = StyleSheet.create({
   inputLayout: {
-    height: 56,
+    height: 54,
     width: 272,
     borderColor: Color.colorLightgray,
     borderRadius: Border.br_xs,
-    left: 57,
+    left: 75,
     position: "absolute",
     borderWidth: 1,
     borderStyle: "solid",
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   vectorIconLayout: {
     maxHeight: "100%",
     maxWidth: "100%",
-    left: "18.13%",
+    left: "21%",
     right: "76.53%",
     width: "5.33%",
     height: "3%",
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     color: Color.colorDarkslategray,
     letterSpacing: 0,
     fontSize: FontSize.size_xl,
-    left: 114,
+    left: 125,
     position: "absolute",
   },
   buttonShadowBox: {
@@ -253,10 +253,10 @@ const styles = StyleSheet.create({
   },
   
   screenShot20240212At930: {
-    top: '15%',
+    top: '20%',
     left: '37%',
-    width: 97,
-    height: 111,
+    width: 100,
+    height: 90,
     position: "absolute",
   },
   signInPage: {

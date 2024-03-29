@@ -154,7 +154,7 @@ const CreateAccount = () => {
       <Image
         style={styles.screenShot20240212At930}
         contentFit="cover"
-        source={require("../assets/screen-shot-20240212-at-930-11.png")}
+        source={require("../assets/vector4.png")}
       />
     </LinearGradient>
   );
@@ -170,9 +170,9 @@ const styles = StyleSheet.create({
     },
   },
   inputLayout: {
-    height: 56,
+    height: 54,
     width: 272,
-    left: 52,
+    left: 79,
     position: "absolute",
   },
   inputBorder: {
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   },
   username: {
     top: "17%",
-    left: "17%",
+    left: "24%",
     letterSpacing: 0,
     fontSize: FontSize.size_xl,
     position: "absolute",
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     top: 359,
     height: 90,
     width: 272,
-    left: 52,
+    left: 79,
     position: "absolute",
     zIndex: 1,
   },
@@ -390,9 +390,10 @@ const styles = StyleSheet.create({
   },
   screenShot20240212At930: {
     top: '15%',
-    left: '35%',
-    width: 97,
-    height: 111,
+    left: '37%',
+    width: 100,
+    height: 90,
+    position: "absolute",
   },
   createAccount: {
     shadowColor: "rgba(0, 0, 0, 0.25)",

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   pexelsCarlosMontelara598276Icon: {
     top: 0,
-    left: -394,
+    left: -310,
     width: 1588,
     position: "absolute",
     height: 1000,
