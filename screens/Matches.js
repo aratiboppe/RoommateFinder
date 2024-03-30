@@ -1,11 +1,23 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View, Text, Pressable, Alert} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Border, Color, Padding } from "../GlobalStyles";
 
 const Matches = () => {
   const navigation = useNavigation();
+  const [showSignOutAlert, setShowSignOutAlert] = useState(false);
+
+  const handleSignOut = () => {
+    setShowSignOutAlert(true);
+  };
+
+  const handleConfirmSignOut = () => {
+    // Perform sign-out logic here
+    // For demonstration, navigate to the start page
+    navigation.navigate("Start");
+  };
 
   return (
     <View style={styles.matches}>
@@ -40,7 +52,31 @@ const Matches = () => {
       </View>
       
       
+      <Pressable
+        style={styles.forgotPassword}
+        //onPress={() => navigation.navigate("Start")}  //change this to actual page later
+        onPress={handleSignOut}
 
+      >
+        <Text style={[styles.fpass, styles.fpass1]}>Sign Out?</Text>
+      </Pressable>
+   
+      {/* Sign out confirmation dialog */}
+      {showSignOutAlert && (
+        Alert.alert(
+          "Sign Out",
+          "Are you sure you want to sign out?",
+          [
+            {
+              text: "No",
+              onPress: () => setShowSignOutAlert(false),
+              style: "cancel",
+            },
+            { text: "Yes", onPress: handleConfirmSignOut },
+          ],
+          { cancelable: false }
+        )
+      )}
 
       <Pressable
         style={[styles.dislikeIcon, styles.dislikeIconPosition]}
@@ -127,6 +163,25 @@ const Matches = () => {
 };
 
 const styles = StyleSheet.create({
+
+
+  fpass: {
+    position: "absolute", // Ensure absolute positioning
+    top: '10%', // Adjust as needed
+    left: '85%', // Adjust as needed
+    zIndex: 2,
+  },
+  fpass1: {
+    color: Color.colorBlack,
+    letterSpacing: 0,
+    fontSize: FontSize.size_10xl,
+    zIndex: 2,
+  },
+
+  forgotPassword: {
+    top: '9%',
+  },
+
   avatarIconLayout: {
     height: 45,
     position: "absolute",
@@ -342,7 +397,7 @@ vectorPreferences: {
 
 
   yourMatch: {
-    top: 55,
+    top: '7%',
     left: 100,
     fontSize: 40,
     letterSpacing: 0,
