@@ -47,6 +47,7 @@ ALTER TABLE users AUTO_INCREMENT = 101;
 	profileID INT AUTO_INCREMENT PRIMARY KEY,
  	Name VARCHAR(255),
  	Email VARCHAR(255),
+    Grade VARCHAR(255),
  	Gender VARCHAR(255),
  	University VARCHAR(255),
  	MoveDate DATE,
@@ -81,8 +82,8 @@ END;
 DELIMITER ;
 
 --INSERT DATA INTO THE TABLE --
-INSERT INTO profiles (Name, Email, Gender, University, MoveDate, LeaseDuration, HousingType, Locality, RoomType,Budget, Smoking, Drinking, Pets)
-SELECT pd.Name, pd.Email, pd.Gender, pd.University,pd.`Move Date`, pd.`Lease Duration`, pd.`Housing Type`, pd.Locality, pd.`Room Type`, pd.Budget,pd.Smoking,pd.Drinking, pd.Pets 
+INSERT INTO profiles (Name, Email, Grade,Gender, University, MoveDate, LeaseDuration, HousingType, Locality, RoomType,Budget, Smoking, Drinking, Pets)
+SELECT pd.Name, pd.Email, pd.Grade, pd.Gender, pd.University,pd.`Move Date`, pd.`Lease Duration`, pd.`Housing Type`, pd.Locality, pd.`Room Type`, pd.Budget,pd.Smoking,pd.Drinking, pd.Pets 
 FROM project_data AS pd;
 
 ALTER TABLE profiles AUTO_INCREMENT = 101;
