@@ -7,6 +7,8 @@ app.use(express.json());
 var cors = require('cors');
 app.use(cors());
 
+const escapeString = value => value.replace(/'/g, "\\'");
+
 // Middleware to parse JSON and URL-encoded bodies
 app.use(bodyParser.json({type: 'application/json'}));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -177,7 +179,8 @@ function calculateSimilarityScore(userPreferences, potentialMatch) {
     return score;
 }
 */
-
+//////////////////// WORKING 
+/*
 app.post('/submit-preferences', async (req, res) => {
     // Extract preferences from the request body
     const preferences = {
@@ -315,7 +318,225 @@ app.post('/submit-preferences', async (req, res) => {
                     res.status(404).send({ message: 'No similar users found' });
                 }
             });
-            */
+
         }
     });
 });
+*/
+
+/*
+function calculateSimilarityScore(userPreferences, potentialMatch) {
+    let score = 0;
+    const totalCriteria = 11; // Update this number based on your criteria
+    const scorePerCriteria = 100 / totalCriteria;
+
+    if (userPreferences.roomType === potentialMatch.roomType || userPreferences.roomType === "No Preference") score += scorePerCriteria;
+    if (userPreferences.gender === potentialMatch.gender) score += scorePerCriteria;
+    if (userPreferences.housingType === potentialMatch.housingType || userPreferences.housingType === "No Preference") score += scorePerCriteria;
+    if (userPreferences.locality === potentialMatch.locality || userPreferences.locality === "No Preference") score += scorePerCriteria;
+    if (userPreferences.university === potentialMatch.university || userPreferences.university === "No Preference") score += scorePerCriteria;
+    if (userPreferences.smoking === potentialMatch.smoking) score += scorePerCriteria;
+    if (userPreferences.drinking === potentialMatch.drinking) score += scorePerCriteria;
+    if (userPreferences.pets === potentialMatch.pets) score += scorePerCriteria;
+
+    // Handling numerical values like budget with a range
+    const budgetDifference = Math.abs(userPreferences.budget - potentialMatch.budget);
+    if (budgetDifference <= 500) score += scorePerCriteria; // Assuming a tolerance of 500
+
+    // Handling dates (e.g., moveDate) with a tolerance
+    const moveDateUser = new Date(userPreferences.moveDate);
+    const moveDateMatch = new Date(potentialMatch.moveDate);
+    const dayDifference = Math.abs(moveDateUser - moveDateMatch) / (1000 * 60 * 60 * 24);
+    if (dayDifference <= 30) score += scorePerCriteria; // Assuming a 30-day tolerance
+
+    // Handling lease duration as a direct match or within a tolerance
+    if (userPreferences.leaseDuration === potentialMatch.leaseDuration) score += scorePerCriteria;
+
+    // Return the final score
+    return score;
+}
+*/
+
+app.post('/submit-preferences', async (req, res) => {
+    // 1. Extract preferences from the request body
+    const preferences = {
+        moveDate: req.body['Move Date'] || null,
+        budget: req.body.Budget || 0,
+        roomType: req.body['Room type'],
+        leaseDuration: req.body['Lease Duration'],
+        housingType: req.body['Housing Type'],
+        locality: req.body.Locality,
+        university: req.body.University || 'No Preference',
+        gender: req.body.Gender,
+        smoking: req.body.Smoking ? "Yes" : "No", // Convert boolean to Yes/No
+        drinking: req.body.Drinking ? "Yes" : "No", // Convert boolean to Yes/No
+        pets: req.body.Pets ? "Yes" : "No", // Convert boolean to Yes/No
+     };
+
+    // 2. Format the move date
+    let formattedMoveDate = null;
+    if (preferences.moveDate && preferences.moveDate.includes('/')) {
+        const moveDateParts = preferences.moveDate.split('/');
+        if (moveDateParts.length === 3) {
+            const year = parseInt(moveDateParts[2], 10) + 2000; // Adjusting 'YY' to 'YYYY'
+            const month = moveDateParts[0].padStart(2, '0'); // Ensuring two digits
+            const day = moveDateParts[1].padStart(2, '0'); // Ensuring two digits
+            formattedMoveDate = `${year}-${month}-${day}`; // 'YYYY-MM-DD'
+        }
+    }
+   
+    // 4. Ensure budget is a valid number or set to 'No Preference'
+    const formattedBudget = preferences.budget && !isNaN(parseFloat(preferences.budget)) ? parseFloat(preferences.budget) : 'No Preference';
+
+    // 5. Prepare the values for the SQL query
+    const values = [
+        formattedMoveDate, // Handling 'No Preference' as null for SQL date
+        formattedBudget,
+        preferences.roomType,
+        preferences.leaseDuration,
+        preferences.housingType,
+        preferences.locality,
+        preferences.university,
+        preferences.gender,
+        preferences.smoking,
+        preferences.drinking,
+        preferences.pets,
+    ];
+
+    // 7. Construct the SQL query dynamically based on the preferences
+    let query = 'SELECT Name, Grade, University FROM project_data WHERE 1=1';
+    if (preferences.smoking && preferences.smoking !== "No Preference") {
+        query += ` AND Smoking = '${preferences.smoking}'`;
+    }
+    if (preferences.drinking && preferences.drinking !== "No Preference") {
+        query += ` AND Drinking = '${preferences.drinking}'`;
+    }
+    if (preferences.pets && preferences.pets !== "No Preference") {
+        query += ` AND Pets = '${preferences.pets}'`;
+    }
+    if (preferences.roomType && preferences.roomType !== "No Preference") {
+        query += ` AND \`Room type\` = '${preferences.roomType}'`;
+    }
+    if (preferences.gender && preferences.gender !== "No Preference") {
+        query += ` AND Gender = '${preferences.gender}'`;
+    }
+    if (preferences.housingType && preferences.housingType !== "No Preference") {
+        query += ` AND \`Housing Type\` = '${preferences.housingType}'`;
+    }
+    if (preferences.locality && preferences.locality !== "No Preference") {
+        query += ` AND Locality = '${preferences.locality}'`;
+    }
+    if (preferences.leaseDuration && preferences.leaseDuration !== "No Preference") {
+        query += ` AND \`Lease Duration\` = '${preferences.leaseDuration}'`;
+    }
+    if (preferences.budget && preferences.budget !== '') {
+        query += ` AND Budget <= ${parseInt(preferences.budget, 10)}`;
+    } 
+    if (preferences.moveDate && preferences.moveDate.trim() !== '') {
+        query += ` AND STR_TO_DATE(\`Move Date\`, '%m/%d/%y') BETWEEN DATE_SUB(STR_TO_DATE('${preferences.moveDate}', '%m/%d/%y'), INTERVAL 7 DAY) AND DATE_ADD(STR_TO_DATE('${preferences.moveDate}', '%m/%d/%y'), INTERVAL 7 DAY)`;
+    }
+    if (preferences.university && preferences.university.trim() !== '') {
+        query += ` AND University = '${escapeString(preferences.university)}'`;
+    } else {
+        query += ` AND (University = '' OR University = 'No Preference')`;
+    }
+
+    // 8. Execute the query to find matching users
+    con.query(query, (error, results) => {
+        if (error) {
+            console.error('Error querying the database:', error);
+            return res.status(500).send({ error: 'Error querying the database' });
+        }
+
+        if (results.length > 0) {
+            // Calculate the percentage match for each result
+            const matches = results.map((result) => ({
+                ...result,
+                matchPercentage: calculateMatchPercentage(result, preferences),
+            }));
+
+            // Sort the matches by match percentage in descending order
+            matches.sort((a, b) => b.matchPercentage - a.matchPercentage);
+
+            return res.json({ message: 'Matching users found', matches });
+        } else {
+            // Fetch all potential matches
+            con.query('SELECT Name, Grade, University, `Room type`, `Lease Duration`, `Housing Type`, Locality, Smoking, Drinking, Pets, Gender, Budget, `Move Date` FROM project_data', (error, potentialMatches) => {
+                if (error) {
+                    console.error('Error querying the database for potential matches:', error);
+                    return res.status(500).send({ error: 'Error querying the database' });
+                }
+
+                // Calculate similarity scores for potential matches
+                const matchesWithScores = potentialMatches.map(match => ({
+                    ...match,
+                    similarityScore: calculateSimilarityScore(match, preferences),
+                }));
+
+                // Filter and sort matches based on similarity score
+                const similarMatches = matchesWithScores
+                    .filter(match => match.similarityScore >= 0.7 && match.similarityScore < 1)
+                    .sort((a, b) => b.similarityScore - a.similarityScore);
+
+                if (similarMatches.length > 0) {
+                    return res.json({ message: 'Similar matches found', matches: similarMatches });
+                } else {
+                    return res.status(404).send({ message: 'No similar users found' });
+                }
+            });
+        }
+    });
+});
+
+// Helper function to calculate the similarity score
+const calculateSimilarityScore = (match, preferences) => {
+    let score = 0;
+    const totalPreferences = 11;
+
+    if (preferences.roomType === match['Room type'] || preferences.roomType === "No Preference") score += 1 / totalPreferences;
+    if (preferences.leaseDuration === match['Lease Duration'] || preferences.leaseDuration === "No Preference") score += 1 / totalPreferences;
+    if (preferences.housingType === match['Housing Type'] || preferences.housingType === "No Preference") score += 1 / totalPreferences;
+    if (preferences.locality === match.Locality || preferences.locality === "No Preference") score += 1 / totalPreferences;
+    if (preferences.university === match.University || preferences.university === "No Preference") score += 1 / totalPreferences;
+    if (preferences.gender === match.Gender || preferences.gender === "No Preference") score += 1 / totalPreferences;
+    if (preferences.smoking === match.Smoking) score += 1 / totalPreferences;
+    if (preferences.drinking === match.Drinking) score += 1 / totalPreferences;
+    if (preferences.pets === match.Pets) score += 1 / totalPreferences;
+
+    const budgetDifference = Math.abs(preferences.budget - match.Budget);
+    if (budgetDifference <= 100) score += 1 / totalPreferences;
+
+    const moveDateUser = new Date(preferences.moveDate);
+    const moveDateMatch = new Date(match['Move Date']);
+    const dayDifference = Math.abs(moveDateUser - moveDateMatch) / (1000 * 60 * 60 * 24);
+    if (dayDifference <= 10) score += 1 / totalPreferences;
+
+    return score;
+};
+
+// Helper function to calculate the match percentage
+const calculateMatchPercentage = (result, preferences) => {
+    let matchCount = 0;
+    const totalPreferences = 11;
+
+    // Check each preference and increment the match count if it matches
+    if (preferences.roomType === result['Room type'] || preferences.roomType === "No Preference") matchCount++;
+    if (preferences.leaseDuration === result['Lease Duration'] || preferences.leaseDuration === "No Preference") matchCount++;
+    if (preferences.housingType === result['Housing Type'] || preferences.housingType === "No Preference") matchCount++;
+    if (preferences.locality === result.Locality || preferences.locality === "No Preference") matchCount++;
+    if (preferences.university === result.University || preferences.university === "No Preference") matchCount++;
+    if (preferences.gender === result.Gender || preferences.gender === "No Preference") matchCount++;
+    if (preferences.smoking === result.Smoking) matchCount++;
+    if (preferences.drinking === result.Drinking) matchCount++;
+    if (preferences.pets === result.Pets) matchCount++;
+
+    const budgetDifference = Math.abs(preferences.budget - result.Budget);
+    if (budgetDifference <= 100) matchCount++;
+
+    const moveDateUser = new Date(preferences.moveDate);
+    const moveDateMatch = new Date(result['Move Date']);
+    const dayDifference = Math.abs(moveDateUser - moveDateMatch) / (1000 * 60 * 60 * 24);
+    if (dayDifference <= 10) matchCount++;
+
+    return ((matchCount / totalPreferences) * 100);
+};
