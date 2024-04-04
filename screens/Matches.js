@@ -26,22 +26,13 @@ const Matches = () => {
         20, University of Texas at Dallas
       </Text>
       <Text style={[styles.janeDoe, styles.textTypo1]}>Jane Doe</Text>
-      <Text style={[styles.messageThemLater, styles.messageThemLaterTypo]}>
-        Message them later
-      </Text>
+      
       <Image
           style={[styles.avatarIcon1, styles.avatarIconLayout]}
           contentFit="cover"
           source={require("../assets/avatar1.png")}
       />
 
-
-      <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate("NewMessagesPage")}  //change this to actual page later
-      >
-        <Text style={[styles.message, styles.textTypo]}>Message</Text>
-      </Pressable>
 
       <Text style={[styles.yourMatch, styles.textTypo1]}>Your Match!</Text>
       <View style={[styles.buttonWrapper, styles.buttonPosition1]}>
@@ -183,13 +174,13 @@ const styles = StyleSheet.create({
   },
 
   avatarIconLayout: {
-    height: 45,
+    height: 50,
     position: "absolute",
   },
   avatarIcon1: {
-    top: 125,
+    top: '19%',
     left: 10,
-    width: 47,
+    width: 50,
   },
 
   messageThemLaterTypo: {
@@ -208,7 +199,6 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   buttonPosition1: {
-    bottom: "29.06%",
     top: "64.17%",
     width: "12.5%",
     height: "6.77%",
@@ -231,19 +221,16 @@ vectorPreferences: {
     height: "3%",
 },
   buttonPosition: {
-    left: "-93%",
+    right: "-545%",
     bottom: "0%",
-    right: "0%",
-    top: "-650%",
-    height: "85%",
-    justifyContent: "center",
-    alignItems: "center",
+    top: "-655%",
+    height: "75%",
+   
     shadowOpacity: 1,
-    elevation: 8,
-    shadowRadius: 8,
+    
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 2,
     },
     vector: {
       left: "24.47%",
@@ -259,13 +246,12 @@ vectorPreferences: {
     width: "100%",
   },
   buttonPosition2: {
-    left: "90%",
+    left: "50%",
     bottom: "0%",
     right: "0%",
-    top: "-650%",
-    height: "85%",
-    justifyContent: "center",
-    alignItems: "center",
+    top: "-655%",
+    height: "75%",
+    
     shadowOpacity: 1,
     elevation: 8,
     shadowRadius: 8,
@@ -288,15 +274,15 @@ vectorPreferences: {
   },
   dislikeIconPosition: {
     height: 23,
-    top: 208,
-    left: 48,
+    top: '21.5%',
+    left: '91%',
     position: "absolute",
   },
   
   likeIconPosition: {
     height: 25,
-    top: 205,
-    left: 357,
+    top: '21.5%',
+    left: "78%",
     position: "absolute",
   },
   matchesChild: {
@@ -309,8 +295,8 @@ vectorPreferences: {
     position: "absolute",
   },
   universityOfTexas: {
-    top: 155,
-    left: 75,
+    top: '24%',
+    left: '14%',
     fontSize: 15,
     color: Color.colorBlack,
     fontWeight: "500",
@@ -326,8 +312,8 @@ vectorPreferences: {
     letterSpacing: 1,
   },
   janeDoe: {
-    top: 125,
-    left: 70,
+    top: '19%',
+    left: '14%',
     fontSize: 20,
     fontWeight: "700",
     width: 107,
@@ -350,13 +336,7 @@ vectorPreferences: {
     top: "94.5%",
     position: "absolute",
   },
-  messageThemLater: {
-    top: 210,
-    left: 110,
-    fontSize: 12,
-    color: "#992b13",
-    width: 150,
-  },
+
   avatarIcon: {
     top: 95,
     left: 1,

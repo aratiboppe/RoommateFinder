@@ -555,9 +555,7 @@ const styles = StyleSheet.create({
     left: 38,
     position: "absolute",
   },
-  name: {
-    top: 365,
-  },
+
   yourProfile: {
     top: 50,
     position: "absolute",
@@ -573,9 +571,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     left: 38,
   },
-  email: {
-    top: 420,
-  },
+  
   phoneNumber: {
     top: 475,
   },

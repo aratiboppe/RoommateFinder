@@ -519,13 +519,6 @@ const styles = StyleSheet.create({
 
   },
   
-  preferences: {
-    backgroundColor: '#F0DFCE',
-    flex: 1,
-    height: 561,
-    overflow: "hidden",
-    width: "100%",
-  },
 
   findRoommate: {
     color: Color.white,

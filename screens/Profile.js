@@ -30,6 +30,7 @@ const Profile = () => {
 
   const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
 
+
   const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
 
   const genderData = [
@@ -355,10 +356,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   drinkerContainer: {
-    flex: 0.75,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    top: -25,
+    top: -30,
   },
   drinkerSwitchContainer: {
     flexDirection: 'row',
@@ -419,9 +420,7 @@ const styles = StyleSheet.create({
     left: 38,
     position: "absolute",
   },
-  name: {
-    top: 365,
-  },
+
   yourProfile: {
     top: 50,
     position: "absolute",
@@ -437,9 +436,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     left: 38,
   },
-  email: {
-    top: 420,
-  },
+
+ 
   phoneNumber: {
     top: 475,
   },

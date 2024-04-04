@@ -24,16 +24,7 @@ const Matches = () => {
 
 
 
-      <Pressable
-        onPress={() => navigation.navigate("NewMessagesPage")}
-      >
-       
-     
-        <View style={styles.button}>
-        
-        <Text style={[styles.message, styles.textTypo]}>Message</Text>
-      </View>
-      </Pressable>
+    
 
 
       <Text style={[styles.yourMatch, styles.textTypo1]}>Disliked Matches</Text>
