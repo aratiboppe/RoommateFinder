@@ -340,6 +340,8 @@ const styles = StyleSheet.create({
     width: "100%",
     maxHeight: "100%",
     maxWidth: "100%",
+    backgroundColor: '#F0DFCE',
+
   },
   vector: {
     left: "69.38%",
