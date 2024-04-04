@@ -324,42 +324,10 @@ app.post('/submit-preferences', async (req, res) => {
 });
 */
 
-/*
-function calculateSimilarityScore(userPreferences, potentialMatch) {
-    let score = 0;
-    const totalCriteria = 11; // Update this number based on your criteria
-    const scorePerCriteria = 100 / totalCriteria;
-
-    if (userPreferences.roomType === potentialMatch.roomType || userPreferences.roomType === "No Preference") score += scorePerCriteria;
-    if (userPreferences.gender === potentialMatch.gender) score += scorePerCriteria;
-    if (userPreferences.housingType === potentialMatch.housingType || userPreferences.housingType === "No Preference") score += scorePerCriteria;
-    if (userPreferences.locality === potentialMatch.locality || userPreferences.locality === "No Preference") score += scorePerCriteria;
-    if (userPreferences.university === potentialMatch.university || userPreferences.university === "No Preference") score += scorePerCriteria;
-    if (userPreferences.smoking === potentialMatch.smoking) score += scorePerCriteria;
-    if (userPreferences.drinking === potentialMatch.drinking) score += scorePerCriteria;
-    if (userPreferences.pets === potentialMatch.pets) score += scorePerCriteria;
-
-    // Handling numerical values like budget with a range
-    const budgetDifference = Math.abs(userPreferences.budget - potentialMatch.budget);
-    if (budgetDifference <= 500) score += scorePerCriteria; // Assuming a tolerance of 500
-
-    // Handling dates (e.g., moveDate) with a tolerance
-    const moveDateUser = new Date(userPreferences.moveDate);
-    const moveDateMatch = new Date(potentialMatch.moveDate);
-    const dayDifference = Math.abs(moveDateUser - moveDateMatch) / (1000 * 60 * 60 * 24);
-    if (dayDifference <= 30) score += scorePerCriteria; // Assuming a 30-day tolerance
-
-    // Handling lease duration as a direct match or within a tolerance
-    if (userPreferences.leaseDuration === potentialMatch.leaseDuration) score += scorePerCriteria;
-
-    // Return the final score
-    return score;
-}
-*/
-
 app.post('/submit-preferences', async (req, res) => {
     // 1. Extract preferences from the request body
     const preferences = {
+        username: req.body.Username,
         moveDate: req.body['Move Date'] || null,
         budget: req.body.Budget || 0,
         roomType: req.body['Room type'],
@@ -373,24 +341,32 @@ app.post('/submit-preferences', async (req, res) => {
         pets: req.body.Pets ? "Yes" : "No", // Convert boolean to Yes/No
      };
 
-    // 2. Format the move date
-    let formattedMoveDate = null;
-    if (preferences.moveDate && preferences.moveDate.includes('/')) {
-        const moveDateParts = preferences.moveDate.split('/');
-        if (moveDateParts.length === 3) {
-            const year = parseInt(moveDateParts[2], 10) + 2000; // Adjusting 'YY' to 'YYYY'
-            const month = moveDateParts[0].padStart(2, '0'); // Ensuring two digits
-            const day = moveDateParts[1].padStart(2, '0'); // Ensuring two digits
-            formattedMoveDate = `${year}-${month}-${day}`; // 'YYYY-MM-DD'
-        }
-    }
-   
+    // // 2. Format the move date
+    // let formattedMoveDate = null;
+    // if (preferences.moveDate && preferences.moveDate.includes('/')) {
+    //     const moveDateParts = preferences.moveDate.split('/');
+    //     if (moveDateParts.length === 3) {
+    //         const year = parseInt(moveDateParts[2], 10) + 2000; // Adjusting 'YY' to 'YYYY'
+    //         const month = moveDateParts[0].padStart(2, '0'); // Ensuring two digits
+    //         const day = moveDateParts[1].padStart(2, '0'); // Ensuring two digits
+    //         formattedMoveDate = `${year}-${month}-${day}`; // 'YYYY-MM-DD'
+    //     }
+    // }
+
     // 4. Ensure budget is a valid number or set to 'No Preference'
     const formattedBudget = preferences.budget && !isNaN(parseFloat(preferences.budget)) ? parseFloat(preferences.budget) : 'No Preference';
 
+    // First, insert the preferences into the database
+    const insertPreferencesQuery = `
+        INSERT INTO preferences 
+        (Username, MoveDate, Budget, RoomType, LeaseDuration, HousingType, Locality, University, Gender, Smoking, Drinking, Pets)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        ;
+
     // 5. Prepare the values for the SQL query
     const values = [
-        formattedMoveDate, // Handling 'No Preference' as null for SQL date
+        preferences.username,
+        preferences.moveDate, // Handling 'No Preference' as null for SQL date
         formattedBudget,
         preferences.roomType,
         preferences.leaseDuration,
@@ -402,6 +378,15 @@ app.post('/submit-preferences', async (req, res) => {
         preferences.drinking,
         preferences.pets,
     ];
+
+    con.query(insertPreferencesQuery, values, (error, insertResult) => {
+        if (error) {
+            console.error('Error inserting preferences into the database:', error);
+            //return res.status(500).send({ error: 'Error inserting preferences into the database' });
+        }
+        console.log('INSERT RESULT:', insertResult);
+        //res.status(201).json({message: 'Preferences submitted'});
+    });
 
     // 7. Construct the SQL query dynamically based on the preferences
     let query = 'SELECT Name, Grade, University FROM project_data WHERE 1=1';
@@ -537,6 +522,9 @@ const calculateMatchPercentage = (result, preferences) => {
     const moveDateMatch = new Date(result['Move Date']);
     const dayDifference = Math.abs(moveDateUser - moveDateMatch) / (1000 * 60 * 60 * 24);
     if (dayDifference <= 10) matchCount++;
+   
+   //const matchPercentage = (matchCount / totalPreferences) * 100;
+   //const roundedMatchPercentage = Math.round(matchPercentage * 100) / 100;
 
-    return ((matchCount / totalPreferences) * 100);
+  return ((matchCount / totalPreferences) * 100);
 };
