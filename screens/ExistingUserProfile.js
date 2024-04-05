@@ -127,43 +127,7 @@ const ExistingUserProfile = () => {
         contentFit="cover"
         source={require("../assets/group-4.png")}
       />
-      <TextInput 
-          style={[styles.name, styles.nameTypo]}
-          placeholder='Name'
-          value={name}
-          onChangeText={setName}
-      />
-      <TextInput 
-        style={[styles.email, styles.emailTypo]}
-        placeholder='Email'
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput 
-        style={[styles.univerity, styles.univerityTypo]}
-        placeholder='University'
-        value={univerity}
-        onChangeText={setUniversity}
-      />
-      <TextInput 
-        style={[styles.collegeYear, styles.collegeYearTypo]}
-        placeholder='College Year'
-        value={collegeYear}
-        onChangeText={setCollegeYear}
-      />
-      <TextInput 
-          style={[styles.startDate, styles.startDateTypo]}
-          placeholder='Lease Start Date'
-          value={startDate}
-          onChangeText={setStartDate}
-      />
-      <TextInput 
-          style={[styles.maxBudget, styles.maxBudgetTypo]}
-          placeholder='Max Budget'
-          value={maxBudget}
-          onChangeText={setMaxBudget}
-      />
-
+      
       <View style={styles.selectListContainer}>
 
         <SelectList 
