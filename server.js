@@ -372,8 +372,6 @@ app.post('/submit-preferences', async (req, res) => {
             console.error('Error inserting preferences into the database:', error);
             //return res.status(500).send({ error: 'Error inserting preferences into the database' });
         }
-        //console.log('INSERT RESULT:', insertResult);
-        //res.status(201).json({message: 'Preferences submitted'});
     });
 
     // 7. Construct the SQL query dynamically based on the preferences
@@ -431,11 +429,7 @@ app.post('/submit-preferences', async (req, res) => {
  
             // Sort the matches by match percentage in descending order
             matches.sort((a, b) => b.matchPercentage - a.matchPercentage);
- 
-            
             return res.json({ message: 'Matching users found', results });
-
-
         } 
         else {
             // Fetch all potential matches
@@ -451,12 +445,50 @@ app.post('/submit-preferences', async (req, res) => {
                     similarityScore: calculateSimilarityScore(match, preferences),
                 }));
 
+                
                 // Filter and sort matches based on similarity score
                 const similarMatches = matchesWithScores
                     .filter(match => match.similarityScore >= 70 && match.similarityScore < 101)
                     .sort((a, b) => b.similarityScore - a.similarityScore);
-
+                
+                
                 if (similarMatches.length > 0) {
+                    const user1NameQuery = 'SELECT Name FROM project_data WHERE Username = ? LIMIT 1'; // Adjust table/column names as necessary
+                    con.query(user1NameQuery, [preferences.username], (err, user1Results) => {
+                        if (err || user1Results.length === 0) {
+                            console.error('Error fetching User1 Name:', err);
+                            return res.status(500).send({ error: 'User1 Name not found' });
+                        }
+                
+                        const user1Name = user1Results[0].Name; // Assuming the name is stored in the 'Name' column
+            
+                        // Insert each similar match into the 'matches' table with User1Name
+                        similarMatches.forEach(match => {
+                            const insertMatchQuery = `
+                                INSERT INTO matches 
+                                (User1Name, User2Name, User2Grade, User2Gender, User2University, User2MoveDate, User2LeaseDuration, 
+                                User2HousingType, User2Locality, User2RoomType, User2Budget, User2Smoking, User2Drinking, User2Pets, SimilarityScore)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            
+                            const matchValues = [
+                                user1Name, // Use the retrieved user1Name here
+                                match.Name,
+                                match.Grade, match.Gender, match.University, match.MoveDate,
+                                match.LeaseDuration, match.HousingType, match.Locality,
+                                match.RoomType, match.Budget, match.Smoking,
+                                match.Drinking, match.Pets, match.similarityScore
+                            ];
+            
+                            con.query(insertMatchQuery, matchValues, (insertErr, insertResult) => {
+                                if (insertErr) {
+                                    console.error('Error inserting match into database:', insertErr);
+                                    // Handle error, maybe continue to next match instead of stopping
+                                } else {
+                                    console.log('Match inserted successfully:', insertResult);
+                                }
+                            });
+                        });
+                });
                     return res.json({ message: 'Similar matches found', matches: similarMatches });
                 } else {
                     return res.status(404).send({ message: 'No similar users found' });
@@ -521,23 +553,3 @@ const calculateMatchPercentage = (result, preferences) => {
 
   return ((matchCount / totalPreferences) * 100);
 };
-
-/*
-async function getUserID(username) {
-    // Implement the logic to get the user ID based on the username
-    // This is a placeholder function and needs actual implementation
-    return new Promise((resolve, reject) => {
-        const query = `SELECT UserID FROM users WHERE Username = ?`;
-        con.query(query, [username], (error, results) => {
-            if (error) {
-                return reject(error);
-            }
-            if (results.length > 0) {
-                resolve(results[0].UserID);
-            } else {
-                reject(new Error("User not found"));
-            }
-        });
-    });
-}
-*/
