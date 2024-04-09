@@ -143,7 +143,7 @@ const Matches = () => {
         <Image
           style={[styles.icon, styles.iconLayout]}
           contentFit="cover"
-          source={require("../assets/vector5.png")}
+          source={require("../assets/chaticon.png")}
         />
       </Pressable>
       
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   fpass: {
     position: "absolute", // Ensure absolute positioning
     top: '10%', // Adjust as needed
-    left: '85%', // Adjust as needed
+    left: '82%', // Adjust as needed
     zIndex: 2,
   },
   fpass1: {
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   buttonPosition1: {
-    top: "64.17%",
+    top: "63.5%",
     width: "12.5%",
     height: "6.77%",
     position: "absolute",
@@ -274,14 +274,14 @@ vectorPreferences: {
   },
   dislikeIconPosition: {
     height: 23,
-    top: '21.5%',
+    top: '20.75%',
     left: '91%',
     position: "absolute",
   },
   
   likeIconPosition: {
     height: 25,
-    top: '21.5%',
+    top: '20.75%',
     left: "78%",
     position: "absolute",
   },
@@ -295,8 +295,8 @@ vectorPreferences: {
     position: "absolute",
   },
   universityOfTexas: {
-    top: '24%',
-    left: '14%',
+    top: '22%',
+    left: '15%',
     fontSize: 15,
     color: Color.colorBlack,
     fontWeight: "500",
@@ -324,8 +324,8 @@ vectorPreferences: {
   },
 
   vectorIcon1: {
-    height: "4%",
-    width: "6.5%",
+    height: "5%",
+    width: "6.75%",
     top: "94.49%",
     right: "5.47%",
     bottom: "2.17%",
@@ -333,7 +333,7 @@ vectorPreferences: {
     position: "absolute",
   },
   vectorIcon1Position: {
-    top: "94.5%",
+    top: "94.25%",
     position: "absolute",
   },
 

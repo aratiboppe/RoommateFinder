@@ -288,7 +288,7 @@ const ExistingUserProfile = () => {
         <Image
           style={[styles.icon, styles.iconLayout]}
           contentFit="cover"
-          source={require("../assets/vector5.png")}
+          source={require("../assets/chaticon.png")}
         />
       </Pressable>
 
@@ -363,8 +363,8 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   vectorIcon1: {
-    height: "4%",
-    width: "6.5%",
+    height: "5%",
+    width: "6.75%",
     top: "94.49%",
     right: "5.47%",
     bottom: "2.17%",
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   vectorIcon1Position: {
-    top: "94.5%",
+    top: "94.25%",
     position: "absolute",
   },
   name: {

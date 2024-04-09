@@ -113,16 +113,7 @@ const Matches = () => {
       />  */}
 
 
-      <Pressable
-        style={[styles.vectorIcon1, styles.iconLayout]}
-        onPress={() => navigation.navigate("IndividualMessages")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector5.png")}
-        />
-      </Pressable>
+
 
       <Pressable
         style={[styles.vectorIcon1, styles.vectorIcon1Position]}
@@ -131,7 +122,7 @@ const Matches = () => {
         <Image
           style={[styles.icon, styles.iconLayout]}
           contentFit="cover"
-          source={require("../assets/vector5.png")}
+          source={require("../assets/chaticon.png")}
         />
       </Pressable>
 
@@ -258,8 +249,8 @@ vectorPreferences: {
   },
 
   vectorIcon1: {
-    height: "4%",
-    width: "6.5%",
+    height: "5%",
+    width: "6.75%",
     top: "94.49%",
     right: "5.47%",
     bottom: "2.17%",
@@ -267,7 +258,7 @@ vectorPreferences: {
     position: "absolute",
   },
   vectorIcon1Position: {
-    top: "94.5%",
+    top: "94.25%",
     position: "absolute",
   },
   
