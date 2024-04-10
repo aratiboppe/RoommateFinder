@@ -24,6 +24,8 @@ const ExistingUserProfile = () => {
 
   const [isEnabled3, setIsEnabled3] = useState(false);
 
+  const [isEnabled4, setIsEnabled4] = useState(false);
+
 
 
   const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
@@ -31,6 +33,8 @@ const ExistingUserProfile = () => {
   const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
 
   const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
+
+  const toggleSwitch4 = () => setIsEnabled4(previousState => !previousState);
 
   const genderData = [
 
@@ -111,12 +115,7 @@ const ExistingUserProfile = () => {
       >
         <Text style={styles.saveProfile}>Edit Profile</Text>
       </Pressable>
-      <Pressable
-        style={styles.buttonOpt}
-        onPress={() => navigation.navigate("Matches")} //CHANGE
-      >
-        <Text style={styles.optOut}>Opt Out</Text>
-      </Pressable>
+      
       <Image
         style={styles.avatarIcon}
         contentFit="cover"
@@ -231,6 +230,23 @@ const ExistingUserProfile = () => {
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch3}
           value={isEnabled3}
+        />
+        </View>
+      </View>
+
+      <View style={styles.optContainer}>
+
+          <View style={styles.optSwitchContainer}>
+
+          <Text style={styles.optText}>Opt Out</Text>
+
+          <Switch
+
+          trackColor={{false: '#808080', true: '#00ff00'}}
+          thumbColor={isEnabled4 ? '#ffffff' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={toggleSwitch4}
+          value={isEnabled4}
         />
         </View>
       </View>
@@ -482,6 +498,19 @@ const styles = StyleSheet.create({
     marginRight: 265,
     fontSize: 15,
   },
+  optContainer: {
+    flex: 0.1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  optSwitchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  optText: {
+    marginRight: 240,
+    fontSize: 15,
+  },
   selectListContainer: {
     marginTop: 400,
     zIndex: 3,
@@ -598,8 +627,8 @@ const styles = StyleSheet.create({
   button: {
     height: 50, // Adjusted height value
     width: "40%",
-    top: "85%", // Adjusted top value
-    left: "5%",
+    top: "86%", // Adjusted top value
+    left: "30%",
     borderRadius: Border.br_980xl,
     backgroundColor: Color.colorBrown,
     shadowColor: "rgba(136, 144, 194, 0.25)",
