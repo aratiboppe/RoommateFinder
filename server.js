@@ -22,6 +22,9 @@ var con = mysql.createConnection({
     waitForConnections: true,
 });
 
+let signedInUsername = ''; // Keeps track of the username from the sign-in
+let signedInUserID = '';
+
 // Starting the server
 var server = app.listen(3305, function(){
     var host = server.address().address;
@@ -36,27 +39,30 @@ con.connect(function(error){
 });
 
 app.post('/signin', (req, res) => {
-    const { Username, Password } = req.body; // Ensure these variable names match the case used in your frontend request
+    const { Username, Password } = req.body;
+    console.log("Request body: ", req.body);
 
     if (!Username || !Password) {
+        console.log('Checking username and password');
         return res.status(400).send({ message: 'Username and password are required' });
     }
 
-    const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
-    con.query(query, [Username, Password], (error, results) => {
+    con.query('SELECT * FROM users WHERE Username = ? AND Password = ?', [Username, Password], (error, results, fields) => {
         if (error) {
-            console.error('Error querying the database:', error);
-            return res.status(500).send({ error: 'Error querying the database' });
+            console.error('Error fetching user:', error);
+            return res.status(500).json({ error: 'Error fetching the user' });
         }
-
-        //console.log(`Query results: ${results.length} user(s) found`); // For debugging
-
+        console.log('Fetched results: ', results);
+        
         if (results.length > 0) {
-            // Successful login
-            res.send({ message: 'Sign-In Successful' });
+            // Assuming that username is unique and the query would return only one result
+            const user = results[0];
+            signedInUsername = Username;
+            console.log('Username: ', signedInUsername);
+            res.status(201).json({ message: 'User Fetched Successfully', user });
         } else {
-            // Login failed
-            res.status(401).send({ message: 'Invalid username or password' });
+            // No matching user found
+            res.status(404).json({ message: 'Invalid username or password' });
         }
     });
 });
@@ -374,8 +380,23 @@ app.post('/submit-preferences', async (req, res) => {
         }
     });
 
+    // // Step to exclude user's own profile from the results
+    // const excludeSelfQuery = 'SELECT Name FROM profiles WHERE Username = ?';
+    // con.query(excludeSelfQuery, [signedInUsername], (err, result) => {
+    //     if (err || result.length === 0) {
+    //         console.error('Error or user not found:', err);
+    //         return res.status(500).send({error: 'Error fetching user or user not found'});
+    //     }
+
+    //     const userFullName = result[0].Name;
+    
     // 7. Construct the SQL query dynamically based on the preferences
     let query = 'SELECT Name, Grade, University FROM profiles WHERE 1=1';
+    //console.log('INSERT RESULT: ', signedInUsername);
+    if(preferences.username)
+    {
+        query += ` AND LOWER(Username) != LOWER('${preferences.username}')`;
+    }
     if (preferences.smoking && preferences.smoking !== "No Preference") {
         query += ` AND Smoking = '${preferences.smoking}'`;
     }
@@ -422,7 +443,9 @@ app.post('/submit-preferences', async (req, res) => {
  
         if (results.length > 0) {
             // Calculate the percentage match for each result
-            const matches = results.map((result) => ({
+            const filteredResults = results.filter(result => result.Username !== preferences.username);
+
+            const matches = filteredResults.map((result) => ({
                 ...result,
                 matchPercentage: calculateMatchPercentage(result, preferences),
             }));
@@ -432,25 +455,34 @@ app.post('/submit-preferences', async (req, res) => {
             return res.json({ message: 'Matching users found', results });
         } 
         else {
-            // Fetch all potential matches
-            con.query('SELECT Name, Grade, University, RoomType, LeaseDuration, HousingType, Locality, Smoking, Drinking, Pets, Gender, Budget, MoveDate FROM profiles', (error, potentialMatches) => {
+            const potentialMatchesQuery = `
+            SELECT Name, Grade, University, RoomType, LeaseDuration, HousingType, Locality, Smoking, Drinking, Pets, Gender, Budget, MoveDate
+            FROM profiles
+            WHERE Username != ?
+        `;
+            // // Fetch all potential matches
+            // con.query('SELECT Username, Name, Grade, University, RoomType, LeaseDuration, HousingType, Locality, Smoking, Drinking, Pets, Gender, Budget, MoveDate FROM profiles', (error, potentialMatches) => {
+            //     if (error) {
+            //         console.error('Error querying the database for potential matches:', error);
+            //         return res.status(500).send({ error: 'Error querying the database' });
+            //     }
+
+            con.query(potentialMatchesQuery, [preferences.username], (error, potentialMatches) => {
                 if (error) {
                     console.error('Error querying the database for potential matches:', error);
                     return res.status(500).send({ error: 'Error querying the database' });
                 }
-
+                
                 // Calculate similarity scores for potential matches
                 const matchesWithScores = potentialMatches.map(match => ({
                     ...match,
                     similarityScore: calculateSimilarityScore(match, preferences),
                 }));
 
-                
                 // Filter and sort matches based on similarity score
                 const similarMatches = matchesWithScores
                     .filter(match => match.similarityScore >= 70 && match.similarityScore < 101)
                     .sort((a, b) => b.similarityScore - a.similarityScore);
-                
                 
                 if (similarMatches.length > 0) {
                     const user1NameQuery = 'SELECT Name FROM project_data WHERE Username = ? LIMIT 1'; // Adjust table/column names as necessary
@@ -495,7 +527,7 @@ app.post('/submit-preferences', async (req, res) => {
                 }
             });
         }
-    });
+    }); 
 });
 
 // Helper function to calculate the similarity score
