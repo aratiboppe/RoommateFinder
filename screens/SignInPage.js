@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     top: '20%',
     left: '37%',
     width: 100,
-    height: 90,
+    height: 89,
     position: "absolute",
   },
   signInPage: {

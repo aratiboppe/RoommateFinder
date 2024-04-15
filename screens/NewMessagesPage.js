@@ -1,25 +1,38 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View, Pressable, TextInput, ScrollView } from "react-native";
+import axios from "axios"; 
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 
 const NewMessagesPage = () => {
   const [message, setMessage] = useState(""); // State to manage message input
   const [messages, setMessages] = useState([]); // State to manage sent messages
   const navigation = useNavigation();
+  const route = useRoute(); // Use useRoute to access the route parameters
+
+  const selectedMatch = route.params?.selectedMatch || "Jane Doe"; // Default to "Jane Doe" if no match is selected
+
   // Function to handle sending messages
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (message.trim() !== "") {
-      setMessages([...messages, message]); // Add message to messages state
-      setMessage(""); // Clear message input
+      try {
+        // Send the message to the API endpoint
+        const response = await axios.post("http://localhost:3305/save-message", { message });
+        
+        // If the message is successfully saved on the server, add it to the messages state
+        setMessages([...messages, response.data.message]); // Assuming the response contains the saved message
+        setMessage(""); // Clear message input
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.janeDoe}>Jane Doe</Text>
+      <Text style={styles.janeDoe}> {selectedMatch}</Text>
       <ScrollView>
         {/* Display sent messages */}
         {messages.map((msg, index) => (
@@ -80,13 +93,12 @@ const styles = StyleSheet.create({
   },
   janeDoe: {
     top: 50,
-    left: 95,
     fontSize: 40,
     letterSpacing: 0,
-    fontWeight: "500",
+    fontWeight: "400",
     color: Color.colorBrown,
     textAlign: "center",
-    width: 231,
+    width: '100%',
     height: 64,
     position: "absolute",
   },

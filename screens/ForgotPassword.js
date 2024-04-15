@@ -102,6 +102,17 @@ const ForgotPassword = () => {
         />
       </View>
 
+      <Pressable
+        style={[styles.vectorIconPreferences, styles.vectorPosition]}
+        onPress={() => navigation.goBack()}
+      >
+        <Image
+          style={[styles.linkIcon, styles.iconLayout, {transform: [{rotate:'90deg'}] }] }
+          contentFit="cover"
+          source={require("../assets/chevrondown.png")}
+        />
+      </Pressable>
+
       <View style={styles.usernameCursor}>
         <TextInput
           style={[styles.username, styles.userTypo]}
@@ -140,13 +151,36 @@ const ForgotPassword = () => {
       <Image
         style={styles.screenShot20240212At930}
         contentFit="cover"
-        source={require("../assets/screen-shot-20240212-at-930-11.png")}
+        source={require("../assets/vector4.png")}
       />
     </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
+  vectorIconPreferences: {
+    height: "3.98%",
+    width: "7.81%",
+    right: "46.25%",
+    bottom: "1.73%",
+    left: "5%",
+    maxHeight: "100%",
+    maxWidth: "100%",
+    overflow: "hidden",
+  },
+  vectorPosition: {
+    top: "6.5%",
+    position: "absolute",
+  },
+  linkIcon: {
+    height: "80%",
+    width: "150%",
+  },
+  iconLayout: {
+    maxHeight: "93%",
+    maxWidth: "100%",
+    overflow: "hidden",
+  },
   buttonShadowBox: {
     overflow: "hidden",
     shadowOpacity: 0,
@@ -379,8 +413,8 @@ const styles = StyleSheet.create({
   screenShot20240212At930: {
     top: '10%',
     left: '37%',
-    width: 97,
-    height: 111,
+    width: 100,
+    height: 89,
     position: "absolute",
   },
   ForgotPassword: {

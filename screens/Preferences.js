@@ -2,113 +2,161 @@ import React from 'react';
 //import * as React from "react";
 import { Image } from "expo-image";
 
-import { Pressable, Text, Switch, StyleSheet, View, TextInput } from "react-native";
+import { Pressable, Text, Switch, StyleSheet, View, TextInput, Alert } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
-
 import { SelectList } from 'react-native-dropdown-select-list'
-
 import { Padding, Color, Border, FontSize, FontFamily } from "../GlobalStyles";
 
 import {useState} from 'react';
 
 const Preferences = () => {
 
-  const navigation = useNavigation();
+  const navigation = useNavigation();
+  const [university, setUniversity] = useState('');
+  const [username, setUsername] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [maxBudget, setMaxBudget] = useState('');
+  const [roomType, setRoomType] = useState('');
+  const [leaseDuration, setLeaseDuration] = useState('');
+  const [housingType, setHousingType] = useState('');
+  const [locality, setLocality] = useState('');
+  const [gender, setGender] = useState('');
 
-  const [username, setUsername] = useState('');
-  const [univerity, setUniversity] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [maxBudget, setMaxBudget] = useState('');
-  
-  const [selected, setSelected] = React.useState("");
+  const [selected, setSelected] = React.useState("");
+  const [isEnabled1, setIsEnabled1] = useState(false);
+  const [isEnabled2, setIsEnabled2] = useState(false);
+  const [isEnabled3, setIsEnabled3] = useState(false);
 
-  const [isEnabled1, setIsEnabled1] = useState(false);
+  const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
+  const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
+  const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
 
-  const [isEnabled2, setIsEnabled2] = useState(false);
+const [showSignOutAlert, setShowSignOutAlert] = useState(false);
 
-  const [isEnabled3, setIsEnabled3] = useState(false);
+const handleSignOut = () => {
+  setShowSignOutAlert(true);
+};
 
+const handleConfirmSignOut = () => {
+  // Perform sign-out logic here
+  // For demonstration, navigate to the start page
+  navigation.navigate("Start");
+};
 
+  const genderData = [
+    {key:'1', value:'Female'},
+    {key:'2', value:'Male'},
+    {key:'3', value:'Other'},
+    {key:'4', value:'No Preference'},
+  ]
 
-  const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
+  const roomTypeData = [
+    {key:'1', value:'Single'},
+    {key:'2', value:'Double'},
+    {key:'3', value:'Studio'},
+    {key:'4', value:'No Preference'},
+  ]
 
-  const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
+  const leaseDurationData = [
+    {key:'1', value:'Month-to-month'},
+    {key:'2', value:'6 months'},
+    {key:'3', value:'12 months'},
+    {key:'4', value:'No Preference'},
+  ]
 
-  const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
+  const housingTypeData = [
+    {key:'1', value:'Dorm'},
+    {key:'2', value:'Apartment'},
+    {key:'3', value:'House'},
+    {key:'4', value:'No Preference'},
+  ]
 
-  const genderData = [
+  const localityData = [
+    {key:'1', value:'On-campus'},
+    {key:'2', value:'Near-campus'},
+    {key:'3', value:'Off-campus'},
+    {key:'4', value:'No Preference'},
+  ]
+  
+  const handleSubmitPreferences = async () => {
+    try {
+      const response = await fetch('http://localhost:3305/submit-preferences', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'Username': username,
+        'University': university,
+        'MoveDate': startDate, // Ensure this matches the expected format "YYYY-MM-DD"
+        'Budget': maxBudget,
+        'Gender': gender,
+        'RoomType': roomType,
+        'LeaseDuration': leaseDuration,
+        'HousingType': housingType,
+        'Locality': locality,
+        'Smoking': isEnabled1, // Assuming true => "Yes", false => "No"
+        'Drinking': isEnabled2,
+        'Pets': isEnabled3,
+      }),
+    });
 
-    {key:'1', value:'Female'},
+    const data = await response.json();
 
-    {key:'2', value:'Male'},
+// Check if the backend found matches
+if (data && data.matches) {
+      console.log("Matches found:", JSON.stringify(data.matches, null, 2));
+      // Optionally, handle the matches data further, e.g., display it in the UI
 
-    {key:'3', value:'No Preference'},
+      // Navigate to matches screen or show matches
+    navigation.navigate("Matches", { matches: data.matches });
+    } else {
+      // Handle case where no matches are found or response is not as expected
+      console.log("No matches found or unexpected response:", data);
+      alert("No matches found based on preferences.");
+    }
+  } catch (error) {
+    // Log the error and show an alert
+    console.error('Error submitting preferences:', error);
+    alert("An error occurred while submitting preferences.");
+  }
+      /*
+      const response = await axios.post('http://localhost:3305/submit-preferences', {
+        'University': university,
+        'Move Date': startDate, // Ensure this matches the expected format "MM/DD/YY"
+        Budget: maxBudget,
+        'Gender': gender,
+        'Room type': roomType,
+        'Lease Duration': leaseDuration,
+        'Housing Type': housingType,
+        Locality: locality,
+        Smoking: isEnabled1 ? "Yes" : "No", // Assuming true => "Yes", false => "No"
+        Drinking: isEnabled2 ? "Yes" : "No",
+        Pets: isEnabled3 ? "Yes" : "No"
+    })
+      // Check if the backend found matches
+      if (response.data && response.data.matches) {
+        console.log("Matches found:", response.data.matches);
+        // Optionally, handle the matches data further, e.g., display it in the UI
+  
+        // Navigate to matches screen or show matches
+        navigation.navigate("Matches", {matches: response.data.matches});
+      } else {
+        // Handle case where no matches are found or response is not as expected
+        console.log("No matches found or unexpected response:", response.data);
+        alert("No matches found based on preferences.");
+      }
+    } catch (error) {
+      // Log the error and show an alert
+      console.error('Error submitting preferences:', error);
+      alert("An error occurred while submitting preferences.");
+    }
+    */
+  };
 
-  ]
-
-
-  const roomTypeData = [
-
-    {key:'1', value:'Single'},
-
-    {key:'2', value:'Double'},
-
-    {key:'3', value:'Studio'},
-
-    {key:'4', value:'No Preference'},
-
-  ]
-
-
-
-  const leaseDurationData = [
-
-    {key:'1', value:'Month-to-month'},
-
-    {key:'2', value:'6 months'},
-
-    {key:'3', value:'12 months'},
-
-    {key:'4', value:'No Preference'},
-
-  ]
-
-
-
-  const housingTypeData = [
-
-    {key:'1', value:'Dorm'},
-
-    {key:'2', value:'Apartment'},
-
-    {key:'3', value:'House'},
-
-    {key:'4', value:'No Preference'},
-
-  ]
-
-
-
-  const localityData = [
-
-    {key:'1', value:'On-campus'},
-
-    {key:'2', value:'Near-campus'},
-
-    {key:'3', value:'Off-campus'},
-
-    {key:'4', value:'No Preference'},
-
-  ]
-
-
-
-  
 
   return (
-
-    
 
     <View style={styles.preferences}>
 
@@ -119,7 +167,7 @@ const Preferences = () => {
 
     <Pressable
         style={styles.findRoommate}
-        onPress={() => navigation.navigate("Matches")}  
+        onPress={handleSubmitPreferences}  
       >
         <Text style={[styles.findRoommate1, styles.findRoommate1Typo]}>Find My Roommate</Text>
       </Pressable>
@@ -134,13 +182,13 @@ const Preferences = () => {
     <TextInput 
         style={[styles.univerity, styles.univerityTypo]}
         placeholder='University'
-        value={univerity}
+        value={university}
         onChangeText={setUniversity}
     />
 
       <TextInput 
           style={[styles.startDate, styles.startDateTypo]}
-          placeholder='Lease Start Date'
+          placeholder='Lease Start Date (MM-DD-YY)'
           value={startDate}
           onChangeText={setStartDate}
       />
@@ -151,24 +199,20 @@ const Preferences = () => {
           value={maxBudget}
           onChangeText={setMaxBudget}
       />
-      
-
-
 
       <View style={styles.selectListContainer}>
 
-        <SelectList 
+      <SelectList 
 
-          setSelected={(val) => setSelected(val)} 
+          setSelected={setGender} 
           data={genderData} 
           save="value"
-          placeholder = "Gender"
-
+          placeholder = {"Gender"}
         />
 
         <SelectList 
 
-            setSelected={(val) => setSelected(val)} 
+            setSelected={setRoomType} 
             data={roomTypeData} 
             save="value"
             placeholder = "Room Type"
@@ -177,7 +221,7 @@ const Preferences = () => {
 
     
         <SelectList
-            setSelected={(val) => setSelected(val)} 
+            setSelected={setLeaseDuration} 
             placeholder="Lease Duration"
             data={leaseDurationData}
             save="value"
@@ -186,18 +230,17 @@ const Preferences = () => {
         
         <SelectList
             placeholder="Housing Type"
-            setSelected={(val) => setSelected(val)} 
+            setSelected={setHousingType} 
             data={housingTypeData}
             save="value"
         />
 
         <SelectList
-            setSelected={(val) => setSelected(val)} 
+            setSelected={setLocality} 
             data={localityData}
             save="value"
             placeholder="Locality"
         />
-
         
 
       </View>
@@ -274,17 +317,6 @@ const Preferences = () => {
       </Pressable>
       
       
-
-      <Pressable
-        style={[styles.vector, styles.groupPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector3.png")}
-        />
-      </Pressable>
     
       <Pressable
         style={[styles.group, styles.groupPosition]}
@@ -319,6 +351,35 @@ const Preferences = () => {
         />
       </Pressable>
 
+      <Pressable
+        style={[styles.vector, styles.groupPosition]}
+        onPress={handleSignOut}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/exit.png")}
+        />
+      </Pressable>
+
+      {/* Sign out confirmation dialog */}
+      {showSignOutAlert && (
+        Alert.alert(
+          "Sign Out",
+          "Are you sure you want to sign out?",
+          [
+            {
+              text: "No",
+              onPress: () => setShowSignOutAlert(false),
+              style: "cancel",
+            },
+            { text: "Yes", onPress: handleConfirmSignOut },
+          ],
+          { cancelable: false }
+        )
+      )}
+
+
     </View>
   );
 };
@@ -336,15 +397,14 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   preferences: {
+    backgroundColor: "#F0DFCE",
     height: "100%",
     width: "100%",
     maxHeight: "100%",
     maxWidth: "100%",
-    backgroundColor: '#F0DFCE',
-
   },
   vector: {
-    left: "69.38%",
+    left: "89%",
     top: "94.3%",
     right: "24.38%",
     bottom: "2.14%",
@@ -394,7 +454,7 @@ const styles = StyleSheet.create({
     top: "94.49%",
     right: "5.47%",
     bottom: "2.17%",
-    left: "87%",
+    left: "69.38%",
     position: "absolute",
   },
   vectorIcon1Position: {

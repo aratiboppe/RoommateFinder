@@ -1,11 +1,24 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import {useState} from 'react';
+import { StyleSheet, View, Text, Pressable, Alert } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, FontSize, Border, Color, Padding } from "../GlobalStyles";
 
 const IndividualMessages = () => {
   const navigation = useNavigation();
+
+  const [showSignOutAlert, setShowSignOutAlert] = useState(false);
+
+  const handleSignOut = () => {
+    setShowSignOutAlert(true);
+  };
+
+  const handleConfirmSignOut = () => {
+    // Perform sign-out logic here
+    // For demonstration, navigate to the start page
+    navigation.navigate("Start");
+  };
 
   return (
     <View style={styles.indivMessage}>
@@ -37,16 +50,7 @@ const IndividualMessages = () => {
       
 
       <View style={styles.messageItem} />
-      <Pressable
-        style={[styles.vector, styles.groupPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector3.png")}
-        />
-      </Pressable>
+
 
       <Pressable
         style={[styles.vectorPreferences, styles.groupPosition]}
@@ -93,19 +97,35 @@ const IndividualMessages = () => {
           source={require("../assets/chaticon.png")}
         />
       </Pressable>
-      
-
 
       <Pressable
-        style={[styles.vector1, styles.vectorPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
+        style={[styles.vector, styles.groupPosition]}
+        onPress={handleSignOut}
       >
         <Image
           style={[styles.icon, styles.iconLayout]}
           contentFit="cover"
-          source={require("../assets/vector5.png")}
+          source={require("../assets/exit.png")}
         />
       </Pressable>
+
+      {/* Sign out confirmation dialog */}
+      {showSignOutAlert && (
+        Alert.alert(
+          "Sign Out",
+          "Are you sure you want to sign out?",
+          [
+            {
+              text: "No",
+              onPress: () => setShowSignOutAlert(false),
+              style: "cancel",
+            },
+            { text: "Yes", onPress: handleConfirmSignOut },
+          ],
+          { cancelable: false }
+        )
+      )}
+      
       
     </View>
 
@@ -274,7 +294,7 @@ vectorPreferences: {
     top: "94.49%",
     right: "5.47%",
     bottom: "2.17%",
-    left: "87%",
+    left: "69.38%",
     position: "absolute",
   },
   vectorIcon1Position: {
@@ -420,7 +440,7 @@ vectorPreferences: {
     position: "absolute",
   },
   vector: {
-    left: "69.38%",
+    left: "89%",
     top: "94.3%",
     right: "24.38%",
     bottom: "2.14%",

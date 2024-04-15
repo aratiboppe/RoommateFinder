@@ -1,12 +1,17 @@
 import * as React from "react";
-import { useState } from "react";
-import { StyleSheet, View, Text, Pressable, Alert} from "react-native";
+import { StyleSheet, View, Text, Pressable, Alert, FlatList, ScrollView, Dimensions, Modal } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
+import { useState, useEffect } from 'react';
 import { FontFamily, FontSize, Border, Color, Padding } from "../GlobalStyles";
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const Matches = () => {
   const navigation = useNavigation();
+  const [matches, setMatches] = useState([]);
+  const [selectedMatch, setSelectedMatch] = useState([]);
   const [showSignOutAlert, setShowSignOutAlert] = useState(false);
 
   const handleSignOut = () => {
@@ -19,38 +24,197 @@ const Matches = () => {
     navigation.navigate("Start");
   };
 
-  return (
-    <View style={styles.matches}>
-      <View style={styles.matchesChild} />
-      <Text style={[styles.universityOfTexas, styles.messageThemLaterTypo]}>
-        20, University of Texas at Dallas
-      </Text>
-      <Text style={[styles.janeDoe, styles.textTypo1]}>Jane Doe</Text>
+  const handleOpenModal = (match) => {
+    setSelectedMatch(match);
+  };
+
+  // Function to handle closing modal
+  const handleCloseModal = () => {
+    setSelectedMatch(null);
+  };
+
+  useEffect(() => {
+    fetchMatches();
+  }, []);
+
+  const fetchMatches = async () => {
+    try {
+      const response = await fetch("http://localhost:3305/matches", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      setMatches(data);
+    } catch (error) {
+      console.error("Error fetching matches:", error);
+    }
+  };
+  
+  const likeMatch = (id) => {
+    setMatches(matches.map(match => {
+      if (match.id === id) {
+        return { ...match, liked: true, disliked: false };
+      }
+      return match;
+    }));
+  };
+  
+  const dislikeMatch = (id) => {
+    setMatches(matches.map(match => {
+      if (match.id === id) {
+        return { ...match, disliked: true, liked: false };
+      }
+      return match;
+    }));
+  };
+
+  
+
+  const renderItem = ({ item }) => (
+    <View style={[styles.matchContainer, item.liked && styles.likedMatch, item.disliked && styles.dislikedMatch]}>
+    <Text style={styles.user2Name}>{item.User2Name}</Text>
+    <Text style={styles.universityOfTexas}>University: {item.User2University}</Text>
+    <Text style={styles.similarityScore}>Score: {item.SimilarityScore}</Text>
+  
+    <Pressable onPress={() => handleOpenModal(item)}>
+              <Text style={styles.preferenceLink}>Preferences</Text>
+    </Pressable>
+    <Modal visible={selectedMatch !== null} animationType="slide" transparent={true}>
+      <View style={styles.modalContainer}>
+        <ScrollView contentContainerStyle={styles.modalContent}>
+          {selectedMatch && (
+            <View style={styles.preferencesContainer}>
+              <Text style={styles.preferenceLabel}>{selectedMatch.User2Name}</Text>
+              <Text style={styles.preferenceLabel}>Grade: {selectedMatch.User2Grade}</Text>
+              <Text style={styles.preferenceLabel}>Gender: {selectedMatch.User2Gender}</Text>
+              <Text style={styles.preferenceLabel}>Move Date: {selectedMatch.User2MoveDate}</Text>
+              <Text style={styles.preferenceLabel}>Lease Duration: {selectedMatch.User2LeaseDuration}</Text>
+              <Text style={styles.preferenceLabel}>Housing Type: {selectedMatch.User2HousingType}</Text>
+              <Text style={styles.preferenceLabel}>Locality: {selectedMatch.User2Locality}</Text>
+              <Text style={styles.preferenceLabel}>Room Type: {selectedMatch.User2RoomType}</Text>
+              <Text style={styles.preferenceLabel}>Budget: {selectedMatch.User2Budge}</Text>
+              <Text style={styles.preferenceLabel}>Smoking: {selectedMatch.User2Smoking}</Text>
+              <Text style={styles.preferenceLabel}>Drinking: {selectedMatch.User2Drinking}</Text>
+              <Text style={styles.preferenceLabel}>Pets: {selectedMatch.User2Pets}</Text>
+
+            </View>
+          )}
+          <Pressable onPress={handleCloseModal}>
+            <Text style={styles.closeButton}>Close</Text>
+          </Pressable>
+        </ScrollView>
+      </View>
+    </Modal>
+
+      <Pressable
+        onPress={() => navigation.navigate("IndividualMessages")}
+      >
+          <Text style={styles.messageThemLater}>Message them later</Text>
+      </Pressable>
       
       <Image
-          style={[styles.avatarIcon1, styles.avatarIconLayout]}
-          contentFit="cover"
-          source={require("../assets/avatar1.png")}
+        style={styles.avatarIcon}
+        contentFit="cover"
+        source={require("../assets/avatar1.png")}
       />
-
-
-      <Text style={[styles.yourMatch, styles.textTypo1]}>Your Match!</Text>
-      <View style={[styles.buttonWrapper, styles.buttonPosition1]}>
-        <View style={[styles.button1, styles.buttonPosition]} />
-      </View>
-      <View style={[styles.buttonContainer, styles.buttonPosition1]}>
-        <View style={[styles.button2, styles.buttonPosition2]} />
-      </View>
-      
-      
       <Pressable
-        style={styles.forgotPassword}
-        //onPress={() => navigation.navigate("Start")}  //change this to actual page later
-        onPress={handleSignOut}
+        style={styles.likeButton}
+        onPress={() => likeMatch(item.id)}
+      >
+        <Image
+          style={styles.likeIcon}
+          source={require("../assets/like.png")}
+        />
+      </Pressable>
+      <Pressable
+        style={styles.dislikeButton}
+        onPress={() => dislikeMatch(item.id)}
+      >
+        <Image
+          style={styles.dislikeIcon}
+          source={require("../assets/group-33.png")}
+        />
+      </Pressable>
+      <Pressable
+          onPress={() => navigation.navigate("NewMessagesPage", { selectedMatch: item.User2Name })}
 
       >
-        <Text style={[styles.fpass, styles.fpass1]}>Sign Out?</Text>
+        <View style={styles.button}>
+          <Text style={[styles.message, styles.textTypo]}>Message</Text>
+        </View>
       </Pressable>
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <Text style={[styles.yourMatch, styles.textTypo1]}>Your Match!</Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {matches.map((item, index) => (
+          <View key={index}>
+            {renderItem({ item })}
+          </View>
+        ))}
+      </ScrollView>
+      <View style={styles.iconsContainer}>
+        <Pressable
+          style={[styles.vectorPreferences, styles.groupPosition]}
+          onPress={() => navigation.navigate("Preferences")}
+        >
+          <Image
+            style={[styles.icon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/icons8-preferences-32.png")}
+          />
+        </Pressable>
+      
+        <Pressable
+          style={[styles.group, styles.groupPosition]}
+          onPress={() => navigation.navigate("ExistingUserProfile")}
+        >
+          <Image
+            style={[styles.icon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/group.png")}
+          />
+        </Pressable>
+        
+        <Pressable
+          style={[styles.vectorIcon, styles.vectorPosition]}
+          onPress={() => navigation.navigate("Matches")}
+        >
+          <Image
+            style={[styles.linkIcon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/vector4.png")}
+          />
+        </Pressable>
+
+        <Pressable
+          
+          style={[styles.vectorIcon1, styles.vectorIcon1Position]}
+          onPress={() => navigation.navigate("IndividualMessages")}
+        >
+          <Image
+            style={[styles.icon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/chaticon.png")}
+          />
+        </Pressable>
+
+        <Pressable
+          style={[styles.vector, styles.groupPosition]}
+          //onPress={() => navigation.navigate("Start")}  //change this to actual page later
+          onPress={handleSignOut}
+        >
+          <Image
+            style={[styles.icon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/exit.png")}
+          />
+        </Pressable>
    
       {/* Sign out confirmation dialog */}
       {showSignOutAlert && (
@@ -69,293 +233,73 @@ const Matches = () => {
         )
       )}
 
-      <Pressable
-        style={[styles.dislikeIcon, styles.dislikeIconPosition]}
-        onPress={() => navigation.navigate("DislikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/like.png")}
-        />
-      </Pressable>
 
-      <View style={styles.matchesItem} />
-      <Pressable
-        style={[styles.vector, styles.groupPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector3.png")}
-        />
-      </Pressable>
 
-      <Pressable
-        style={[styles.vectorPreferences, styles.groupPosition]}
-        onPress={() => navigation.navigate("Preferences")}
-      >
-        <Image
-          style={[styles.preferences, styles.preferencesLayout]}
-          contentFit="cover"
-          source={require("../assets/icons8-preferences-32.png")}
-        />
-      </Pressable>
-      
-      <Pressable
-        style={[styles.likeIcon, styles.likeIconPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/group-33.png")}
-        />
-      </Pressable>
-    
-      <Pressable
-        style={[styles.group, styles.groupPosition]}
-        onPress={() => navigation.navigate("ExistingUserProfile")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/group.png")}
-        />
-      </Pressable>
-      
-      <Pressable
-        style={[styles.vectorIcon, styles.vectorPosition]}
-        onPress={() => navigation.navigate("Matches")}
-      >
-        <Image
-          style={[styles.linkIcon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector4.png")}
-        />
-      </Pressable>
 
-      <Pressable
-        style={[styles.vectorIcon1, styles.vectorIcon1Position]}
-        onPress={() => navigation.navigate("IndividualMessages")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/chaticon.png")}
-        />
-      </Pressable>
-      
-      
+
+      </View>
     </View>
-
   );
 };
 
 const styles = StyleSheet.create({
-
-
-  fpass: {
-    position: "absolute", // Ensure absolute positioning
-    top: '10%', // Adjust as needed
-    left: '82%', // Adjust as needed
-    zIndex: 2,
-  },
-  fpass1: {
+  preferenceLink: {
+    textDecorationLine: 'underline',
     color: Color.colorBlack,
-    letterSpacing: 0,
-    fontSize: FontSize.size_10xl,
-    zIndex: 2,
+    top: 3, // Adjust this value as needed for spacing
+    left: 90,
   },
 
-  forgotPassword: {
-    top: '9%',
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    paddingTop: '15%',
   },
-
-  avatarIconLayout: {
-    height: 50,
-    position: "absolute",
+  modalContent: {
+    backgroundColor: '#F0DFCE',
+    padding: 50,
+    borderRadius: 10,
+    width: '80%',
   },
-  avatarIcon1: {
-    top: '19%',
-    left: 10,
-    width: 50,
+  preferencesContainer: {
+    marginTop: 50,
   },
-
-  messageThemLaterTypo: {
-    height: 24,
-    textAlign: "center",
-    letterSpacing: 1,
-    position: "absolute",
+  preferenceLabel: {
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
-  textTypo: {
-    fontWeight: "600",
-    color: Color.white,
-    fontSize: 15,
+  closeButton: {
+    textAlign: 'center',
+    color: '#008080',
+    marginTop: 10,
   },
-  textTypo1: {
-    textAlign: "center",
-    position: "absolute",
-  },
-  buttonPosition1: {
-    top: "63.5%",
-    width: "12.5%",
-    height: "6.77%",
-    position: "absolute",
-  },
-
-  preferences: {
-    height: "100%",
-    width: "100%",
-    maxHeight: "100%",
-    maxWidth: "100%",
-
-  },
-
-vectorPreferences: {
-    left: "24%",
-    right: "20%",
-    bottom: "2.58%",
-    width: "7%",
-    height: "3%",
-},
-  buttonPosition: {
-    right: "-545%",
-    bottom: "0%",
-    top: "-655%",
-    height: "75%",
-   
-    shadowOpacity: 1,
-    
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    vector: {
-      left: "24.47%",
-      right: "70.06%",
-      bottom: "2.58%",
-      width: "5.47%",
-      height: "2.67%",
-    },
-    shadowColor: "rgba(136, 144, 194, 0.25)",
-    borderRadius: Border.br_980xl,
-    position: "absolute",
-    overflow: "hidden",
-    width: "100%",
-  },
-  buttonPosition2: {
-    left: "50%",
-    bottom: "0%",
-    right: "0%",
-    top: "-655%",
-    height: "75%",
-    
-    shadowOpacity: 1,
-    elevation: 8,
-    shadowRadius: 8,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-  vector: {
-    left: "24.47%",
-    right: "70.06%",
-    bottom: "2.58%",
-    width: "5.47%",
-    height: "2.67%",
-  },
-  shadowColor: "rgba(136, 144, 194, 0.25)",
-  borderRadius: Border.br_980xl,
-  position: "absolute",
-  overflow: "hidden",
-  width: "100%",
-  },
-  dislikeIconPosition: {
-    height: 23,
-    top: '20.75%',
-    left: '91%',
-    position: "absolute",
+  line: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+    marginBottom: 10,
   },
   
-  likeIconPosition: {
-    height: 25,
-    top: '20.75%',
-    left: "78%",
-    position: "absolute",
-  },
-  matchesChild: {
-    top: 102,
-    left: 39,
-    borderRadius: Border.br_mini,
-    backgroundColor: Color.colorLinen,
-    width: 242,
-    height: 312,
-    position: "absolute",
-  },
-  universityOfTexas: {
-    top: '22%',
-    left: '15%',
+  similarityScore: {
     fontSize: 15,
-    color: Color.colorBlack,
-    fontWeight: "500",
-  },
-  text: {
-    top: 105,
-    left: 121,
-    width: 74,
-    height: 16,
-    textAlign: "center",
-    position: "absolute",
-    color: Color.colorBlack,
-    letterSpacing: 1,
-  },
-  janeDoe: {
-    top: '19%',
-    left: '14%',
-    fontSize: 20,
-    fontWeight: "700",
-    width: 107,
-    height: 23,
-    color: Color.colorBlack,
-    letterSpacing: 1,
-    textAlign: "center",
-  },
-
-  vectorIcon1: {
-    height: "5%",
-    width: "6.75%",
-    top: "94.49%",
-    right: "5.47%",
-    bottom: "2.17%",
-    left: "87%",
-    position: "absolute",
-  },
-  vectorIcon1Position: {
-    top: "94.25%",
-    position: "absolute",
-  },
-
-  avatarIcon: {
-    top: 95,
-    left: 1,
-    width: 100,
-    height: 95,
-    position: "absolute",
+    bottom: 35,
+    left: 320,
   },
   message: {
     lineHeight: 12,
     height: 12,
     textAlign: "center",
   },
+  textTypo: {
+    fontWeight: "600",
+    color: Color.white,
+    fontSize: FontSize.size_mini,
+  },
   button: {
-    height: "5.5%",
-    width: "45%",
-    top: "20%",
-    right: "25.5%",
-    bottom: "16.61%",
-    left: "27%",
+    height: "7.27%",
+    width: "50.13%",
+    right: "25%",
     backgroundColor: Color.colorBrown,
     flexDirection: "row",
     paddingHorizontal: 0,
@@ -373,83 +317,55 @@ vectorPreferences: {
     borderRadius: Border.br_980xl,
     position: "absolute",
     overflow: "hidden",
+    bottom: 20,
   },
-
-
-  yourMatch: {
-    top: '7%',
-    left: 100,
-    fontSize: 40,
-    letterSpacing: 0,
-    color: Color.colorBrown,
-    width: 231,
-    fontWeight: "500",
+  vectorPreferences: {
+    left: "24%",
+    right: "20%",
+    bottom: "2.58%",
+    width: "7%",
+    height: "3%",
   },
-  button1: {
-    backgroundColor: '#E98274',
-    opacity: 0.5,
+  groupPosition: {
+    top: "94.74%",
+    position: "absolute",
   },
-  buttonWrapper: {
-    right: "68.44%",
-    left: "19.06%",
+  preferences: {
+    height: "100%",
+    width: "100%",
+    maxHeight: "100%",
+    maxWidth: "100%",
   },
-  button2: {
-    backgroundColor: '#2FD658',
-    opacity: 0.3,
+  vector: {
+    left: "89%",
+    top: "94.3%",
+    right: "24.38%",
+    bottom: "2.14%",
+    width: "6.25%",
+    height: "3.57%",
+    position: "absolute",
   },
-
   icon: {
     height: "80%",
     width: "110%",
     maxHeight: "100%",
     maxWidth: "100%",
   },
-  linkIcon: {
-    height: "80%",
-    width: "150%",
-  },
   iconLayout: {
     maxHeight: "93%",
     maxWidth: "100%",
     overflow: "hidden",
   },
-  buttonContainer: {
-    right: "19.69%",
-    left: "67.81%",
-  },
-  dislikeIcon: {
-    left: 71,
-    width: 21,
-  },
-  likeIcon: {
-    left: 71,
-    width: 21,
-  },
-  matchesItem: {
-    left: 228,
-    width: 19,
-  },
-  matchesInner: {
-    top: 620,
-    width: 390,
-    height: 50,
-    position: "absolute",
-  },
-  vectorPosition: {
-    top: "94.3%",
-    position: "absolute",
-  },
-  groupPosition: {
-    top: "94.74%",
-    position: "absolute",
-  },
-
   group: {
     left: "4.22%",
     right: "91.09%",
     bottom: "2.44%",
     width: "7%",
     height: "4%",
+  },
+  linkIcon: {
+    height: "80%",
+    width: "150%",
   },
   vectorIcon: {
     height: "3.98%",
@@ -459,31 +375,136 @@ vectorPreferences: {
     left: "45.94%",
     maxHeight: "100%",
     maxWidth: "100%",
-    overflow: "hidden",
   },
-  iconCog: {
-    top: 632,
-    left: 330,
-    width: 30,
-    height: 25,
-    position: "absolute",
-  },
-  vector: {
-    left: "69.38%",
+  vectorPosition: {
     top: "94.3%",
-    right: "24.38%",
-    bottom: "2.14%",
-    width: "6.25%",
-    height: "3.57%",
     position: "absolute",
   },
-  matches: {
-    backgroundColor: '#F0DFCE',
+  vectorIcon1: {
+    height: "5%",
+    width: "6.75%",
+    top: "94.49%",
+    right: "5.47%",
+    bottom: "2.17%",
+    left: "69.38%",
+    position: "absolute",
+  },
+  vectorIcon1Position: {
+    top: "94.25%",
+    position: "absolute",
+  },
+  container: {
     flex: 1,
-    height: 561,
-    overflow: "hidden",
-    width: "100%",
+    backgroundColor: '#F0DFCE',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  scrollContainer: {
+    marginTop: 120,
+    alignItems: 'center',
+  },
+  matchContainer: {
+    marginBottom: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 10,
+    width: windowWidth - 20,
+    marginHorizontal: 10,
+  },
+  likedMatch: {
+    backgroundColor: 'lightcoral',
+  },
+  dislikedMatch: {
+    backgroundColor: 'lightgreen',
+  },
+  user2Name: {
+    top: 10,
+    left: 90,
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  universityOfTexas: {
+    fontSize: 15,
+    top: 15, 
+    left: 90,
+    color: Color.colorBlack,
+    fontWeight: "500",
+    paddingBottom: 5,
+  },
+  messageThemLater: {
+    fontSize: 12,
+    top: 90, 
+    left: 140,
+    color: "#992b13",
+    paddingBottom: 5,
+  },
+  avatarIcon: {
+    bottom: 90,
+    width: 80,
+    height: 75,
+    marginTop: 10,
+  },
+  likeButton: {
+    position: 'absolute',
+    bottom: 30,
+    left: 10,
+    padding: 10,
+  },
+  dislikeButton: {
+    position: 'absolute',
+    bottom: 30,
+    right: 10,
+    padding: 10,
+  },
+  likeIcon: {
+    width: 30,
+    height: 30,
+  },
+  dislikeIcon: {
+    width: 30,
+    height: 30,
+  },
+  yourMatch: {
+    top: '7%',
+    left: 100,
+    fontSize: 40,
+    letterSpacing: 0,
+    color: Color.colorBrown,
+    width: 231,
+    fontWeight: "500",
+  },
+  textTypo1: {
+    textAlign: "center",
+    position: "absolute",
+  },
+  iconsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: 30,
+    backgroundColor: '#F0DFCE',
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    top: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconImage: {
+    width: 30,
+    height: 30,
+    top: 10,
   },
 });
 
 export default Matches;
+
+
+

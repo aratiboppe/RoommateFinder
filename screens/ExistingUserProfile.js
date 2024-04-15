@@ -1,7 +1,7 @@
 //import * as React from "react";
 import React from 'react';
 import {useState} from 'react';
-import { Text, StyleSheet, Switch, View, Pressable, TextInput} from "react-native";
+import { Text, StyleSheet, Switch, View, Pressable, TextInput, Alert} from "react-native";
 import { Image } from "expo-image";
 import { SelectList } from 'react-native-dropdown-select-list'
 import { useNavigation } from "@react-navigation/native";
@@ -27,7 +27,6 @@ const ExistingUserProfile = () => {
   const [isEnabled4, setIsEnabled4] = useState(false);
 
 
-
   const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
 
   const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
@@ -36,6 +35,18 @@ const ExistingUserProfile = () => {
 
   const toggleSwitch4 = () => setIsEnabled4(previousState => !previousState);
 
+  const [showSignOutAlert, setShowSignOutAlert] = useState(false);
+
+  const handleSignOut = () => {
+    setShowSignOutAlert(true);
+  };
+
+  const handleConfirmSignOut = () => {
+    // Perform sign-out logic here
+    // For demonstration, navigate to the start page
+    navigation.navigate("Start");
+  };
+  
   const genderData = [
 
     {key:'1', value:'Female'},
@@ -104,18 +115,14 @@ const ExistingUserProfile = () => {
   return (
     <View style={styles.profile}>
       <Text style={styles.yourProfile}>Your Profile</Text>
-      
-      
-    
-  
-      
+
       <Pressable
         style={styles.button}
         onPress={() => navigation.navigate("Profile")}
       >
         <Text style={styles.saveProfile}>Edit Profile</Text>
       </Pressable>
-      
+
       <Image
         style={styles.avatarIcon}
         contentFit="cover"
@@ -232,9 +239,9 @@ const ExistingUserProfile = () => {
           value={isEnabled3}
         />
         </View>
-      </View>
+        </View>
 
-      <View style={styles.optContainer}>
+        <View style={styles.optContainer}>
 
           <View style={styles.optSwitchContainer}>
 
@@ -249,6 +256,7 @@ const ExistingUserProfile = () => {
           value={isEnabled4}
         />
         </View>
+
       </View>
 
       <Pressable
@@ -259,19 +267,6 @@ const ExistingUserProfile = () => {
           style={[styles.preferences, styles.preferencesLayout]}
           contentFit="cover"
           source={require("../assets/icons8-preferences-32.png")}
-        />
-      </Pressable>
-      
-      
-
-      <Pressable
-        style={[styles.vector, styles.groupPosition]}
-        onPress={() => navigation.navigate("LikedMatches")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector3.png")}
         />
       </Pressable>
     
@@ -308,6 +303,33 @@ const ExistingUserProfile = () => {
         />
       </Pressable>
 
+      <Pressable
+        style={[styles.vector, styles.groupPosition]}
+        onPress={handleSignOut}
+      >
+        <Image
+          style={[styles.icon, styles.iconLayout]}
+          contentFit="cover"
+          source={require("../assets/exit.png")}
+        />
+      </Pressable>
+
+      {/* Sign out confirmation dialog */}
+      {showSignOutAlert && (
+        Alert.alert(
+          "Sign Out",
+          "Are you sure you want to sign out?",
+          [
+            {
+              text: "No",
+              onPress: () => setShowSignOutAlert(false),
+              style: "cancel",
+            },
+            { text: "Yes", onPress: handleConfirmSignOut },
+          ],
+          { cancelable: false }
+        )
+      )}
 
     </View>
     
@@ -334,7 +356,7 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
   },
   vector: {
-    left: "69.38%",
+    left: "89%",
     top: "94.3%",
     right: "24.38%",
     bottom: "2.14%",
@@ -384,7 +406,7 @@ const styles = StyleSheet.create({
     top: "94.49%",
     right: "5.47%",
     bottom: "2.17%",
-    left: "87%",
+    left: "69.38%",
     position: "absolute",
   },
   vectorIcon1Position: {

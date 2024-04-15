@@ -28,11 +28,10 @@ const Matches = () => {
         onPress={() => navigation.navigate("NewMessagesPage")}
       >
        
-     
         <View style={styles.button}>
         
-        <Text style={[styles.message, styles.textTypo]}>Message</Text>
-      </View>
+          <Text style={[styles.message, styles.textTypo]}>Message</Text>
+        </View>
       </Pressable>
 
 
