@@ -24,6 +24,8 @@ var con = mysql.createConnection({
 
 let signedInUsername = ''; // Keeps track of the username from the sign-in
 let signedInUserID = '';
+let isNew = false; // keeps track of if user is new or returning, TRUE = New User, FALSE = Existing
+
 
 // Starting the server
 var server = app.listen(3305, function(){
@@ -38,297 +40,794 @@ con.connect(function(error){
     else console.log("Connected to the database");
 });
 
-app.post('/signin', (req, res) => {
-    const { Username, Password } = req.body;
-    console.log("Request body: ", req.body);
-
-    if (!Username || !Password) {
-        console.log('Checking username and password');
-        return res.status(400).send({ message: 'Username and password are required' });
+// Endpoint to fetch name type data
+app.post('/nameType', async(req,res) => {
+    console.log("signed username NAME:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
     }
 
-    con.query('SELECT * FROM users WHERE Username = ? AND Password = ?', [Username, Password], (error, results, fields) => {
-        if (error) {
-            console.error('Error fetching user:', error);
-            return res.status(500).json({ error: 'Error fetching the user' });
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
         }
-        console.log('Fetched results: ', results);
-        
-        if (results.length > 0) {
-            // Assuming that username is unique and the query would return only one result
-            const user = results[0];
-            signedInUsername = Username;
-            console.log('Username: ', signedInUsername);
-            res.status(201).json({ message: 'User Fetched Successfully', user });
-        } else {
-            // No matching user found
-            res.status(404).json({ message: 'Invalid username or password' });
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Name FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Name is not there"});
         }
-    });
+        res.status(200).json({message: "Name Data is found", name: result[0]});
+    } catch (error){
+        console.error("Error fetching name: ", error);
+        res.status(500).json({error: "Name is not set"});
+    }
 });
 
+// Endpoint to fetch email type data
+app.post('/emailType', async(req,res) => {
+    console.log("signed username email:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Email FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Email is not there"});
+        }
+        res.status(200).json({message: "Email data is there", email: result[0]});
+    } catch (error){
+        console.error("error fetching email: ", error);
+        res.status(500).json({error: "Email not found"});
+    }
+});
+
+// Endpoint to fetch uni type data
+app.post('/uniType', async(req,res) => {
+    console.log("signed username University:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT University FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Univeristy is not there"});
+        }
+        res.status(200).json({message: "University data is there", university: result[0]});
+    } catch (error){
+        console.error("error fetching University: ", error);
+        res.status(500).json({error: "University not found"});
+    }
+});
+
+// Endpoint to fetch name grade data
+app.post('/gradeType', async(req,res) => {
+    console.log("signed username GRADE:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Grade FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Grade is not there"});
+        }
+        res.status(200).json({message: "Grade data is there", grade: result[0]});
+    } catch (error){
+        console.error("error fetching grade: ", error);
+        res.status(500).json({error: "Grade not found"});
+    }
+});
+
+// Endpoint to fetch gender type data
+app.post('/genderType', async(req,res) => {
+    console.log("signed username GENDER:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Gender FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Gender is not there"});
+        }
+        res.status(200).json({message: "Gender data is there", gender: result[0]});
+    } catch (error){
+        console.error("error fetching gender: ", error);
+        res.status(500).json({error: "Gender data is not found"});
+    }
+});
+
+// Endpoint to fetch move date type data
+app.post('/movedateType', async(req,res) => {
+    console.log("signed username MD:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT DATE_FORMAT(MoveDate, '%Y-%m-%d') AS MoveDate FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Move Date is not there"});
+        }
+        res.status(200).json({message: "Move Date data is there", moveDate: result[0]});
+    } catch (error){
+        console.error("error fetching Move Date: ", error);
+        res.status(500).json({error: "Move Date not found"});
+    }
+});
+
+// Endpoint to fetch lease type data
+app.post('/leasedurationType', async(req,res) => {
+    console.log("signed username Lease Duration:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT LeaseDuration FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Lease Duration is not there"});
+        }
+        res.status(200).json({message: "Lease Duration data is there", leaseDuration: result[0]});
+    } catch (error){
+        console.error("error fetching Lease Duration: ", error);
+        res.status(500).json({error: "error bro youre durationlesss"});
+    }
+});
+
+// Endpoint to fetch name type data
+app.post('/localityType', async(req,res) => {
+    console.log("signed username Locality:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Locality FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Locality is not there"});
+        }
+        res.status(200).json({message: "Locality data is there", locality: result[0]});
+    } catch (error){
+        console.error("error fetching Locality: ", error);
+        res.status(500).json({error: "Locality not found"});
+    }
+});
+
+// Endpoint to fetch name type data
+app.post('/roomType', async(req,res) => {
+    console.log("signed username Room type:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT RoomType FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Room type is not there"});
+        }
+        res.status(200).json({message: "Room type data is there", roomType: result[0]});
+    } catch (error){
+        console.error("error fetching Room type: ", error);
+        res.status(500).json({error: "Room Type was not found"});
+    }
+});
+
+// Endpoint to fetch name type data
+app.post('/budgetType', async(req,res) => {
+    console.log("signed username Budget:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Budget FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Budget is not there"});
+        }
+        res.status(200).json({message: "Budget data is there", budget: result[0]});
+    } catch (error){
+        console.error("error fetching Budget: ", error);
+        res.status(500).json({error: "Budget data not found"});
+    }
+});
+
+// Endpoint to fetch housing type data
+app.post('/housingType', async(req,res) => {
+    console.log("signed username HOUSING:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT HousingType FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "HousingType is not there"});
+        }
+        res.status(200).json({message: "Housing data is there", housingType: result[0]});
+    } catch (error){
+        console.error("error fetching housingType: ", error);
+        res.status(500).json({error: "Housing type was not found"});
+    }
+});
+
+// Endpoint to fetch smoke type data
+app.post('/smokeType', async(req,res) => {
+    console.log("signed username SMOKING:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Smoking FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Smoking is not there"});
+        }
+        res.status(200).json({message: "Smoking data is there", smoke: result[0]});
+    } catch (error){
+        console.error("error fetching smoking: ", error);
+        res.status(500).json({error: "Smoking data is not found"});
+    }
+});
+
+// Endpoint to fetch drink type data
+app.post('/drinkType', async(req,res) => {
+    console.log("signed username DRINKING:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Drinking FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Drinking is not there"});
+        }
+        res.status(200).json({message: "Drinking data is there", drink: result[0]});
+    } catch (error){
+        console.error("error fetching drinking: ", error);
+        res.status(500).json({error: "Drinking data is not found"});
+    }
+});
+
+// Endpoint to fetch pet type data
+app.post('/petType', async(req,res) => {
+    console.log("signed username PETS:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Pets FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Pets is not there"});
+        }
+        res.status(200).json({message: "Pet data is there", pets: result[0]});
+    } catch (error){
+        console.error("error fetching Pet: ", error);
+        res.status(500).json({error: "Pets data is not found"});
+    }
+});
+
+// Endpoint to fetch opt toggle data
+app.post('/OptToggle', async(req,res) => {
+    console.log("signed username OPT:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const userResult = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT isHidden FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Opt is not there"});
+        }
+        res.status(200).json({message: "Opt data is there", opt: result[0]});
+    } catch (error){
+        console.error("error fetching Opt: ", error);
+        res.status(500).json({error: "Opt data not found"});
+    }
+});
+
+// Endpoint to fetch user status
+app.post('/userStatus', async (req,res) => {
+    if(isNew === true){
+        console.log('in if true');
+        res.status(201).json({message: 'User is New', user: 'new'});
+    } else {
+        console.log('in if false');
+        res.status(201).json({message: 'User is Existing', user: 'exist'});
+    }
+})
+
+// Create Account Server Code
 app.post('/register', async (req, res) => {
     console.log('Recieved Request Body:', req.body);
     const { Username, Password, Email } = req.body;
-    // First, check if the user already exists
-    const checkUserQuery = 'SELECT * FROM users WHERE Email = ?';
-    con.query(checkUserQuery, [Email], (checkError, existingUsers) => {
-        if (checkError) {
-            console.error('Error checking user:', checkError);
-            return res.status(500).json({ error: 'Error checking user' });
-        }
+    console.log('Received variables:', Username, Email);
+    try {
+        // Check if user already exists
+        const existingUsers = con.query('SELECT * FROM users WHERE Email = ?', [Email]);
         if (existingUsers.length > 0) {
-            // User already exists
             return res.status(400).json({ error: 'User already exists' });
         }
-
-        // If user does not exist, insert new user into the database
-        const insertUserQuery = 'INSERT INTO users (Username, Password, Email) VALUES (?, ?, ?)';
-        con.query(insertUserQuery, [Username, Password, Email], (insertError, result) => {
-            if (insertError) {
-                console.error('Error registering user:', insertError);
-                return res.status(500).json({ error: 'Error registering user' });
-            }
-            console.log('INSERT RESULT:', result);
-            // Assuming `Username` is unique or an auto-incremented ID, you might want to return it or another identifier
-            res.status(201).json({ message: 'User registered successfully', userId: result.insertId });
-        });
-    });
-});
-
-app.post('/reset-password', (req, res) => {
-    const { username, newPassword } = req.body;
-    console.log(req.body);
-    // Input validation (in a real app, you'd also want to hash the password before storing it)
-    if (!username || !newPassword) {
-        return res.status(400).send({ message: 'Username and new password are required' });
+        // Insert new user into the database
+        const result = con.query('INSERT INTO users (Username, Password, Email) VALUES (?, ?, ?)', [Username, Password, Email]);
+        signedInUsername = Username;
+        console.log('INSERT RESULT: ', result);
+        res.status(201).json({ message: 'User registered successfully', Username: result.insertId });
+        isNew = true;
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Error registering user' });
     }
-    
-        // SQL query to update the user's password
-    const query = 'UPDATE users SET password = ? WHERE username = ?';
-    con.query(query, [newPassword, username], (error, results) => {
-        if (error) {
-            console.error('Error updating the database:', error);
-            return res.status(500).send({ error: 'Error updating the database' });
+});
+
+// Reset password page
+app.post('/reset-password',(req,res)=> {
+    const{Username, newPassword} = req.body;
+    console.log(req.body);
+    if(!Username || !newPassword){
+        return res.status(400).send({message: 'Username and new password are required'});
+    }
+    con.query('UPDATE users SET Password = ? WHERE Username = ?', [newPassword, Username], (error, result) => {
+        if(error){
+            console.error('Error updating the database', error);
+            return res.status(500).send({error: 'Error updating the database'});
         }
-    
-        if (results.affectedRows > 0) {
-            res.send({ message: 'Password reset successful' });
-        } else {
-            res.status(404).send({ message: 'User not found' });
+        if(result.affectedRows > 0){
+            res.send({message: 'Password reset successful'});
+        } else{
+            res.status(404).send({message:'User not found'});
         }
     });
 });
 
-// Create Profile Server Code
+// Sign-in
+app.post('/signin', async(req, res) => {
+    const {Username, Password} = req.body;
+    console.log("request body: ",req.body);
+    if (!Username || !Password) {
+        console.log('checking username');
+        return res.status(400).send({ message: 'Username and password are required' });
+    }
+
+    try {
+        const result = con.query('SELECT * FROM users WHERE Username = ? AND Password = ?', [Username, Password]);
+        console.log('FETCHED RESULTS: ', result);
+        signedInUsername = Username;
+        console.log('Username: ',signedInUsername);
+        res.status(201).json({message: 'User Fetched Successfully', Username: result.insertId});
+        isNew = false;
+    } catch (error){
+        console.error('Error fetching user:', error);
+        res.status(500).json({error: 'Error fetching the user'});
+    }
+});
+
+// Create Profile Server Code 
+// PROFILE 1
 app.post('/saveProfile', async (req, res) => {
     console.log('Recieved Request Body:', req.body);
     const profile = { 
         Name: req.body.Name,
+        Email: req.body.Email,
         Grade: req.body.Grade,
         Gender: req.body.Gender,
         University: req.body.University,
-        MoveDate: req.body['Move Date'],
-        LeaseDuration: req.body['Lease Duration'],
-        HousingType:req.body['Housing Type'],
+        MoveDate: req.body.MoveDate,
+        LeaseDuration: req.body.LeaseDuration,
+        HousingType:req.body.HousingType,
         Locality: req.body.Locality,
-        RoomType: req.body['Room type'],
+        RoomType: req.body.RoomType,
         Budget: req.body.Budget,
         Smoking: req.body.Smoking ? "Yes" : "No",
         Drinking: req.body.Drinking ? "Yes" : "No",
-        Pets: req.body.Pets ? "Yes" : "No",
-        Email: req.body.Email
-        
-    };
-    const insertQuery = 'INSERT INTO profiles (Name, Grade, Gender, University, `Move Date`, `Lease Duration`, `Housing Type`, Locality, `Room Type`, Budget, Smoking, Drinking, Pets, Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    const values = [profile.Name, profile.Grade, profile.Gender, profile.University, profile.MoveDate, profile.LeaseDuration, profile.HousingType, profile.Locality, profile.RoomType, profile.Budget, profile.Smoking, profile.Drinking, profile.Pets, profile.Email];
-
-    con.query(insertQuery, values, (error, result) => {
-        if (error) {
-            console.log('Error saving profile:', error);
-            return res.status(500).json({error: 'Error saving profile'});
-        }
-        console.log('INSERT RESULT:', result);
-        res.status(201).json({message: 'Profile saved successfully', ProfileId: result.insertId});
-    });
-});
-
-/*
-function calculateSimilarityScore(userPreferences, potentialMatch) {
-    let score = 0;
-    const totalCriteria = 11;
-    const scorePerCriteria = 100 / totalCriteria;
-
-    // Compare each criterion
-    if (userPreferences.roomType === potentialMatch.roomType || userPreferences.roomType === "No Preference") score += scorePerCriteria;
-    if (userPreferences.gender === potentialMatch.gender) score += scorePerCriteria;
-    if (userPreferences.housingType === potentialMatch.housingType || userPreferences.housingType === "No Preference") score += scorePerCriteria;
-    if (userPreferences.locality === potentialMatch.locality || userPreferences.locality === "No Preference") score += scorePerCriteria;
-    if (userPreferences.university === potentialMatch.university) score += scorePerCriteria;
-    if (userPreferences.smoking === potentialMatch.smoking) score += scorePerCriteria;
-    if (userPreferences.drinking === potentialMatch.drinking) score += scorePerCriteria;
-    if (userPreferences.pets === potentialMatch.pets) score += scorePerCriteria;
-
-    // Handling numerical values like budget with a range
-    const budgetDifference = Math.abs(userPreferences.budget - potentialMatch.budget);
-    if (budgetDifference <= 500) score += scorePerCriteria; // Assuming a tolerance of 500
-
-    // Handling dates (e.g., moveDate) with a tolerance
-    const moveDateUser = new Date(userPreferences.moveDate);
-    const moveDateMatch = new Date(potentialMatch.moveDate);
-    const dayDifference = Math.abs(moveDateUser - moveDateMatch) / (1000 * 60 * 60 * 24);
-    if (dayDifference <= 30) score += scorePerCriteria; // Assuming a 30-day tolerance
-
-    // Handling lease duration as a direct match or within a tolerance
-    if (userPreferences.leaseDuration === potentialMatch.leaseDuration) score += scorePerCriteria;
-
-    return score;
-}
-*/
-//////////////////// WORKING 
-/*
-app.post('/submit-preferences', async (req, res) => {
-    // Extract preferences from the request body
-    const preferences = {
-        moveDate: req.body['Move Date'] || null,
-        budget: req.body.Budget || 0,
-        roomType: req.body['Room type'],
-        leaseDuration: req.body['Lease Duration'],
-        housingType: req.body['Housing Type'],
-        locality: req.body.Locality,
-        university: req.body.University || 'No Preference',
-        gender: req.body.Gender,
-        smoking: req.body.Smoking ? "Yes" : "No", // Convert boolean to Yes/No
-        drinking: req.body.Drinking ? "Yes" : "No", // Convert boolean to Yes/No
-        pets: req.body.Pets ? "Yes" : "No", // Convert boolean to Yes/No
+        Pets: req.body.Pets ? "Yes" : "No"
     };
 
-    let formattedMoveDate = null;
-    if (preferences.moveDate && preferences.moveDate.includes('/')) {
-        const moveDateParts = preferences.moveDate.split('/');
-        if (moveDateParts.length === 3) {
-            const year = parseInt(moveDateParts[2], 10) + 2000; // Adjusting 'YY' to 'YYYY'
-            const month = moveDateParts[0].padStart(2, '0'); // Ensuring two digits
-            const day = moveDateParts[1].padStart(2, '0'); // Ensuring two digits
-            formattedMoveDate = `${year}-${month}-${day}`; // 'YYYY-MM-DD'
+    try{
+        console.log("*******SIGNED IN USER: **********", signedInUserID)
+        if (!signedInUserID){ // updating the profile
+            const result = con.query('INSERT INTO profiles (Name, Email, Grade, Gender, University, MoveDate, LeaseDuration, HousingType, RoomType, Locality, Budget, Smoking, Drinking, Pets) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [profile.Name, profile.Email, profile.Grade, profile.Gender, profile.University, profile.MoveDate, profile.LeaseDuration, profile.HousingType, profile.RoomType, profile.Locality, profile.Budget, profile.Smoking, profile.Drinking, profile.Pets]);
+            console.log('INSERT RESULT: ',result);
+            res.status(201).json({message: 'Profile saved successfully', ProfileId: result.insertId, user: 'new'});
+        } else {
+            const result = con.query('UPDATE profiles SET Name = ?, Email =?, Grade = ?, Gender = ?, University = ?, MoveDate = ?, LeaseDuration = ?, HousingType = ?, RoomType =?, Locality =?, Budget =?, Smoking = ?, Drinking = ?, Pets =? WHERE UserID = ?',
+            [profile.Name, profile.Email, profile.Grade, profile.Gender, profile.University, profile.MoveDate, profile.LeaseDuration, profile.HousingType, profile.RoomType, profile.Locality, profile.Budget, profile.Smoking, profile.Drinking, profile.Pets,signedInUserID]);
+            console.log('UPDATE RESULT: ',result);
+            res.status(201).json({message: 'Profile updated successfully', ProfileId: result.insertId, user: 'exists'});
         }
+    } catch(error){
+        console.log('Error saving profile:', error);
+        console.error(error.res.data);
+        res.status(500).json({error: 'Error saving profile'});
     }
-
-    ///////////
-
-    // First, insert the preferences into the database
-    const insertPreferencesQuery = `
-        INSERT INTO preferences 
-        (MoveDate, Budget, RoomType, LeaseDuration, HousingType, Locality, University, Gender, Smoking, Drinking, Pets)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-        ;
-
-    // Assuming a default value for budget if left blank or invalid
-    const formattedBudget = preferences.budget && !isNaN(parseFloat(preferences.budget)) ? parseFloat(preferences.budget) : 'No Preference';
-
-    const values = [
-        formattedMoveDate, // Handling 'No Preference' as null for SQL date
-        formattedBudget,
-        preferences.roomType,
-        preferences.leaseDuration,
-        preferences.housingType,
-        preferences.locality,
-        preferences.university,
-        preferences.gender,
-        preferences.smoking,
-        preferences.drinking,
-        preferences.pets,
-    ];
-
-    con.query(insertPreferencesQuery, values, (error, insertResult) => {
-        if (error) {
-            console.error('Error inserting preferences into the database:', error);
-            //return res.status(500).send({ error: 'Error inserting preferences into the database' });
-        }
-        console.log('INSERT RESULT:', insertResult);
-        //res.status(201).json({message: 'Preferences submitted'});
-    });
-    
-    // Ensure strings are properly escaped to prevent SQL injection
-    const escapeString = value => value.replace(/'/g, "\\'");
-
-    // Construct the SQL query dynamically based on the preferences
-    let query = 'SELECT Name, Grade, University FROM project_data WHERE 1=1';
-    if (preferences.roomType && preferences.roomType !== "No Preference") {
-        query += ` AND \`Room type\` = '${preferences.roomType}'`;
-    }
-    if (preferences.gender && preferences.gender !== "No Preference") {
-        query += ` AND Gender = '${preferences.gender}'`;
-    }
-    if (preferences.housingType && preferences.housingType !== "No Preference") {
-        query += ` AND \`Housing Type\` = '${preferences.housingType}'`;
-    }
-    if (preferences.locality && preferences.locality !== "No Preference") {
-        query += ` AND Locality = '${preferences.locality}'`;
-    }
-    if (preferences.pets && preferences.pets !== "No Preference") {
-        query += ` AND Pets = '${preferences.pets}'`;
-    }
-    if (preferences.leaseDuration && preferences.leaseDuration !== "No Preference") {
-        query += ` AND \`Lease Duration\` = '${preferences.leaseDuration}'`;
-    }
-    if (preferences.smoking && preferences.smoking !== "No Preference")
-    {
-        query += ` AND Smoking = '${preferences.smoking}'`;
-    }
-    if (preferences.drinking && preferences.drinking !== "No Preference") {
-        query += ` AND Drinking = '${preferences.drinking}'`;
-    }
-    if (preferences.budget && preferences.budget.trim() !== '') {
-        query += ` AND Budget <= ${parseInt(preferences.budget, 10)}`;
-    }
-    if (preferences.moveDate && preferences.moveDate.trim() !== '') {
-        query += ` AND STR_TO_DATE(\`Move Date\`, '%m/%d/%y') BETWEEN DATE_SUB(STR_TO_DATE('${preferences.moveDate}', '%m/%d/%y'), INTERVAL 7 DAY) AND DATE_ADD(STR_TO_DATE('${preferences.moveDate}', '%m/%d/%y'), INTERVAL 7 DAY)`;
-    }
-    if (preferences.university && preferences.university.trim() !== '') {
-        query += ` AND University = '${escapeString(preferences.university)}'`;
-    }
-
-    // Execute the query
-    con.query(query, (error, results) => {
-        if (error) {
-            console.error('Error querying the database:', error);
-            return res.status(500).send({ error: 'Error querying the database' });
-        }
-
-        if (results.length > 0) {
-            res.json({ message: 'Matching users found', matches: results });
-        } 
-        else {
-            res.status(404).send({ message: 'No matching users found' });
-            /*
-            // If no direct matches found, attempt to find similar matches
-            const similarityQuery = `SELECT * FROM project_data`; // Adjust as necessary
-            con.query(similarityQuery, (similarityError, allPotentialMatches) => {
-                if (similarityError) {
-                    console.error('Error querying the database for similarity check:', similarityError);
-                    return res.status(500).send({ error: 'Error querying the database' });
-                }
-    
-                // Calculate similarity scores for all potential matches
-                const scoredMatches = allPotentialMatches.map(match => ({
-                    ...match,
-                    similarityScore: calculateSimilarityScore(preferences, match) // Define this function
-                })).filter(match => match.similarityScore >= 70 && match.similarityScore < 100)
-                    .sort((a, b) => b.similarityScore - a.similarityScore);
-    
-                if (scoredMatches.length > 0) {
-                    // Return top similar matches based on the score
-                    res.json({ message: 'Potential matches found based on similarity score', matches: scoredMatches.slice(0, 3) });
-                } else {
-                    res.status(404).send({ message: 'No similar users found' });
-                }
-            });
-
-        }
-    });
 });
-*/
+
+// Get the user profile for existing user
+// PROFILE 2
+app.get('/get-profile', async(req,res) => {
+    console.log("signed username:",signedInUsername);
+    if(!signedInUsername){
+        return res.status(400).json({error: 'Not signed in'});
+    }
+
+    try{
+        const [userResult] = con.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
+        if (userResult.length === 0){
+            return res.status(404).json({error: 'User not found'});
+        }
+        signedInUserID = userResult[0].UserID;
+        console.log("userID:", signedInUserID);
+        const result = con.query("SELECT Name, Email, University, Grade, Gender, MoveDate, LeaseDuration, HousingType, Locality, RoomType, Budget, Smoking, Drinking, Pets FROM profiles WHERE UserID = ?", [signedInUserID]);
+        console.log('Query: ', result);
+        if (result.length === 0){
+            return res.status(404).json({error: "Profile not found"});
+        }
+        res.status(200).json({message: "profile fetched successfully", profile: result[0]});
+    } catch (error){
+        console.error("error fetching profile: ", error);
+        res.status(500).json({error: "error fetching profile"});
+    }
+});
+
+app.post('/optOut', async (req, res) =>{
+    try{
+        con.execute('UPDATE profiles SET isHidden = 1 WHERE UserID = ?', [signedInUserID]);
+        res.status(200).json({message: 'User opted out successfully.' });
+    } catch (error) {
+        console.error('Error opting out user: ', error);
+        res.status(500).json({error: 'Failed to opt out user.'});
+    }
+});
+
+app.post('/optIn', async (req,res) => {
+    try {
+        con.execute('UPDATE profiles SET isHidden = 0 WHERE UserID = ?', [signedInUserID]);
+        res.status(200).json({message: 'User opted in successfully.'});
+    } catch (error){
+        console.error('Error opting in user: ', error);
+        res.status(500).json({error: 'Failed to opt in user.'});
+    }
+})
+/////////////////////////////////////////////
+// app.post('/signin', (req, res) => {
+//     const { Username, Password } = req.body;
+//     console.log("Request body: ", req.body);
+
+//     if (!Username || !Password) {
+//         console.log('Checking username and password');
+//         return res.status(400).send({ message: 'Username and password are required' });
+//     }
+
+//     // Using con.query here instead of pool.query
+//     con.query('SELECT * FROM users WHERE Username = ? AND Password = ?', [Username, Password], (err, result) => {
+//         if (err) {
+//             console.error('Error fetching user:', err);
+//             return res.status(500).json({ error: 'Error fetching the user' });
+//         }
+//         console.log('FETCHED RESULTS: ', result);
+
+//         // Check if any user is found
+//         if (result.length > 0) {
+//             // Assuming you want to set these for session or similar purpose
+//             signedInUsername = Username;
+//             signedInUserID = result[0].UserID; // Assuming your user table has a UserID field
+//             console.log('Username: ', signedInUsername);
+//             console.log('UserID: ', signedInUserID);
+
+//             // Send response back
+//             res.status(200).json({ message: 'User Fetched Successfully', user: result[0] });
+//         } else {
+//             // No user found with the provided credentials
+//             res.status(404).json({ error: 'No user found with the provided credentials' });
+//         }
+//     });
+// });
+
+// // Create Account Server Code
+// app.post('/register', (req, res) => {
+//     console.log('Received Request Body:', req.body);
+//     const { Username, Password, Email } = req.body;
+
+//     if (!Username || !Password || !Email) {
+//         return res.status(400).send({ message: 'Username, password, and email are required' });
+//     }
+
+//     // Check if user already exists
+//     con.query('SELECT * FROM users WHERE Email = ?', [Email], (err, existingUsers) => {
+//         if (err) {
+//             console.error('Error checking user existence:', err);
+//             return res.status(500).json({ error: 'Database error checking user existence' });
+//         }
+//         if (existingUsers.length > 0) {
+//             return res.status(400).json({ error: 'User already exists' });
+//         }
+
+//         // Insert new user into the database
+//         con.query('INSERT INTO users (Username, Password, Email) VALUES (?, ?, ?)', [Username, Password, Email], (insertErr, result) => {
+//             if (insertErr) {
+//                 console.error('Error registering user:', insertErr);
+//                 return res.status(500).json({ error: 'Error registering user' });
+//             }
+//             signedInUsername = Username;
+//             signedInUserID = result.insertId;  // Assuming your users table has an auto-increment primary key
+//             console.log('INSERT RESULT: ', result);
+//             res.status(201).json({ message: 'User registered successfully', UserID: result.insertId });
+//         });
+//     });
+// });
+
+// app.post('/reset-password', (req, res) => {
+//     const {Username, newPassword } = req.body;
+//     console.log(req.body);
+//     // Input validation (in a real app, you'd also want to hash the password before storing it)
+//     if (!Username || !newPassword){
+//         return res.status(400).send({ message: 'Username and new password are required' });
+//     }
+//     const query = 'UPDATE users SET Password = ? WHERE Username = ?';
+//     con.query(query, [newPassword, Username], (error, results) => {
+//         if (error) {
+//             console.error('Error updating the database:', error);
+//             return res.status(500).send({ error: 'Error updating the database' });
+//         }
+//         if (results.affectedRows > 0) {
+//             res.send({ message: 'Password reset successful' });
+//         } else {
+//             res.status(404).send({ message: 'User not found' });
+//         }
+//     });
+// });
+// // Create Profile Server Code
+// app.post('/saveProfile', (req, res) => {
+//     console.log('Received Request Body:', req.body);
+//     const profile = {
+//         Name: req.body.Name,
+//         Email: req.body.Email,
+//         Grade: req.body.Grade,
+//         Gender: req.body.Gender,
+//         University: req.body.University,
+//         MoveDate: req.body.MoveDate,
+//         LeaseDuration: req.body.LeaseDuration,
+//         HousingType: req.body.HousingType,
+//         Locality: req.body.Locality,
+//         RoomType: req.body.RoomType,
+//         Budget: req.body.Budget,
+//         Smoking: req.body.Smoking ? "Yes" : "No",
+//         Drinking: req.body.Drinking ? "Yes" : "No",
+//         Pets: req.body.Pets ? "Yes" : "No",
+//         //ProfilePicture: req.body.ProfileImage, // send base64 image string to server
+//     };
+
+//     try {
+//         console.log("SIGNED IN USER: ", signedInUserID);
+//         if (!signedInUserID) { // Updating the profile
+//           con.query(
+//             'INSERT INTO profiles (Name, Email, Grade, Gender, University, MoveDate, LeaseDuration, HousingType, RoomType, Locality, Budget, Smoking, Drinking, Pets) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+//             [
+//               profile.Name, profile.Email, profile.Grade, profile.Gender, profile.University, profile.MoveDate, profile.LeaseDuration, profile.HousingType, profile.RoomType, profile.Locality, profile.Budget, profile.Smoking, profile.Drinking, profile.Pets
+//             ],
+//             (error, results, fields) => {
+//               if (error) {
+//                 console.log('Error saving profile:', error);
+//                 res.status(500).json({ error: 'Error saving profile' });
+//               } else {
+//                 console.log('INSERT RESULT: ', results);
+//                 res.status(201).json({ message: 'Profile saved successfully', ProfileId: results.insertId, user: 'new' });
+//               }
+//             }
+//           );
+//         } else {
+//           con.query(
+//             'UPDATE profiles SET Name = ?, Email = ?, Grade = ?, Gender = ?, University = ?, MoveDate = ?, LeaseDuration = ?, HousingType = ?, RoomType = ?, Locality = ?, Budget = ?, Smoking = ?, Drinking = ?, Pets = ? WHERE UserID = ?',
+//             [
+//               profile.Name, profile.Email, profile.Grade, profile.Gender, profile.University, profile.MoveDate, profile.LeaseDuration, profile.HousingType, profile.RoomType, profile.Locality, profile.Budget, profile.Smoking, profile.Drinking, profile.Pets, signedInUserID
+//             ],
+//             (error, results, fields) => {
+//               if (error) {
+//                 console.log('Error saving profile:', error);
+//                 res.status(500).json({ error: 'Error saving profile' });
+//               } else {
+//                 console.log('UPDATE RESULT: ', results);
+//                 res.status(201).json({ message: 'Profile updated successfully', ProfileId: results.insertId, user: 'exists' });
+//               }
+//             }
+//           );
+//         }
+//       } catch (error) {
+//         console.log('Error saving profile:', error);
+//         console.error(error.res.data);
+//         res.status(500).json({ error: 'Error saving profile' });
+//       }
+// });
+
+// app.get('/get-profile', async(req,res) => {
+//     console.log("signed username:",signedInUsername);
+//     if(!signedInUsername){
+//         return res.status(400).json({error: 'Not signed in'});
+//     }
+
+//     try{
+//         const userResult = con.query('SELECT UserID FROM users WHERE username = ?', [signedInUsername]);
+//         if (userResult.length === 0){
+//             return res.status(404).json({error: 'User not found'});
+//         }
+//         signedInUserID = userResult[0].UserID;
+//         console.log("userID:", signedInUserID);
+//         const result = con.query("SELECT Name, Email, University, Grade, Gender, DATE_FORMAT(MoveDate, '%m-%d-%Y') AS MoveDate, LeaseDuration, HousingType, Locality, RoomType, Budget, Smoking, Drinking, Pets FROM profiles WHERE UserID = ?", [signedInUserID]);
+//         console.log('Query: ', result);
+//         if (result.length === 0){
+//             return res.status(404).json({error: "Profile not found"});
+//         }
+//         res.status(200).json({message: "profile fetched successfully", profile: result[0]});
+//     } catch (error){
+//         console.error("error fetching profile: ", error);
+//         res.status(500).json({error: "error fetching profile"});
+//     }
+// });
+
+// app.post('/optOut', (req, res) => {
+//     if (!signedInUserID) {
+//         return res.status(400).json({ error: 'User not signed in' });
+//     }
+
+//     con.query('UPDATE profiles SET isHidden = 1 WHERE UserID = ?', [signedInUserID], (err, result) => {
+//         if (err) {
+//             console.error('Error opting out user:', err);
+//             return res.status(500).json({ error: 'Failed to opt out user' });
+//         }
+//         if (result.affectedRows === 0) {
+//             return res.status(404).json({ error: 'User not found' });
+//         }
+//         res.status(200).json({ message: 'User opted out successfully' });
+//     });
+// });
+// app.post('/optOut', async (req, res) => {
+//     try {
+//       con.query('UPDATE profiles SET isHidden = 1 WHERE UserID = ?', [signedInUserID], (error, results, fields) => {
+//         if (error) {
+//           console.error('Error opting out user: ', error);
+//           res.status(500).json({ error: 'Failed to opt out user.' });
+//         } else {
+//           res.status(200).json({ message: 'User opted out successfully.' });
+//         }
+//       });
+//     } catch (error) {
+//       console.error('Error opting out user: ', error);
+//       res.status(500).json({ error: 'Failed to opt out user.' });
+//     }
+//   });
+
+//   app.post('/optIn', async (req, res) => {
+//     try {
+//       con.query('UPDATE profiles SET isHidden = 0 WHERE UserID = ?', [signedInUserID], (error, results, fields) => {
+//         if (error) {
+//           console.error('Error opting in user: ', error);
+//           res.status(500).json({ error: 'Failed to opt in user.' });
+//         } else {
+//           res.status(200).json({ message: 'User opted in successfully.' });
+//         }
+//       });
+//     } catch (error) {
+//       console.error('Error opting in user: ', error);
+//       res.status(500).json({ error: 'Failed to opt in user.' });
+//     }
+//   });
+
+
+//   app.post('/signOut', async (req, res) => {
+//     signedInUserID = '';
+//     signedInUsername = '';
+//     console.log('Signed username: ', signedInUsername);
+//     console.log('Signed UserID: ', signedInUserID);
+//     res.status(200).json({ message: 'Log off Successful' });
+//   });
+
+////////////////////////////////////////////////////
+
 
 app.post('/submit-preferences', async (req, res) => {
     // 1. Extract preferences from the request body
@@ -379,16 +878,6 @@ app.post('/submit-preferences', async (req, res) => {
             //return res.status(500).send({ error: 'Error inserting preferences into the database' });
         }
     });
-
-    // // Step to exclude user's own profile from the results
-    // const excludeSelfQuery = 'SELECT Name FROM profiles WHERE Username = ?';
-    // con.query(excludeSelfQuery, [signedInUsername], (err, result) => {
-    //     if (err || result.length === 0) {
-    //         console.error('Error or user not found:', err);
-    //         return res.status(500).send({error: 'Error fetching user or user not found'});
-    //     }
-
-    //     const userFullName = result[0].Name;
     
     // 7. Construct the SQL query dynamically based on the preferences
     let query = 'SELECT Name, Grade, University FROM profiles WHERE 1=1';
@@ -460,19 +949,13 @@ app.post('/submit-preferences', async (req, res) => {
             FROM profiles
             WHERE Username != ?
         `;
-            // // Fetch all potential matches
-            // con.query('SELECT Username, Name, Grade, University, RoomType, LeaseDuration, HousingType, Locality, Smoking, Drinking, Pets, Gender, Budget, MoveDate FROM profiles', (error, potentialMatches) => {
-            //     if (error) {
-            //         console.error('Error querying the database for potential matches:', error);
-            //         return res.status(500).send({ error: 'Error querying the database' });
-            //     }
 
             con.query(potentialMatchesQuery, [preferences.username], (error, potentialMatches) => {
                 if (error) {
                     console.error('Error querying the database for potential matches:', error);
                     return res.status(500).send({ error: 'Error querying the database' });
                 }
-                
+
                 // Calculate similarity scores for potential matches
                 const matchesWithScores = potentialMatches.map(match => ({
                     ...match,
@@ -529,6 +1012,61 @@ app.post('/submit-preferences', async (req, res) => {
         }
     }); 
 });
+
+app.get('/matches', (req, res) => {
+    const sql = 'SELECT * FROM matches';
+  
+    con.query(sql, (err, results) => {
+      if (err) {
+        console.error('Error querying the database for matches:', err);
+        return res.status(500).send({ error: 'Error querying the database for matches' });
+      }
+      res.json(results);
+    });
+});
+
+// Endpoint to save messages
+app.post('/save-message', async (req, res) => {
+    console.log('Received Message Body:', req.body);
+    
+    // Extract message data from the request body
+    const { sender, receiver, message } = req.body;
+
+    // Perform any necessary validation on the message data
+
+    // Insert the message into the database
+    const insertMessageQuery = 'INSERT INTO messages (sender, receiver, message) VALUES (?, ?, ?)';
+    const values = [sender, receiver, message];
+
+    con.query(insertMessageQuery, values, (error, result) => {
+        if (error) {
+            console.error('Error saving message:', error);
+            return res.status(500).json({ error: 'Error saving message' });
+        }
+        console.log('INSERT RESULT:', result);
+        res.status(201).json({ message: values, messageId: result.insertId });
+    });
+
+
+    // Create a new table for the user if it doesn't exist
+    const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS ${receiver}_messages (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            sender VARCHAR(255),
+            message TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    `;
+    
+    con.query(createTableQuery, (error, result) => {
+        if (error) {
+            console.error('Error creating table:', error);
+            // You can handle the error here, depending on your requirements
+        }
+        console.log('Table created successfully:', result);
+    });
+});
+
 
 // Helper function to calculate the similarity score
 const calculateSimilarityScore = (match, preferences) => {
