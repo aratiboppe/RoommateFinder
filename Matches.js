@@ -41,8 +41,8 @@ const Matches = () => {
     setSelectedMatch(null);
   };
 
-  // Inside the useEffect hook where you fetch matches
-  useEffect(() => {
+    // Inside the useEffect hook where you fetch matches
+    useEffect(() => {
     fetchMatches();
     // Set up periodic polling to fetch matches data every 30 seconds
     const intervalId = setInterval(() => {
@@ -251,13 +251,13 @@ const Matches = () => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <Text style={[styles.yourMatch, styles.textTypo1]}>Your Matches!</Text>
         {matches.map((item, index) => (
           <View key={index}>
             {renderItem({ item })}
           </View>
         ))}
       </ScrollView>
+        <Text style={[styles.yourMatch, styles.textTypo1]}>Your Matches!</Text>
       <View style={styles.iconsContainer}>
         <Pressable
           style={[styles.vectorPreferences, styles.groupPosition]}
@@ -519,6 +519,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F0DFCE',
   },
+  container1: {
+    flex: 1,
+    backgroundColor: '#000000',
+    left: '10%',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -592,7 +597,7 @@ const styles = StyleSheet.create({
     height: 30,
   },
   yourMatch: {
-    top: '8%',
+    top: '7%',
     left: 100,
     fontSize: 35,
     letterSpacing: 0,
@@ -603,6 +608,8 @@ const styles = StyleSheet.create({
   textTypo1: {
     textAlign: "center",
     position: "absolute",
+    backgroundColor: '#F0DFCE',
+    
   },
   iconsContainer: {
     flexDirection: 'row',

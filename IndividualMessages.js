@@ -1,24 +1,26 @@
 import * as React from "react";
-import {useState} from 'react';
-import { StyleSheet, View, Text, Pressable, Alert } from "react-native";
+import { StyleSheet, View, Text, Pressable, Alert, FlatList, ScrollView, Dimensions, Modal } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
+import { useState, useEffect } from 'react';
 import { FontFamily, FontSize, Border, Color, Padding } from "../GlobalStyles";
 import axios from "axios";
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const IndividualMessages = () => {
   const navigation = useNavigation();
-
+  const [matches, setMatches] = useState([]);
+  const [selectedMatch, setSelectedMatch] = useState([]);
   const [showSignOutAlert, setShowSignOutAlert] = useState(false);
-
+ 
   const handleSignOut = () => {
     setShowSignOutAlert(true);
   };
-
-  const handleConfirmSignOut = async() => {
+ 
+  const handleConfirmSignOut = async () => {
     // Perform sign-out logic here
-    // For demonstration, navigate to the start page
-        // Perform sign-out logic here
     // For demonstration, navigate to the start page
     try {
       const response = await axios.post('http://localhost:3001/signOut');
@@ -28,95 +30,192 @@ const IndividualMessages = () => {
       Alert.alert('Error', 'Failed to sign out. Please try again later.');
     }
   };
-
-  return (
-    <View style={styles.indivMessage}>
-      <View style={styles.messagesChild} />
-      <Text style={[styles.messageFrom, styles.messageThemLaterTypo]}>
-        Hey, how are you?
-      </Text>
-      <Text style={[styles.janeDoe, styles.textTypo1]}>Jane Doe</Text>
-
+ 
+  const handleOpenModal = (match) => {
+    setSelectedMatch(match);
+  };
+ 
+  // Function to handle closing modal
+  const handleCloseModal = () => {
+    setSelectedMatch(null);
+  };
+ 
+  // Inside the useEffect hook where you fetch matches
+  useEffect(() => {
+    fetchMatches();
+  }, []);
+ 
+ 
+  const fetchMatches = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/matches", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      data.sort((a, b) => b.SimilarityScore - a.SimilarityScore);
+      // Initialize LikeStatus and DislikeStatus based on database values
+      const updatedData = data.map(match => ({
+        ...match,
+        LikeStatus: match.LikeStatus === "Yes",
+        DislikeStatus: match.DislikeStatus === "Yes"
+      }));
+  
+      const uniqueMatches = removeDuplicates(updatedData, 'User2Name');
+      setMatches(uniqueMatches);
+    } catch (error) {
+      console.error("Error fetching matches:", error);
+    }
+  };
+ 
+const removeDuplicates = (arr, key) => {
+  return arr.filter((item, index, self) =>
+    index === self.findIndex((t) => (
+      t[key] === item[key]
+    ))
+  );
+};
+ 
+const likeMatch = async (User2Name) => {
+  try {
+    // Update the state
+    setMatches(matches.map(match => {
+      if (match.User2Name === User2Name) {
+        return { ...match, LikeStatus: true, DislikeStatus: false };
+      }
+      return match;
+    }));
+ 
+    // Send the updated status to the database
+    await updateStatus(User2Name, "Yes", "No");
+  } catch (error) {
+    console.error("Error updating like status:", error);
+  }
+};
+ 
+const dislikeMatch = async (User2Name) => {
+  try {
+    // Update the state
+    setMatches(matches.map(match => {
+      if (match.User2Name === User2Name) {
+        return { ...match, DislikeStatus: true, LikeStatus: false };
+      }
+      return match;
+    }));
+ 
+    // Send the updated status to the database
+    await updateStatus(User2Name, "Yes", "No");
+  } catch (error) {
+    console.error("Error updating dislike status:", error);
+  }
+};
+ 
+const updateStatus = async (User2Name, likeStatus, dislikeStatus) => {
+  try {
+      await axios.put(`http://localhost:3001/matches/${User2Name}`, {
+          LikeStatus: likeStatus,
+          DislikeStatus: dislikeStatus
+      }, {
+          headers: {
+              "Content-Type": "application/json"
+          }
+      });
+  } catch (error) {
+      console.error("Error updating status:", error);
+  }
+};
+ 
+  const renderItem = ({ item }) => (
+    <View style={[styles.matchContainer]}>
+    <Text style={styles.User2Name}>{item.User2Name}</Text>  
+      
       <Image
-          style={[styles.avatarIcon1, styles.avatarIconLayout]}
-          contentFit="cover"
-          source={require("../assets/profile-circle.png")}
+        style={styles.avatarIcon}
+        contentFit="cover"
+        source={require("../assets/profile-circle.png")}
       />
-
-
       <Pressable
-        style={styles.button}
-        onPress={() => navigation.navigate("NewMessagesPage")}  //change this to actual page later
+          onPress={() => navigation.navigate("NewMessagesPage", { selectedMatch: item.User2Name })}
+
       >
-        <Text style={[styles.message, styles.textTypo]}>Message</Text>
+        <View style={styles.button}>
+          <Text style={[styles.message, styles.textTypo]}>Message</Text>
+        </View>
       </Pressable>
 
-      <Text style={[styles.yourMessage, styles.textTypo1]}>Messages</Text>
+    </View>
+  );
+  
+  return (
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {matches.map((item, index) => (
+          <View key={index}>
+            {renderItem({ item })}
+          </View>
+        ))}
+      </ScrollView>
+      <Text style={[styles.yourMatch, styles.textTypo1]}>Messages</Text>
+      <View style={styles.iconsContainer}>
+        <Pressable
+          style={[styles.vectorPreferences, styles.groupPosition]}
+          onPress={() => navigation.navigate("Preferences")}
+        >
+          <Image
+            style={[styles.icon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/icons8-preferences-32.png")}
+          />
+        </Pressable>
       
-      
-
-
-      
-
-      <View style={styles.messageItem} />
-
-
-      <Pressable
-        style={[styles.vectorPreferences, styles.groupPosition]}
-        onPress={() => navigation.navigate("Preferences")}
-      >
-        <Image
-          style={[styles.preferences, styles.preferencesLayout]}
-          contentFit="cover"
-          source={require("../assets/icons8-preferences-32.png")}
-        />
-      </Pressable>
-      
-    
-      <Pressable
-        style={[styles.group, styles.groupPosition]}
-        onPress={() => navigation.navigate("ExistingUserProfile")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/group.png")}
-        />
-      </Pressable>
-      
-      <Pressable
-        style={[styles.vectorIcon, styles.vectorPosition]}
-        onPress={() => navigation.navigate("Matches")}
-      >
-        <Image
-          style={[styles.linkIcon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/vector4.png")}
-        />
-      </Pressable>
-
-      <Pressable
-        style={[styles.vectorIcon1, styles.vectorIcon1Position]}
-        onPress={() => navigation.navigate("IndividualMessages")}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/chaticon.png")}
-        />
-      </Pressable>
-
-      <Pressable
-        style={[styles.vector, styles.groupPosition]}
-        onPress={handleSignOut}
-      >
-        <Image
-          style={[styles.icon, styles.iconLayout]}
-          contentFit="cover"
-          source={require("../assets/exit.png")}
-        />
-      </Pressable>
-
+        <Pressable
+          style={[styles.group, styles.groupPosition]}
+          onPress={() => navigation.navigate("ExistingUserProfile")}
+        >
+          <Image
+            style={[styles.icon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/group.png")}
+          />
+        </Pressable>
+        
+        <Pressable
+          style={[styles.vectorIcon, styles.vectorPosition]}
+          onPress={() => navigation.navigate("Matches")}
+        >
+          <Image
+            style={[styles.linkIcon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/vector4.png")}
+          />
+        </Pressable>
+ 
+        <Pressable
+          
+          style={[styles.vectorIcon1, styles.vectorIcon1Position]}
+          onPress={() => navigation.navigate("IndividualMessages")}
+        >
+          <Image
+            style={[styles.icon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/chaticon.png")}
+          />
+        </Pressable>
+ 
+        <Pressable
+          style={[styles.vector, styles.groupPosition]}
+          //onPress={() => navigation.navigate("Start")}  //change this to actual page later
+          onPress={handleSignOut}
+        >
+          <Image
+            style={[styles.icon, styles.iconImage]}
+            contentFit="cover"
+            source={require("../assets/exit.png")}
+          />
+        </Pressable>
+   
       {/* Sign out confirmation dialog */}
       {showSignOutAlert && (
         Alert.alert(
@@ -133,208 +232,80 @@ const IndividualMessages = () => {
           { cancelable: false }
         )
       )}
-      
-      
+      </View>
     </View>
-
   );
 };
-
+ 
 const styles = StyleSheet.create({
-  avatarIconLayout: {
-    height: 45,
-    position: "absolute",
+  iconContainer: {
+    width: 55,
+    height: 55,
+    borderRadius: 55,
+    backgroundColor: '#F0DFCE',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  avatarIcon1: {
-    top: 125,
-    left: 12,
-    width: 45,
+  likedIconContainer: {
+    borderWidth: 5,
+    borderColor: 'lightgreen',
   },
-
-  messageThemLaterTypo: {
-    height: 24,
-    textAlign: "center",
-    letterSpacing: 1,
-    position: "absolute",
+  dislikedIconContainer: {
+    borderWidth: 5,
+    borderColor: 'lightcoral',
   },
-  textTypo: {
-    fontWeight: "600",
-    color: Color.white,
+  preferenceLink: {
+    textDecorationLine: 'underline',
+    color: Color.colorBlack,
+    bottom: 3, // Adjust this value as needed for spacing
+    left: 90,
     fontSize: 15,
   },
-  textTypo1: {
-    textAlign: "center",
-    position: "absolute",
+ 
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    paddingTop: '15%',
   },
-  buttonPosition1: {
-    bottom: "29.06%",
-    top: "64.17%",
-    width: "12.5%",
-    height: "6.77%",
-    position: "absolute",
+  modalContent: {
+    backgroundColor: '#F0DFCE',
+    padding: 50,
+    borderRadius: 10,
+    width: '80%',
   },
-
-  preferences: {
-    height: "100%",
-    width: "100%",
-    maxHeight: "100%",
-    maxWidth: "100%",
-
+  preferencesContainer: {
+    marginTop: 50,
   },
-
-vectorPreferences: {
-    left: "24%",
-    right: "20%",
-    bottom: "2.58%",
-    width: "7%",
-    height: "3%",
-},
-  buttonPosition: {
-    left: "-93%",
-    bottom: "0%",
-    right: "0%",
-    top: "-650%",
-    height: "85%",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowOpacity: 1,
-    elevation: 8,
-    shadowRadius: 8,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    vector: {
-      left: "24.47%",
-      right: "70.06%",
-      bottom: "2.58%",
-      width: "5.47%",
-      height: "2.67%",
-    },
-    shadowColor: "rgba(136, 144, 194, 0.25)",
-    borderRadius: Border.br_980xl,
-    position: "absolute",
-    overflow: "hidden",
-    width: "100%",
+  preferenceLabel: {
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
-  buttonPosition2: {
-    left: "90%",
-    bottom: "0%",
-    right: "0%",
-    top: "-650%",
-    height: "85%",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowOpacity: 1,
-    elevation: 8,
-    shadowRadius: 8,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-  vector: {
-    left: "24.47%",
-    right: "70.06%",
-    bottom: "2.58%",
-    width: "5.47%",
-    height: "2.67%",
+  closeButton: {
+    textAlign: 'center',
+    color: '#008080',
+    marginTop: 10,
   },
-  shadowColor: "rgba(136, 144, 194, 0.25)",
-  borderRadius: Border.br_980xl,
-  position: "absolute",
-  overflow: "hidden",
-  width: "100%",
-  },
-  dislikeIconPosition: {
-    height: 23,
-    top: 208,
-    left: 48,
-    position: "absolute",
-  },
-  
-  likeIconPosition: {
-    height: 25,
-    top: 205,
-    left: 357,
-    position: "absolute",
-  },
-  messagesChild: {
-    top: 102,
-    left: 39,
-    borderRadius: Border.br_mini,
-    backgroundColor: Color.colorLinen,
-    width: 242,
-    height: 312,
-    position: "absolute",
-  },
-  messageFrom: {
-    top: 155,
-    left: 75,
-    fontSize: 15,
-    color: Color.colorBlack,
-    fontWeight: "500",
-  },
-  text: {
-    top: 105,
-    left: 121,
-    width: 74,
-    height: 16,
-    textAlign: "center",
-    position: "absolute",
-    color: Color.colorBlack,
-    letterSpacing: 1,
-  },
-  janeDoe: {
-    top: 125,
-    left: 70,
-    fontSize: 20,
-    fontWeight: "700",
-    width: 107,
-    height: 23,
-    color: Color.colorBlack,
-    letterSpacing: 1,
-    textAlign: "center",
-  },
-
-  vectorIcon1: {
-    height: "5%",
-    width: "6.75%",
-    top: "94.49%",
-    right: "5.47%",
-    bottom: "2.17%",
-    left: "69.38%",
-    position: "absolute",
-  },
-  vectorIcon1Position: {
-    top: "94.25%",
-    position: "absolute",
-  },
-  messageThemLater: {
-    top: 210,
-    left: 110,
-    fontSize: 12,
-    color: "#992b13",
-    width: 150,
-  },
-  avatarIcon: {
-    top: 95,
-    left: 1,
-    width: 100,
-    height: 95,
-    position: "absolute",
+  line: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+    marginBottom: 10,
   },
   message: {
     lineHeight: 12,
     height: 12,
     textAlign: "center",
   },
+  textTypo: {
+    fontWeight: "600",
+    color: Color.white,
+    fontSize: FontSize.size_mini,
+  },
   button: {
-    height: "5.5%",
-    width: "30%",
-    top: "13.5%",
-    right: "25.5%",
-    bottom: "16.61%",
-    left: "65%",
+    height: "7.27%",
+    width: "50.13%",
+    left: "22%",
     backgroundColor: Color.colorBrown,
     flexDirection: "row",
     paddingHorizontal: 0,
@@ -352,100 +323,24 @@ vectorPreferences: {
     borderRadius: Border.br_980xl,
     position: "absolute",
     overflow: "hidden",
+    bottom: 15,
   },
-
-
-  yourMessage: {
-    top: 55,
-    left: 100,
-    fontSize: 40,
-    letterSpacing: 0,
-    color: Color.colorBrown,
-    width: 231,
-    fontWeight: "500",
-  },
-  button1: {
-    backgroundColor: '#E98274',
-    opacity: 0.5,
-  },
-  buttonWrapper: {
-    right: "68.44%",
-    left: "19.06%",
-  },
-  button2: {
-    backgroundColor: '#2FD658',
-    opacity: 0.3,
-  },
-
-  icon: {
-    height: "80%",
-    width: "110%",
-    maxHeight: "100%",
-    maxWidth: "100%",
-  },
-  linkIcon: {
-    height: "80%",
-    width: "150%",
-  },
-  iconLayout: {
-    maxHeight: "93%",
-    maxWidth: "100%",
-    overflow: "hidden",
-  },
-  buttonContainer: {
-    right: "19.69%",
-    left: "67.81%",
-  },
-  dislikeIcon: {
-    left: 71,
-    width: 21,
-  },
-  likeIcon: {
-    left: 71,
-    width: 21,
-  },
-  messageItem: {
-    left: 228,
-    width: 19,
-  },
-  matchesInner: {
-    top: 620,
-    width: 390,
-    height: 50,
-    position: "absolute",
-  },
-  vectorPosition: {
-    top: "94.3%",
-    position: "absolute",
+  vectorPreferences: {
+    left: "24%",
+    right: "20%",
+    bottom: "2.58%",
+    width: "7%",
+    height: "3%",
   },
   groupPosition: {
     top: "94.74%",
     position: "absolute",
   },
-
-  group: {
-    left: "4.22%",
-    right: "91.09%",
-    bottom: "2.44%",
-    width: "7%",
-    height: "4%",
-  },
-  vectorIcon: {
-    height: "3.98%",
-    width: "7.81%",
-    right: "46.25%",
-    bottom: "1.73%",
-    left: "45.94%",
+  preferences: {
+    height: "100%",
+    width: "100%",
     maxHeight: "100%",
     maxWidth: "100%",
-    overflow: "hidden",
-  },
-  iconCog: {
-    top: 632,
-    left: 330,
-    width: 30,
-    height: 25,
-    position: "absolute",
   },
   vector: {
     left: "89%",
@@ -456,13 +351,168 @@ vectorPreferences: {
     height: "3.57%",
     position: "absolute",
   },
-  indivMessage: {
-    backgroundColor: '#F0DFCE',
-    flex: 1,
-    height: 561,
+  icon: {
+    height: "80%",
+    width: "110%",
+    maxHeight: "100%",
+    maxWidth: "100%",
+  },
+  iconLayout: {
+    maxHeight: "93%",
+    maxWidth: "100%",
     overflow: "hidden",
-    width: "100%",
+  },
+  group: {
+    left: "4.22%",
+    right: "91.09%",
+    bottom: "2.44%",
+    width: "7%",
+    height: "4%",
+  },
+  linkIcon: {
+    height: "80%",
+    width: "150%",
+  },
+  iconLayout: {
+    maxHeight: "93%",
+    maxWidth: "100%",
+    overflow: "hidden",
+  },
+  vectorIcon: {
+    height: "3.98%",
+    width: "7.81%",
+    right: "46.25%",
+    bottom: "1.73%",
+    left: "45.94%",
+    maxHeight: "100%",
+    maxWidth: "100%",
+  },
+  vectorPosition: {
+    top: "94.3%",
+    position: "absolute",
+  },
+  vectorIcon1: {
+    height: "5%",
+    width: "6.75%",
+    top: "94.49%",
+    right: "5.47%",
+    bottom: "2.17%",
+    left: "69.38%",
+    position: "absolute",
+  },
+  vectorIcon1Position: {
+    top: "94.25%",
+    position: "absolute",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#F0DFCE',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  scrollContainer: {
+    paddingVertical: 120,
+  },
+  matchContainer: {
+    marginBottom: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 10,
+    width: windowWidth - 20,
+    marginHorizontal: 10,
+  },
+  likedMatch: {
+    backgroundColor: 'lightcoral',
+  },
+  dislikedMatch: {
+    backgroundColor: 'lightgreen',
+  },
+  User2Name: {
+    top: 10,
+    left: 90,
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  universityOfTexas: {
+    fontSize: 15,
+    top: 15,
+    left: 90,
+    color: Color.colorBlack,
+    fontWeight: "500",
+    paddingBottom: 5,
+  },
+  messageThemLater: {
+    fontSize: 12,
+    top: 80,
+    left: 140,
+    color: "#992b13",
+    paddingBottom: 5,
+  },
+  avatarIcon: {
+    bottom: 25,
+    width: 68,
+    height: 68,
+    marginTop: 10,
+  },
+  likeButton: {
+    position: 'absolute',
+    bottom: 25,
+    left: 10,
+    padding: 10,
+  },
+  dislikeButton: {
+    position: 'absolute',
+    bottom: 25,
+    right: 10,
+    padding: 10,
+  },
+  likeIcon: {
+    width: 30,
+    height: 30,
+  },
+  dislikeIcon: {
+    width: 30,
+    height: 30,
+  },
+  yourMatch: {
+    top: '7%',
+    left: 100,
+    fontSize: 40,
+    letterSpacing: 0,
+    color: Color.colorBrown,
+    width: 231,
+    fontWeight: "500",
+  },
+  textTypo1: {
+    textAlign: "center",
+    position: "absolute",
+    backgroundColor: '#F0DFCE',
+  },
+  iconsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: 30,
+    backgroundColor: '#F0DFCE',
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    top: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconImage: {
+    width: 30,
+    height: 30,
+    top: 10,
   },
 });
-
+ 
 export default IndividualMessages;
