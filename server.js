@@ -564,7 +564,6 @@ app.post('/saveProfile', async (req, res) => {
         
     };
 
-    //const {Name, Grade, Gender, University, MoveDate, LeaseDuration, HousingType, Locality, RoomType, Budget, Smoking, Drinking, Pets, Email} = req.body;
     try{
         console.log("*******SIGNED IN USER: **********", signedInUserID)
         if (!signedInUserID){ // updating the profile
@@ -650,9 +649,9 @@ app.post('/submit-preferences', async (req, res) => {
         console.log("userID:", signedInUserID);
 
         console.log("*******SIGNED IN USER*********", signedInUserID)
-
+        
         const [prefResult] = await pool.query('SELECT * FROM preferences WHERE UserId = ?',[signedInUserID]);
-
+        
         if (prefResult.length === 0){ // updating the preferences
             console.log('Inserting Result into Preferences');
             const[result] = await pool.query('INSERT INTO preferences (Username, Gender, University, MoveDate, LeaseDuration, HousingType, RoomType, Locality, Budget, Smoking, Drinking, Pets) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -662,7 +661,6 @@ app.post('/submit-preferences', async (req, res) => {
             const newUser = {message: 'Preferences saved successfully in PREFERENCES', PreferenceId: result.insertId, user: 'new'};
             sendingData.push(newUser);
 
-            //res.status(201).json({message: 'Preferences saved successfully in PREFERENCES', PreferenceId: result.insertId, user: 'new'});
             console.log('IN (IF) PREFERENCES --> NEW');
         } else {
             console.log('Updating Result into Preferences');
@@ -672,17 +670,13 @@ app.post('/submit-preferences', async (req, res) => {
             
             const existingUser = {message: 'Preferences updated successfully in PREFERENCES', PreferenceId: result.insertId, user: 'exists'};
             sendingData.push(existingUser);
-
-            //res.status(201).json({message: 'Preferences updated successfully in PREFERENCES', PreferenceId: result.insertId, user: 'exists'});
             console.log('IN (ELSE) PREFERENCES --> EXISTING');
         }
-        
     } catch(error){
         console.log('Error saving preferences:', error);
         console.error(error.res.data);
         res.status(500).json({error: 'Error saving preferences'});
     }
-
 
     // Construct the SQL query dynamically based on the preferences
     let query = 'SELECT UserId, Name, Grade, University FROM profiles WHERE 1=1';
@@ -735,66 +729,51 @@ app.post('/submit-preferences', async (req, res) => {
 
     const [queryResult] = await pool.query(query);
     console.log("Result of the query:", queryResult);
+    const potenMtchQuery = `SELECT Name, Grade, University, RoomType, LeaseDuration, HousingType, Locality, Smoking, Drinking, Pets, Gender, Budget, MoveDate FROM profiles WHERE isHidden = 0 AND UserID != ?`;
+    // console.log("potenMtchQuery: ", potenMtchQuery);
 
-    // if (queryResult.length > 0){ // IF THERE IS A MATCH
-    //     const filteredResults = queryResult.filter(queryResult => queryResult.UserID !== signedInUserID);
-    //     console.log("Filtered Results: ", filteredResults);
-    //     const matches = filteredResults.map((queryResult) => ({
-    //         ...queryResult,
-    //         matchPercentage: calculateMatchPercentage(queryResult, preferences),
+    const [pontentialMatches] = await pool.query(potenMtchQuery, signedInUserID);
+    // console.log("Results of Potential Matches: ", potentialMatchesQuery);
+    const matchWScore = pontentialMatches.map(match => ({
+        ...match,
+        similarityScore: calculateSimilarityScore(match, preferences),
+    }));
+    //console.log('Similarity Score: ', matchWScore.similarityScore);
+    //console.log('Match with score: ',matchWScore);
+    const similarMatch = matchWScore.filter(match => match.similarityScore >= 70 && match.similarityScore < 101).sort((a,b) => b.similarityScore - a.similarityScore);
+
+    console.log('SimilarMatch: ', similarMatch);
+
+    if (similarMatch.length > 0){
+        const user1NameQuery = 'SELECT Name FROM profiles WHERE UserID = ? LIMIT 1';
+        const [user1Result] = await pool.query(user1NameQuery, signedInUserID);
+        const user1Name = user1Result[0].Name;
+        if(user1Result.length === 0){
+            console.error('Error Fetching user1 names', err);
+            return res.status(500).send({error: 'User1 Name not found'});
+        }
+        console.log('User1 Name: ', user1Name);
+
+        for(match of similarMatch){
+            const insertMatchQuery = `INSERT INTO matches
+            (User1Name, User2Name, User2Grade, User2Gender, User2University, User2MoveDate, User2LeaseDuration, User2HousingType, User2Locality, User2RoomType, User2Budget, User2Smoking, User2Drinking, User2Pets, SimilarityScore)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+            const matchValues = [
+                user1Name,
+                match.Name,
+                match.Grade, match.Gender, match.University, match.MoveDate,
+                match.LeaseDuration, match.HousingType, match.Locality,
+                match.RoomType, match.Budget, match.Smoking,
+                match.Drinking, match.Pets, match.similarityScore
+            ];
             
-    //     }));
-
-    //     //console.log("matches: ", matches);
-    //     matches.sort((a,b) => b.matchPercentage - a.matchPercentage);
-    //     //console.log('Query Result: ', matches);
-    //     return res.json({messsage: 'Matching users found', queryResult});
-    // }else{ // IF YOU HAVE NO MATCH
-        const potenMtchQuery = `SELECT Name, Grade, University, RoomType, LeaseDuration, HousingType, Locality, Smoking, Drinking, Pets, Gender, Budget, MoveDate FROM profiles WHERE isHidden = 0 AND UserID != ?`;
-        // console.log("potenMtchQuery: ", potenMtchQuery);
-
-        const [pontentialMatches] = await pool.query(potenMtchQuery, signedInUserID);
-        // console.log("Results of Potential Matches: ", potentialMatchesQuery);
-        const matchWScore = pontentialMatches.map(match => ({
-            ...match,
-            similarityScore: calculateSimilarityScore(match, preferences),
-        }));
-        //console.log('Similarity Score: ', matchWScore.similarityScore);
-        //console.log('Match with score: ',matchWScore);
-        const similarMatch = matchWScore.filter(match => match.similarityScore >= 70 && match.similarityScore < 101).sort((a,b) => b.similarityScore - a.similarityScore);
-
-        console.log('SimilarMatch: ', similarMatch);
-
-        if (similarMatch.length > 0){
-            const user1NameQuery = 'SELECT Name FROM profiles WHERE UserID = ? LIMIT 1';
-            const [user1Result] = await pool.query(user1NameQuery, signedInUserID);
-            const user1Name = user1Result[0].Name;
-            if(user1Result.length === 0){
-                console.error('Error Fetching user1 names', err);
-                return res.status(500).send({error: 'User1 Name not found'});
+            const[insertResult] = await pool.query(insertMatchQuery, matchValues);
+            if (insertResult.length === 0){
+                console.error('Error inserting match into db', err);
+                return res.status(500).send({error: 'inserting error'});
             }
-            console.log('User1 Name: ', user1Name);
-
-            for(match of similarMatch){
-                const insertMatchQuery = `INSERT INTO matches
-                (User1Name, User2Name, User2Grade, User2Gender, User2University, User2MoveDate, User2LeaseDuration, User2HousingType, User2Locality, User2RoomType, User2Budget, User2Smoking, User2Drinking, User2Pets, SimilarityScore)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-
-                const matchValues = [
-                    user1Name,
-                    match.Name,
-                    match.Grade, match.Gender, match.University, match.MoveDate,
-                    match.LeaseDuration, match.HousingType, match.Locality,
-                    match.RoomType, match.Budget, match.Smoking,
-                    match.Drinking, match.Pets, match.similarityScore
-                ];
-                
-                const[insertResult] = await pool.query(insertMatchQuery, matchValues);
-                if (insertResult.length === 0){
-                    console.error('Error inserting match into db', err);
-                    return res.status(500).send({error: 'inserting error'});
-                }
-            }
+        }
         console.log('return statement');
         const matchingdata = {message: 'Matches', match: similarMatch};
         sendingData.push(matchingdata)
@@ -803,8 +782,6 @@ app.post('/submit-preferences', async (req, res) => {
             console.log('else statement');
             return res.status(404).send({ message: 'No similar users found' });
         }
-    //}
-
 });
 
 // Helper function to calculate the similarity score
@@ -881,37 +858,6 @@ app.put('/matches/:User2Name', async (req, res) => {
     }
 });
 
-// app.post('/matches/:User2Name', async (req, res) => {
-//     const { User2Name } = req.params;
-//     const { LikeStatus, DislikeStatus } = req.body;
-//     console.log("REQ BODY: ", req.body);
-
-//     // Assuming you have a database connection and a "matches" table
-//     // Replace "your_database_connection" and "matches" with your actual database connection and table name
-
-//     const[results] = await pool.query('UPDATE matches SET LikeStatus = ?, DislikeStatus = ? WHERE User2Name = ?', [LikeStatus, DislikeStatus, User2Name]);
-//     if (results.affectedRows === 0) {
-//         res.status(404).json({ error: 'Match not found' });
-//     } else {
-//         res.json({ message: 'Match status updated successfully' });
-//     }
-
-//     // con.query(
-//     //     'UPDATE matches SET LikeStatus = ?, DislikeStatus = ? WHERE User2Name = ?',
-//     //     [LikeStatus, DislikeStatus, User2Name],
-//     //     (error, results) => {
-//     //         if (error) {
-//     //             console.error("Error updating match status:", error);
-//     //             res.status(500).json({ error: 'Internal Server Error' });
-//     //         } else if (results.affectedRows === 0) {
-//     //             res.status(404).json({ error: 'Match not found' });
-//     //         } else {
-//     //             res.json({ message: 'Match status updated successfully' });
-//     //         }
-//     //     }
-//     // );
-// });
-
 app.get('/matches', async(req, res) => {
     const [userResult] = await pool.query('SELECT UserID FROM users WHERE Username = ?', [signedInUsername]);
     signedInUserID = userResult[0].UserID;    
@@ -920,12 +866,46 @@ app.get('/matches', async(req, res) => {
     const[results] = await pool.query(sql, [signedInUserID]);
     console.log("Results: ", results);
     res.json(results);
-
-    // con.query(sql, [signedInUsername], (err, results) => {
-    //     if (err) {
-    //         console.error('Error querying the database for matches:', err);
-    //         return res.status(500).send({ error: 'Error querying the database for matches' });
-    //     }
-    //     res.json(results);
-    // });
 });
+
+// Endpoint to fetch conversation messages
+app.get('/fetch-messages', async (req, res) => {
+    //const signedInUsername = req.headers['x-user-username']; // Temporarily get username from header for testing
+    const { receiver } = req.query; // Assuming you pass the receiver as a query parameter
+    console.log('Messages Signed in username: ',signedInUsername);
+
+    if (!signedInUsername) {
+        return res.status(403).json({ error: 'User must be signed in to fetch messages' });
+    }
+    if (!receiver) {
+        return res.status(400).send({ message: 'Receiver is required' });
+    }
+    
+    const query = 'SELECT * FROM messages WHERE (sender = ? AND receiver = ?) OR (sender =? AND receiver = ?) ORDER BY message_id';
+    const values = [signedInUsername, receiver, receiver, signedInUsername];
+    const [results] = await pool.query(query,values);
+    console.log("results: ", results);
+    res.status(201).send({results});
+});
+
+// Endpoint to save messages
+app.post('/save-message', async (req, res) => {
+    console.log('Received Message Body:', req.body);
+    console.log('Save Messages Signed Username: ', signedInUsername);
+
+    // Extract message data from the request body
+    const { receiver, message } = req.body; // No longer taking sender from the body
+    if (!receiver || !message) {
+        return res.status(400).json({ error: 'Receiver and message are required.' });
+    }
+    if (!signedInUsername) {
+        return res.status(403).json({ error: 'User must be signed in to send messages.' });
+    }
+
+    // Insert the message into the database
+    const insertMessageQuery = 'INSERT INTO messages (sender, receiver, message) VALUES (?, ?, ?)';
+    const values = [signedInUsername, receiver, message];
+    const [result] = await pool.query(insertMessageQuery, values);
+    console.log('INSERT RESULT:', result);
+    res.status(201).json({ message: message, messageId: result.insertId });
+    });
